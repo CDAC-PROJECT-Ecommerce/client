@@ -1,0 +1,17 @@
+.review-star-container {
+  margin-bottom: 0.5rem;
+
+  span {
+    font-size: 1.2rem;
+    margin-right: 4px;
+    color: #ccc;
+
+    &.filled {
+      color: #fbc02d; // gold star
+    }
+
+    &.empty {
+      color: #ccc;
+    }
+  }
+}
