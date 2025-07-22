@@ -1,0 +1,219 @@
+/* src/components/Address/AddAddressPage.css */
+.address-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.address-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.address-header h1 {
+    color: #009688;
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.address-header p {
+    color: #666;
+    font-size: 18px;
+}
+
+.address-content {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.address-section {
+    position: relative;
+}
+
+/* Address Item Styles */
+.address-item {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    border: 2px solid #f0f0f0;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.address-item:hover {
+    border-color: #009688;
+    box-shadow: 0 4px 12px rgba(0, 150, 136, 0.1);
+}
+
+.address-item.default-address {
+    border-color: #009688;
+    background-color: rgba(0, 150, 136, 0.05);
+}
+
+/* Radio Button Styles */
+.address-radio {
+    flex-shrink: 0;
+    margin-top: 5px;
+}
+
+.address-radio input[type="radio"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ddd;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.address-radio input[type="radio"]:checked {
+    border-color: #009688;
+    background-color: #009688;
+}
+
+.address-radio input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.address-radio label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+/* Address Details */
+.address-details {
+    flex: 1;
+}
+
+.address-header-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.address-header-info h3 {
+    color: #333;
+    font-size: 18px;
+    margin: 0;
+}
+
+.default-badge {
+    background: #009688;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.address-text {
+    color: #666;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Address Actions */
+.address-actions {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.delete-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+}
+
+/* Add Address Prompt */
+.add-address-prompt {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.add-address-prompt h3 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.add-address-btn {
+    font-size: 16px;
+    padding: 12px 30px;
+    border: 2px dashed #009688;
+    background: transparent;
+    color: #009688;
+}
+
+.add-address-btn:hover {
+    background: #009688;
+    color: white;
+}
+
+/* Submit Button */
+.address-submit {
+    text-align: center;
+    padding: 30px 0;
+}
+
+.submit-btn {
+    font-size: 18px;
+    padding: 16px 40px;
+    font-weight: 700;
+}
+
+.submit-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .address-container {
+        padding: 15px;
+    }
+
+    .address-header h1 {
+        font-size: 28px;
+    }
+
+    .address-header p {
+        font-size: 16px;
+    }
+
+    .address-item {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .address-header-info {
+        flex-direction: column;
+        align-items: start;
+        gap: 10px;
+    }
+
+    .address-actions {
+        justify-content: flex-start;
+    }
+
+    .submit-btn {
+        width: 100%;
+        font-size: 16px;
+    }
+}
