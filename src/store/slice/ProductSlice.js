@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api } from "../../services/api";
+import toast from "react-hot-toast";
 
 export const fetchProducts = createAsyncThunk("products/fetch", async () => {
   //   const response = await api.get("/products");
@@ -34,18 +35,59 @@ const productSlice = createSlice({
   initialState: {
     products: [],
     FullProduct: [],
+    searchedProductList: [],
     isLoading: false,
     isError: false,
     toastMessage: "",
   },
-  reducers: {},
+  reducers: {
+    sortBy: (state, action) => {
+      switch (action.payload) {
+        case "price":
+          const sortByPrice = [...state.products].sort((a, b) => {
+            return a.price - b.price;
+          });
+          toast.success("Product sorted by price");
+
+          state.products = sortByPrice;
+          break;
+        case "review":
+          const sortByReview = [...state.products].sort((a, b) => {
+            return a.review - b.review;
+          });
+          toast.success("Product sorted by review");
+          state.products = sortByReview;
+          break;
+        case "name":
+          const sortByName = [...state.products].sort((a, b) => {
+            return a.name.toUpperCase().localeCompare(b.name.toUpperCase());
+          });
+          toast.success("Product sorted by name");
+
+          state.products = sortByName;
+          break;
+      }
+      // state.selectedAddressId = action.payload;
+    },
+    searchProducts: (state, action) => {
+      let searchVal = action.payload;
+      if (searchVal.length !== 0) {
+        const searchedVal = state.products.filter((items) => {
+          return items.name.toLowerCase().includes(searchVal.toLowerCase());
+        });
+        state.searchedProductList = searchedVal;
+      }
+      if (searchVal.length === 0) {
+        state.searchedProductList = [];
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchProducts.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(fetchProducts.fulfilled, (state, action) => {
       state.isLoading = false;
-      console.log(action.payload);
       state.products = action.payload;
     });
     builder.addCase(fetchProducts.rejected, (state, action) => {
@@ -56,10 +98,9 @@ const productSlice = createSlice({
 
     builder.addCase(fetchFullProduct.fulfilled, (state, action) => {
       state.isLoading = false;
-      console.log(action.payload);
       state.FullProduct = action.payload;
     });
   },
 });
-
+export const { sortBy, searchProducts } = productSlice.actions;
 export default productSlice.reducer;

@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import "./CheckoutPage.css";
 import { useNavigate } from "react-router-dom";
 
-const CheckoutPage = ({ onNavigateToAddress }) => {
+const CheckoutPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { Cart, taxRate, deliveryCharge } = useSelector((state) => state.cart);
@@ -30,9 +30,6 @@ const CheckoutPage = ({ onNavigateToAddress }) => {
   };
 
   const handleChangeAddress = () => {
-    // if (onNavigateToAddress) {
-    //   onNavigateToAddress();
-    // }
     navigate("/addAdress");
   };
 

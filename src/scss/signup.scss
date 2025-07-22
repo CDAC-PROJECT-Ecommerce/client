@@ -102,6 +102,16 @@
           outline: none;
         }
       }
+      .error {
+        color: red;
+        font-size: 0.75rem;
+        margin-top: 4px;
+        display: block;
+      }
+      .error-input {
+        border: 1.5px solid red !important;
+        outline: none;
+      }
     }
 
     .feature-box {
@@ -126,20 +136,23 @@
         }
       }
     }
+    .btn-container {
+      display: flex;
+      align-items: center;
+      button {
+        width: 40%;
+        padding: 0.75rem;
+        background-color: #009688;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
 
-    button {
-      width: 100%;
-      padding: 0.75rem;
-      background-color: #009688;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.3s ease;
-
-      &:hover {
-        background-color: #00796b;
+        &:hover {
+          background-color: #00796b;
+        }
       }
     }
   }
