@@ -7,8 +7,8 @@ import ProductDisplay from "./components/ProductDisplay";
 import SignIn from "./screens/SignIn";
 import SignUp from "./screens/SignUp";
 import ForgotPassword from "./components/ForgotPassword";
-// import CheckoutPage from "./components/Checkout/CheckoutPage";
-// import AddAddressPage from "./components/Address/AddAddressPage";
+import CheckoutPage from "./components/Checkout/CheckoutPage";
+import AddAddressPage from "./components/Address/AddAddressPage";
 import Footer from "./screens/Footer";
 import MyCart from "./components/MyCart";
 
@@ -23,10 +23,9 @@ const App = () => {
         <Route path="/product_list" element={<ProductList />} />
         <Route path="/fullPageProduct" element={<ProductDisplay />} />
         <Route path="/forgot_password" element={<ForgotPassword />} />
-        {/* <Route path="/cart" element={<CheckoutPage />} /> */}
-        {/* <Route path="/addAdress" element={<AddAddressPage />} /> */}
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/addAdress" element={<AddAddressPage />} />
         <Route path="/cart" element={<MyCart />} />
-
       </Routes>
       <Footer />
     </>

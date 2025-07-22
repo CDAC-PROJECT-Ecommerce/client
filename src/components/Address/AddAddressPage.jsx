@@ -41,6 +41,7 @@ const AddAddressPage = ({ onNavigateToCheckout }) => {
 
   const handleSetDefault = (addressId) => {
     dispatch(setDefaultAddress(addressId));
+    navigate("/checkout");
   };
 
   const handleSubmit = () => {
