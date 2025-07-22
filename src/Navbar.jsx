@@ -1,10 +1,8 @@
 import { Link } from "react-router-dom";
-import SignIn from "./screens/SignIn";
-import SignUp from "./screens/SignUp";
 import "./scss/Navbar.scss";
 import { FaShoppingCart } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import SearchProduct from "./components/SearchProduct";
 
 const Navbar = () => {
   const { Users } = useSelector((state) => state.user);
@@ -14,14 +12,7 @@ const Navbar = () => {
       <div className="navbar-logo">
         <Link to="/">Shopee</Link>
       </div>
-      <div className="navbar-search">
-        <input
-          type="text"
-          className="search-input"
-          placeholder="Search products..."
-        />
-      </div>
-
+      <SearchProduct />
       <div className="navbar-links">
         <div>
           <Link to="/cart">
@@ -30,8 +21,8 @@ const Navbar = () => {
 
           <span className="cart-badge">{Cart.length}</span>
         </div>
-        {Users?.name ? (
-          <p>Hello {Users.name}</p>
+        {Users?.username ? (
+          <p>Hello {Users.username}</p>
         ) : (
           <>
             <Link to="/signin">SignIn</Link>
