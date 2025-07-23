@@ -7,6 +7,7 @@ export const addToCart = createAsyncThunk("cart/add", async (id) => {
   toast.dismiss();
   toast.success("Added to cart");
   let val = products_list.filter((x) => x.id == id);
+  console.log(val);
   return val[0];
 });
 
@@ -47,46 +48,7 @@ const initialState = {
 const cartSlice = createSlice({
   name: "cart",
   initialState,
-  reducers: {
-    increment: (state, action) => {
-      const id = action.payload;
-      const item = state.Cart.find((product) => product.id === id);
-      if (item) {
-        item.quantity += 1;
-        toast.dismiss();
-        toast.success(`Quantity increased`);
-      } else {
-        toast.dismiss();
-        toast.error("Item not found in cart");
-      }
-    },
-    decrement: (state, action) => {
-      const id = action.payload;
-      const item = state.Cart.find((product) => product.id === id);
-      if (item) {
-        if (item.quantity === 1) {
-          toast.dismiss();
-          toast.error("Quantity can't be less than 1");
-        } else {
-          item.quantity -= 1;
-          toast.dismiss();
-          toast.success(`Quantity decreased`);
-        }
-      } else {
-        toast.error("Item not found in cart");
-      }
-    },
-    removeFromCart: (state, action) => {
-      const id = action.payload;
-      const item = state.Cart.find((product) => product.id === id);
-      if (item) {
-        state.Cart = state.Cart.filter((product) => product.id !== id);
-        toast.success(`Item removed from cart`);
-      } else {
-        toast.error("Item not found in cart");
-      }
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(addToCart.fulfilled, (state, action) => {
       state.isLoading = false;
@@ -103,6 +65,5 @@ const cartSlice = createSlice({
     });
   },
 });
-export const { increment, decrement, removeFromCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

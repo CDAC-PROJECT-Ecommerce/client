@@ -22,18 +22,14 @@ const Homepage = () => {
       {/* <Categories /> */}
       <div className="offer-slider">
         <div className="product-details">
-          <p style={{ fontSize: "3rem" }}>Designer </p>
-          <p style={{ fontSize: "1.5rem" }}>Printed Shirts</p>
+          <p>Designer </p>
+          <p>Printed tees</p>
           <p className="desc">
             Lorem ipsum, dolor sit amet consectetur adipisicing
           </p>
           <button onClick={() => navigate("/product_list")}>Explore Now</button>
         </div>
-        <img
-          src="/slider_image.png"
-          className="slider-image"
-          alt="offer-imge"
-        />
+        {/* <img src="" alt="offer-imge" /> */}
       </div>
       <TrendyProducts />
       <div className="product-container">

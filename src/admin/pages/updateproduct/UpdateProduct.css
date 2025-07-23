@@ -1,0 +1,59 @@
+/* src/components/admin/updateproduct/UpdateProduct.css */
+
+.update-product-form {
+  max-width: 450px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.update-product-form h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.update-product-form label {
+  display: block;
+  margin: 12px 0 6px;
+  font-weight: 500;
+  color: #444;
+}
+
+.update-product-form input,
+.update-product-form textarea,
+.update-product-form select {
+  width: 100%;
+  padding: 10px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  transition: border 0.2s ease;
+}
+
+.update-product-form input:focus,
+.update-product-form textarea:focus,
+.update-product-form select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.update-product-form .btn-save {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.update-product-form .btn-save:hover {
+  background-color: #0056b3;
+}

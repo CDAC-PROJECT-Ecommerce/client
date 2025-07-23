@@ -1,8 +1,23 @@
 {
   "name": "client",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
+  "description": "E-commerce project",
+  "keywords": [
+    "e-commerce"
+  ],
+  "homepage": "https://github.com/CDAC-PROJECT-Ecommerce/client#readme",
+  "bugs": {
+    "url": "https://github.com/CDAC-PROJECT-Ecommerce/client/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CDAC-PROJECT-Ecommerce/client.git"
+  },
+  "license": "ISC",
+  "author": "CDAC",
   "type": "module",
+  "main": "eslint.config.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -12,14 +27,14 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
     "axios": "^1.10.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "react-hot-toast": "^2.5.2",
     "react-icons": "^5.5.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.6.2",
     "react-toastify": "^11.0.5",
-    "sass": "^1.89.1"
+    "sass": "^1.89.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
