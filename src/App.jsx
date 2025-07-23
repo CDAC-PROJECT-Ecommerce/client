@@ -10,7 +10,7 @@ import ForgotPassword from "./components/ForgotPassword";
 import CheckoutPage from "./components/Checkout/CheckoutPage";
 import AddAddressPage from "./components/Address/AddAddressPage";
 import Footer from "./screens/Footer";
-import MyCart from "./components/MyCart";
+import MyCart from "./components/Cart/MyCart";
 
 const App = () => {
   return (
