@@ -1,0 +1,79 @@
+.review-contaienr {
+  padding: 3rem 10%;
+  background: #f9f9f9;
+  min-height: 100vh;
+
+  h2 {
+    font-size: 2.5rem;
+    color: #009688;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .reviews-display {
+    // You can later add aggregated rating summary or charts here
+    margin-bottom: 2rem;
+  }
+
+  .reviews-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .review-box {
+    background: #fff;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    p {
+      margin: 0;
+      color: #444;
+      font-size: 1rem;
+    }
+
+    p:first-of-type {
+      font-weight: bold;
+      color: #00796b;
+    }
+
+    p:nth-of-type(2) {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-top: 0.5rem;
+      color: #333;
+    }
+
+    p:nth-of-type(3) {
+      font-size: 0.95rem;
+      line-height: 1.4;
+      color: #555;
+    }
+
+    .review-star-container {
+      margin: 0.3rem 0;
+    }
+  }
+
+  @media (max-width: 600px) {
+    padding: 2rem;
+
+    h2 {
+      font-size: 2rem;
+    }
+
+    .review-box {
+      padding: 1.2rem;
+    }
+  }
+}

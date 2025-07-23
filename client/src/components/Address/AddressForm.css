@@ -1,0 +1,185 @@
+/* src/components/Address/AddressForm.css */
+.address-form {
+    width: 100%;
+}
+
+.form-section {
+    margin-bottom: 30px;
+}
+
+.section-title {
+    color: #009688;
+    font-size: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #009688;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #009688;
+    box-shadow: 0 0 0 3px rgba(0, 150, 136, 0.1);
+}
+
+.form-input.error {
+    border-color: #f44336;
+    box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.1);
+}
+
+.form-input::placeholder {
+    color: #999;
+}
+
+.address-textarea {
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+}
+
+select.form-input {
+    cursor: pointer;
+    background-color: white;
+}
+
+select.form-input option {
+    padding: 10px;
+}
+
+.error-text {
+    color: #f44336;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+    font-weight: 500;
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: flex-end;
+    padding-top: 20px;
+    border-top: 2px solid #f0f0f0;
+    margin-top: 30px;
+}
+
+.cancel-btn {
+    padding: 12px 30px;
+    font-size: 16px;
+}
+
+.save-btn {
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* Input Focus Effects */
+.form-group {
+    position: relative;
+}
+
+.form-input:focus+.form-label {
+    color: #009688;
+}
+
+/* Validation Styles */
+.form-input:valid:not(:placeholder-shown) {
+    border-color: #4caf50;
+}
+
+.form-input:invalid:not(:placeholder-shown):not(.error) {
+    border-color: #ff9800;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .form-actions {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .cancel-btn,
+    .save-btn {
+        width: 100%;
+        padding: 14px;
+    }
+
+    .section-title {
+        font-size: 18px;
+    }
+
+    .form-input {
+        font-size: 16px;
+        /* Prevents zoom on iOS */
+    }
+}
+
+/* Custom Select Arrow */
+select.form-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+/* Loading State for Form */
+.form-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Focus visible for accessibility */
+.form-input:focus-visible {
+    outline: 2px solid #009688;
+    outline-offset: 2px;
+}
+
+/* Required field indicator */
+.form-label::after {
+    content: '';
+}
+
+.form-label:has(+ .form-input[required])::after,
+.form-label[data-required]::after {
+    content: ' *';
+    color: #f44336;
+}
