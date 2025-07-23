@@ -3,60 +3,6 @@
   display: flex;
   padding: 2rem;
   gap: 2rem;
-<<<<<<< HEAD
-  display: grid;
-
-  color: black !important;
-
-  grid-template-columns: 0.6fr 1.3fr;
-
-  .full-product-image {
-    height: 300px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    img {
-      // width: 100%;
-    }
-  }
-
-  .product-title {
-    margin: 0;
-    font-size: 2.5rem;
-    color: black;
-    font-weight: bold;
-  }
-
-  .product-description {
-    width: 80%;
-  }
-  .product-price {
-    font-size: 1.5rem;
-  }
-  .product-review {
-    font-size: 1.2rem;
-    display: flex;
-    align-items: center;
-    font-weight: bold;
-
-    .review-star {
-      color: #ffa502;
-      margin-right: 3px;
-    }
-  }
-
-  .product-display-btn button {
-    padding: 0.5rem 1rem;
-    background: #009688;
-    color: white;
-    border: none;
-    font-size: 1.2rem;
-    border-radius: 5px;
-    margin-top: 1rem;
-  }
-=======
 }
 
 .product-image {
@@ -81,5 +27,4 @@
   border: none;
   border-radius: 5px;
   margin-top: 1rem;
->>>>>>> 7790dde (Admin Panel)
 }

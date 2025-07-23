@@ -10,12 +10,8 @@ import ForgotPassword from "./components/ForgotPassword";
 import CheckoutPage from "./components/Checkout/CheckoutPage";
 import AddAddressPage from "./components/Address/AddAddressPage";
 import Footer from "./screens/Footer";
-<<<<<<< HEAD
-import MyCart from "./components/Cart/MyCart";
-=======
 import MyCart from "./components/MyCart";
 import AdminRoutes from "./admin/routes/AdminRoutes";
->>>>>>> 7790dde (Admin Panel)
 
 const App = () => {
   return (
@@ -31,10 +27,7 @@ const App = () => {
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/addAdress" element={<AddAddressPage />} />
         <Route path="/cart" element={<MyCart />} />
-<<<<<<< HEAD
-=======
         <Route path="/admin/*" element={<AdminRoutes />} />
->>>>>>> 7790dde (Admin Panel)
       </Routes>
       <Footer />
     </>
