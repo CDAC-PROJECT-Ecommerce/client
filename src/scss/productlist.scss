@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900&display=swap");
+=======
+>>>>>>> 7790dde (Admin Panel)
 .product-list-container {
   display: flex;
   padding: 2rem;
@@ -56,6 +59,7 @@
       font-size: 1.05rem;
     }
   }
+<<<<<<< HEAD
 
   .filter-box {
     input {
@@ -83,6 +87,8 @@
       padding: 0.2rem;
     }
   }
+=======
+>>>>>>> 7790dde (Admin Panel)
 }
 
 .filter-box label {
@@ -103,6 +109,7 @@
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
+<<<<<<< HEAD
   cursor: pointer;
 
   &:active {
@@ -152,4 +159,26 @@
     border-radius: 5px;
     cursor: pointer;
   }
+=======
+}
+
+.product-name {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.product-price {
+  color: #009688;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.product-box button {
+  padding: 0.5rem 1rem;
+  background-color: #009688;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+>>>>>>> 7790dde (Admin Panel)
 }

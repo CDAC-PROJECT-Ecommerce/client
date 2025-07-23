@@ -23,13 +23,21 @@ const SignIn = () => {
     <div className="sign-in-contianer">
       <div id="sign-in-details">
         <h3>WELCOME BACK</h3>
+<<<<<<< HEAD
         <p>Shop efficiently on</p>
+=======
+        <p>Manage your shop efficiently on</p>
+>>>>>>> 7790dde (Admin Panel)
         <p>Shopee</p>
         {/* Image inserted in background */}
       </div>
 
       <div className="sign-in-box">
+<<<<<<< HEAD
         <p style={{ marginBottom: "1rem" }}>Sign In</p>
+=======
+        <p>Sign In</p>
+>>>>>>> 7790dde (Admin Panel)
         <div>
           <label htmlFor="email">Email</label>
           <input
@@ -51,11 +59,22 @@ const SignIn = () => {
         </div>
 
         <div className="feature-box">
+<<<<<<< HEAD
           <Link to="/forgot_password">Forgot password?</Link>
         </div>
         <div className="btn-container">
           <button onClick={signInUser}>SIGN IN</button>
         </div>
+=======
+          <div>
+            <input type="checkbox" name="rem" />
+            <label htmlFor="rem">Remember me</label>
+          </div>
+
+          <Link to="/forgot_password">Forgot password</Link>
+        </div>
+        <button onClick={signInUser}>SIGN IN</button>
+>>>>>>> 7790dde (Admin Panel)
       </div>
     </div>
   );

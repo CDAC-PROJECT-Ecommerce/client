@@ -102,6 +102,7 @@
           outline: none;
         }
       }
+<<<<<<< HEAD
       .error {
         color: red;
         font-size: 0.75rem;
@@ -112,6 +113,8 @@
         border: 1.5px solid red !important;
         outline: none;
       }
+=======
+>>>>>>> 7790dde (Admin Panel)
     }
 
     .feature-box {
@@ -136,6 +139,7 @@
         }
       }
     }
+<<<<<<< HEAD
     .btn-container {
       display: flex;
       align-items: center;
@@ -153,6 +157,22 @@
         &:hover {
           background-color: #00796b;
         }
+=======
+
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #009688;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+
+      &:hover {
+        background-color: #00796b;
+>>>>>>> 7790dde (Admin Panel)
       }
     }
   }

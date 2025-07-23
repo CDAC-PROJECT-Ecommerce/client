@@ -7,6 +7,10 @@ export const addToCart = createAsyncThunk("cart/add", async (id) => {
   toast.dismiss();
   toast.success("Added to cart");
   let val = products_list.filter((x) => x.id == id);
+<<<<<<< HEAD
+=======
+  console.log(val);
+>>>>>>> 7790dde (Admin Panel)
   return val[0];
 });
 
@@ -47,6 +51,7 @@ const initialState = {
 const cartSlice = createSlice({
   name: "cart",
   initialState,
+<<<<<<< HEAD
   reducers: {
     increment: (state, action) => {
       const id = action.payload;
@@ -87,6 +92,9 @@ const cartSlice = createSlice({
       }
     },
   },
+=======
+  reducers: {},
+>>>>>>> 7790dde (Admin Panel)
   extraReducers: (builder) => {
     builder.addCase(addToCart.fulfilled, (state, action) => {
       state.isLoading = false;
@@ -103,6 +111,9 @@ const cartSlice = createSlice({
     });
   },
 });
+<<<<<<< HEAD
 export const { increment, decrement, removeFromCart } = cartSlice.actions;
+=======
+>>>>>>> 7790dde (Admin Panel)
 
 export default cartSlice.reducer;

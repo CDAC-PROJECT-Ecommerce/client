@@ -33,6 +33,7 @@
       margin: 0;
     }
     &::after {
+<<<<<<< HEAD
       content: "📝";
       position: absolute;
       bottom: 30px;
@@ -40,6 +41,15 @@
       font-size: 3.5rem;
       opacity: 0.3;
       animation: bounce 3s infinite;
+=======
+      content: "🛒";
+      position: absolute;
+      bottom: 30px;
+      right: 30px;
+      font-size: 4rem;
+      opacity: 0.3;
+      animation: bounce 2s infinite;
+>>>>>>> 7790dde (Admin Panel)
     }
 
     @keyframes bounce {
@@ -137,6 +147,7 @@
       }
     }
 
+<<<<<<< HEAD
     .btn-container {
       display: flex;
       align-items: center;
@@ -154,6 +165,21 @@
         &:hover {
           background-color: #00796b;
         }
+=======
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #009688;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+
+      &:hover {
+        background-color: #00796b;
+>>>>>>> 7790dde (Admin Panel)
       }
     }
   }
