@@ -1,0 +1,130 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+nav {
+  display: flex;
+  position: sticky;
+  top: 0;
+  justify-content: space-between;
+  align-items: center;
+  background: #009688;
+  padding: 1rem 2rem;
+  color: white;
+  flex-wrap: wrap;
+  z-index: 990;
+
+  .navbar-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+
+    a {
+      text-decoration: none;
+      color: white;
+    }
+  }
+
+  .navbar-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    div {
+      position: relative;
+      .cart-icon {
+        font-size: 1.4rem;
+        cursor: pointer;
+        color: white;
+      }
+
+      .cart-badge {
+        position: absolute;
+        top: -6px;
+        right: -10px;
+        background-color: red;
+        color: white;
+        font-size: 12px;
+        padding: 2px 6px;
+        border-radius: 50%;
+        font-weight: bold;
+      }
+    }
+
+    a,
+    p {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .navbar-search {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+
+    .search-input {
+      padding: 0.7rem 0.75rem;
+      border: none;
+      border-radius: 4px;
+      width: 350px;
+      font-size: 1.05rem;
+    }
+
+    .searched-product-container {
+      position: absolute;
+      z-index: 5;
+      max-height: 40vh;
+      width: 100%;
+      top: 2.6rem;
+      background-color: white;
+      color: black;
+      overflow-y: scroll;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      div {
+        cursor: pointer;
+        padding: 0.3rem;
+        padding-bottom: 0;
+        transition: 0.1s ease;
+
+        p {
+          margin: 0;
+          font-family: "Montserrat", sans-serif;
+          font-weight: 500;
+          font-size: 1.1rem;
+          padding-bottom: 0.3rem;
+          border-bottom: 1px solid gray;
+        }
+        &:hover {
+          background-color: #dfe6e9;
+        }
+        &:active {
+          transform: scale(0.99);
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+
+    .navbar-links {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .navbar-search-cart {
+      width: 100%;
+
+      input {
+        width: 100%;
+      }
+    }
+  }
+}

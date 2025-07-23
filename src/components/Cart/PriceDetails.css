@@ -1,0 +1,46 @@
+/* src/components/PriceDetails.css */
+.price-details {
+  min-width: 300px;
+  padding: 20px;
+  margin-left: 20px;
+  margin-top: 13px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #ffffff;
+  height: fit-content;
+}
+
+.price-details h2 {
+  color: #009688;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  margin-top: 12px;
+}
+
+.place-order {
+  margin-left: 20px;
+  background-color: #009688;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  margin-top: 16px;
+  cursor: pointer;
+}
+
+.price-details-order{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
