@@ -25,8 +25,9 @@ const CheckoutPage = () => {
   const taxAmount = subtotal * taxRate;
   const grandTotal = subtotal + taxAmount + deliveryCharge;
 
-  const handleCheckout = () => {
-    navigate("/admin/ordersummary/AWUYXJJ2");
+  const handleCheckout = async () => {
+    const orderId = "AWUYXJJ2";
+    navigate(`/admin/ordersummary/${orderId}`);
   };
 
   const handleChangeAddress = () => {

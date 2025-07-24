@@ -6,7 +6,6 @@ import "./OrderSummary.css";
 
 const OrderSummary = () => {
   const { orders = [] } = useSelector((state) => state.orders);
-  console.log(orders);
   const { orderId } = useParams();
   const order = orders.find((o) => o.id === orderId);
 
