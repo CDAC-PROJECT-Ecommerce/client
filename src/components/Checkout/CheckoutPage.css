@@ -158,6 +158,10 @@
     margin-bottom: 20px;
 }
 
+.checkout-change-adress {
+    width: 190px;
+}
+
 .checkout-btn:disabled {
     background-color: #ccc;
     cursor: not-allowed;
@@ -268,8 +272,8 @@
 }
 
 /* Common Button Styles */
-.btn {
-    padding: 12px 24px;
+.checkout-btn {
+    /* padding: 12px 24px; */
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -281,39 +285,39 @@
     text-align: center;
 }
 
-.btn-primary {
+.proceed-btn-primary {
     background-color: #009688;
     color: white;
 }
 
-.btn-primary:hover {
+.proceed-btn-primary:hover {
     background-color: #00796b;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 150, 136, 0.3);
 }
 
-.btn-secondary {
+.proceed-btn-secondary {
     background-color: #f0f0f0;
     color: #333;
     border: 2px solid #ddd;
 }
 
-.btn-secondary:hover {
+.proceed-btn-secondary:hover {
     background-color: #e0e0e0;
     border-color: #009688;
 }
 
-.btn-danger {
+.proceed-btn-danger {
     background-color: #f44336;
     color: white;
 }
 
-.btn-danger:hover {
+.proceed-btn-danger:hover {
     background-color: #d32f2f;
 }
 
 /* Card Styles */
-.card {
+.checkout-card {
     background: white;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -322,11 +326,11 @@
     transition: box-shadow 0.3s ease;
 }
 
-.card:hover {
+.checkout-card:hover {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-.card-title {
+.checkocard-title {
     font-size: 24px;
     font-weight: 700;
     color: #009688;
