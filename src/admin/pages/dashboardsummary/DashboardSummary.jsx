@@ -15,7 +15,7 @@ const DashboardSummary = () => {
   }, [dispatch]);
 
   const countOrdersWithStatus = (status) =>
-    orders.filter((o) => o.status === status).length;
+    orders?.filter((o) => o.status === status).length || 0;
 
   if (loading) return <p>Loading orders...</p>;
   if (error) return <p>Error loading orders: {error}</p>;
@@ -24,7 +24,7 @@ const DashboardSummary = () => {
     <div className="dashboard-container">
       <h2>Dashboard Summary</h2>
       <div className="summary-grid">
-        <div className="summary-card total">
+        <div className="summary-card active">
           <h5>Total Orders</h5>
           <p>{orders.length}</p>
           <Link to="/admin/orders" className="btn-sm">

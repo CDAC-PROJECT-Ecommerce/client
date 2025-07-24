@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deleteProduct,
   fetchProducts,
-} from "../../../store/slice/ProductSlice"; // ✅ fetchProducts added
+  loadJsonProducts,
+} from "../../../store/slice/ProductSlice";
 import DeleteConfirmModal from "../../pages/deleteproduct/DeleteConfirmModal";
 import "./ViewProduct.css";
 import { useNavigate } from "react-router-dom";
@@ -15,10 +16,11 @@ const ViewProduct = () => {
 
   // ✅ Fetch products on mount
   useEffect(() => {
-    dispatch(fetchProducts());
+    dispatch(loadJsonProducts());
   }, [dispatch]);
 
-  const products = useSelector((state) => state.products.items);
+  const products = useSelector((state) => state.products.jsonProducts);
+  console.log(products);
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 

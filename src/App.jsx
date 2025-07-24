@@ -11,6 +11,7 @@ import CheckoutPage from "./components/Checkout/CheckoutPage";
 import AddAddressPage from "./components/Address/AddAddressPage";
 import Footer from "./screens/Footer";
 import MyCart from "./components/Cart/MyCart";
+import AdminRoutes from "./admin/routes/AdminRoutes";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/addAdress" element={<AddAddressPage />} />
         <Route path="/cart" element={<MyCart />} />
+        <Route path="/admin/*" element={<AdminRoutes />} />
       </Routes>
       <Footer />
     </>
