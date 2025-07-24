@@ -18,7 +18,7 @@ const CheckoutPage = () => {
     selectedAddressId === defaultAddress.id
       ? defaultAddress
       : addresses.find((addr) => addr.id === selectedAddressId) ||
-        defaultAddress;
+      defaultAddress;
 
   // Calculate totals
   const subtotal = Cart.reduce((total, item) => total + item.price, 0);
@@ -44,8 +44,8 @@ const CheckoutPage = () => {
         {/* Left Side - Product List */}
         <div className="checkout-left">
           {/* Delivery Address */}
-          <div className="card">
-            <h2 className="card-title">Delivery Address</h2>
+          <div className="checkout-card">
+            <h2 className="checkout-card-title">Delivery Address</h2>
             <div className="address-display">
               <div className="address-info">
                 <h4>{selectedAddress.name}</h4>
@@ -57,22 +57,23 @@ const CheckoutPage = () => {
                 <p>Phone: {selectedAddress.phone}</p>
               </div>
               <button
-                className="btn btn-secondary"
+                className="checkout-btn checkout-change-adress proceed-btn-secondary"
                 onClick={handleChangeAddress}
               >
                 Change Address
               </button>
             </div>
           </div>
-          <div className="card">
-            <h2 className="card-title">Order Content ({Cart.length} items)</h2>
+          <div className="checkout-card">
+            <h2 className="checkout-card-title">Order Content ({Cart.length} items)</h2>
 
             {Cart.length === 0 ? (
               <div className="empty-cart">
                 <p>Your cart is empty</p>
                 <button
-                  className="btn btn-primary"
+                  className="proceed-btn proceed-btn-primary"
                   onClick={() => navigate("/")}
+
                 >
                   Continue Shopping
                 </button>
@@ -102,8 +103,8 @@ const CheckoutPage = () => {
 
         {/* Right Side - Order Total */}
         <div className="checkout-right">
-          <div className="card order-summary-card">
-            <h2 className="card-title">Payment Summary</h2>
+          <div className="checkout-card order-summary-card">
+            <h2 className="checkout-card-title">Payment Summary</h2>
 
             <div className="summary-row">
               <span>Subtotal ({Cart.length} items)</span>
@@ -129,7 +130,7 @@ const CheckoutPage = () => {
 
             <div className="checkout-actions">
               <button
-                className="btn btn-primary checkout-btn"
+                className="proceed-btn proceed-btn-primary checkout-btn"
                 onClick={handleCheckout}
                 disabled={Cart.length === 0}
               >

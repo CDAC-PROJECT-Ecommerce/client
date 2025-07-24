@@ -61,8 +61,8 @@ const AddAddressPage = ({ onNavigateToCheckout }) => {
       </div>
 
       <div className="address-content">
-        <div className="card address-section">
-          <h2 className="card-title">Default Address</h2>
+        <div className="checkout-card address-section">
+          <h2 className="checkout-card-title">Default Address</h2>
 
           <div className="address-item default-address">
             <div className="address-radio">
@@ -95,8 +95,8 @@ const AddAddressPage = ({ onNavigateToCheckout }) => {
         </div>
 
         {addresses?.length > 0 && (
-          <div className="card address-section">
-            <h2 className="card-title">Saved Addresses</h2>
+          <div className="checkout-card address-section">
+            <h2 className="checkout-card-title">Saved Addresses</h2>
             {addresses.map((address) => (
               <div key={address.id} className="address-item">
                 <div className="address-radio">
@@ -126,13 +126,13 @@ const AddAddressPage = ({ onNavigateToCheckout }) => {
 
                 <div className="address-actions">
                   <button
-                    className="btn btn-primary"
+                    className="checkout-btn address-proceed proceed-btn-primary"
                     onClick={() => handleSetDefault(address.id)}
                   >
                     Set as Default
                   </button>
                   <button
-                    className="btn btn-danger delete-btn"
+                    className="checkout-btn proceed-btn-danger delete-btn"
                     onClick={() => handleDeleteAddress(address.id)}
                   >
                     Delete
@@ -143,12 +143,12 @@ const AddAddressPage = ({ onNavigateToCheckout }) => {
           </div>
         )}
 
-        <div className="card address-section">
+        <div className="checkout-card address-section">
           {!showAddForm ? (
             <div className="add-address-prompt">
               <h3>Need to deliver somewhere else?</h3>
               <button
-                className="btn btn-secondary add-address-btn"
+                className="proceed-btn proceed-btn-secondary add-address-btn"
                 onClick={() => setShowAddForm(true)}
               >
                 + Add New Address
@@ -156,7 +156,7 @@ const AddAddressPage = ({ onNavigateToCheckout }) => {
             </div>
           ) : (
             <div className="add-address-form">
-              <h2 className="card-title">Add New Address</h2>
+              <h2 className="checkout-card-title">Add New Address</h2>
               <AddressForm
                 onSubmit={handleAddAddress}
                 onCancel={() => setShowAddForm(false)}
@@ -167,7 +167,7 @@ const AddAddressPage = ({ onNavigateToCheckout }) => {
 
         <div className="address-submit">
           <button
-            className="btn btn-primary submit-btn"
+            className="checkout-btn proceed-btn-primary proceed-submit-btn"
             onClick={handleSubmit}
             disabled={!selectedAddressId}
           >
