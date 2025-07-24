@@ -55,6 +55,7 @@ const Navbar = () => {
 
           <span className="cart-badge">{Cart.length}</span>
         </div>
+        <Link to="/admin">Admin</Link>
         {Users?.username ? (
           <p onClick={() => navigate("/profile")}>Hello {Users.username}</p>
         ) : (

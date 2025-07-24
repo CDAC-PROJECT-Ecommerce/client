@@ -18,7 +18,7 @@ const CheckoutPage = () => {
     selectedAddressId === defaultAddress.id
       ? defaultAddress
       : addresses.find((addr) => addr.id === selectedAddressId) ||
-      defaultAddress;
+        defaultAddress;
 
   // Calculate totals
   const subtotal = Cart.reduce((total, item) => total + item.price, 0);
@@ -26,7 +26,7 @@ const CheckoutPage = () => {
   const grandTotal = subtotal + taxAmount + deliveryCharge;
 
   const handleCheckout = () => {
-    alert("Proceeding to payment... (This will be handled by your teammates)");
+    navigate("/admin/ordersummary/AWUYXJJ2");
   };
 
   const handleChangeAddress = () => {
@@ -65,7 +65,9 @@ const CheckoutPage = () => {
             </div>
           </div>
           <div className="checkout-card">
-            <h2 className="checkout-card-title">Order Content ({Cart.length} items)</h2>
+            <h2 className="checkout-card-title">
+              Order Content ({Cart.length} items)
+            </h2>
 
             {Cart.length === 0 ? (
               <div className="empty-cart">
@@ -73,7 +75,6 @@ const CheckoutPage = () => {
                 <button
                   className="proceed-btn proceed-btn-primary"
                   onClick={() => navigate("/")}
-
                 >
                   Continue Shopping
                 </button>

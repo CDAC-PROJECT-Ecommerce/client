@@ -3,6 +3,7 @@ nav {
   display: flex;
   position: sticky;
   top: 0;
+  left: 0;
   justify-content: space-between;
   align-items: center;
   background: #009688;
@@ -10,7 +11,7 @@ nav {
   color: white;
   flex-wrap: wrap;
   z-index: 990;
-  position: relative;
+  // position: relative;
 
   .navbar-logo {
     font-size: 1.5rem;

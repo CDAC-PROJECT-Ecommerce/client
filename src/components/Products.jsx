@@ -6,7 +6,7 @@ import { addToCart } from "../store/slice/CartSlice";
 import { FaRegStar } from "react-icons/fa6";
 
 const Products = (props) => {
-  const { name, price, id, review } = props.value;
+  const { name, price, id, review, category } = props.value;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -22,7 +22,16 @@ const Products = (props) => {
 
   return (
     <div className="product-box" onClick={openFullPageProduct}>
-      <img src="/wirelessmouse.jpg" alt="product-image" />
+      <img
+        src={
+          category === "Women"
+            ? "/womenclothing.jpg"
+            : category === "Baby"
+            ? "/babyclothing.jpg"
+            : "/wirelessmouse.jpg"
+        }
+        alt="product-image"
+      />
       <p className="product-name">{name}</p>
       <div className="product-price-review-box">
         <p className="product-review">
