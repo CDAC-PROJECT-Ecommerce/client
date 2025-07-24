@@ -30,8 +30,8 @@
 .product-header {
   display: grid;
   grid-template-columns: 0.5fr 1.2fr 1fr 1fr 1fr 2fr 1fr;
-  background-color: #e5f5ec;
-  color: #1a7431;
+  background-color:#1a7431;
+  color: #e5f5ec;
   font-weight: 600;
   padding: 1rem;
   font-size: 15px;

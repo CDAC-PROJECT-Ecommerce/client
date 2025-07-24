@@ -1,26 +1,402 @@
 [
   {
     "id": "P001",
-    "name": "Wireless Mouse",
-    "price": 799,
-    "category": "Accessories",
+    "name": "Noise Cancelling Earbuds",
+    "price": 711,
+    "category": "Audio",
     "image": "https://via.placeholder.com/60",
-    "description": "Ergonomic wireless mouse with USB receiver."
+    "description": "High-quality performance for daily use."
   },
   {
     "id": "P002",
-    "name": "Bluetooth Headphones",
-    "price": 1999,
+    "name": "Noise Cancelling Earbuds",
+    "price": 552,
     "category": "Audio",
     "image": "https://via.placeholder.com/60",
-    "description": "Over-ear headphones with deep bass and noise isolation."
+    "description": "Crystal-clear sound and dynamic range."
   },
   {
     "id": "P003",
-    "name": "Gaming Keyboard",
-    "price": 2499,
+    "name": "Smart Speaker",
+    "price": 3742,
+    "category": "Gaming",
+    "image": "https://via.placeholder.com/60",
+    "description": "Enhanced battery life and fast charging."
+  },
+  {
+    "id": "P004",
+    "name": "USB-C Hub",
+    "price": 3992,
+    "category": "Books",
+    "image": "https://via.placeholder.com/60",
+    "description": "Enhanced battery life and fast charging."
+  },
+  {
+    "id": "P005",
+    "name": "HDMI Cable",
+    "price": 4625,
+    "category": "Books",
+    "image": "https://via.placeholder.com/60",
+    "description": "Crystal-clear sound and dynamic range."
+  },
+  {
+    "id": "P006",
+    "name": "Laptop Stand",
+    "price": 3919,
+    "category": "Gaming",
+    "image": "https://via.placeholder.com/60",
+    "description": "Wireless connectivity with long range."
+  },
+  {
+    "id": "P007",
+    "name": "E-book Reader",
+    "price": 1781,
+    "category": "Books",
+    "image": "https://via.placeholder.com/60",
+    "description": "Adjustable settings and RGB backlight."
+  },
+  {
+    "id": "P008",
+    "name": "LED Monitor",
+    "price": 3981,
+    "category": "Home",
+    "image": "https://via.placeholder.com/60",
+    "description": "Wireless connectivity with long range."
+  },
+  {
+    "id": "P009",
+    "name": "USB-C Hub",
+    "price": 2938,
     "category": "Accessories",
     "image": "https://via.placeholder.com/60",
-    "description": "Mechanical keyboard with RGB lighting."
+    "description": "Ergonomic design with customizable settings."
+  },
+  {
+    "id": "P010",
+    "name": "Smart Speaker",
+    "price": 4603,
+    "category": "Accessories",
+    "image": "https://via.placeholder.com/60",
+    "description": "Enhanced battery life and fast charging."
+  },
+  {
+    "id": "P011",
+    "name": "Desk Lamp",
+    "price": 3159,
+    "category": "Home",
+    "image": "https://via.placeholder.com/60",
+    "description": "Enhanced battery life and fast charging."
+  },
+  {
+    "id": "P012",
+    "name": "Wireless Mouse",
+    "price": 3752,
+    "category": "Home",
+    "image": "https://via.placeholder.com/60",
+    "description": "Enhanced battery life and fast charging."
+  },
+  {
+    "id": "P013",
+    "name": "Wireless Mouse",
+    "price": 2515,
+    "category": "Audio",
+    "image": "https://via.placeholder.com/60",
+    "description": "Adjustable settings and RGB backlight."
+  },
+  {
+    "id": "P014",
+    "name": "VR Headset",
+    "price": 3147,
+    "category": "Home",
+    "image": "https://via.placeholder.com/60",
+    "description": "Portable, sleek, and easy to use."
+  },
+  {
+    "id": "P015",
+    "name": "USB-C Hub",
+    "price": 3556,
+    "category": "Electronics",
+    "image": "https://via.placeholder.com/60",
+    "description": "Crystal-clear sound and dynamic range."
+  },
+  {
+    "id": "P016",
+    "name": "Laptop Stand",
+    "price": 851,
+    "category": "Home",
+    "image": "https://via.placeholder.com/60",
+    "description": "Comfortable grip and responsive feedback."
+  },
+  {
+    "id": "P017",
+    "name": "Laptop Stand",
+    "price": 1895,
+    "category": "Electronics",
+    "image": "https://via.placeholder.com/60",
+    "description": "Portable, sleek, and easy to use."
+  },
+  {
+    "id": "P018",
+    "name": "Smart Speaker",
+    "price": 3056,
+    "category": "Accessories",
+    "image": "https://via.placeholder.com/60",
+    "description": "Perfect for gamers and professionals."
+  },
+  {
+    "id": "P019",
+    "name": "Microphone",
+    "price": 3767,
+    "category": "Audio",
+    "image": "https://via.placeholder.com/60",
+    "description": "Perfect for gamers and professionals."
+  },
+  {
+    "id": "P020",
+    "name": "USB-C Hub",
+    "price": 2299,
+    "category": "Audio",
+    "image": "https://via.placeholder.com/60",
+    "description": "Wireless connectivity with long range."
+  },
+  {
+    "id": "P021",
+    "name": "Gaming Chair",
+    "price": 2735,
+    "category": "Audio",
+    "image": "https://via.placeholder.com/60",
+    "description": "Ergonomic design with customizable settings."
+  },
+  {
+    "id": "P022",
+    "name": "Laptop Stand",
+    "price": 3866,
+    "category": "Books",
+    "image": "https://via.placeholder.com/60",
+    "description": "Wireless connectivity with long range."
+  },
+  {
+    "id": "P023",
+    "name": "Wireless Charger",
+    "price": 3343,
+    "category": "Books",
+    "image": "https://via.placeholder.com/60",
+    "description": "Durable build with stylish design."
+  },
+  {
+    "id": "P024",
+    "name": "USB-C Hub",
+    "price": 4267,
+    "category": "Accessories",
+    "image": "https://via.placeholder.com/60",
+    "description": "Ergonomic design with customizable settings."
+  },
+  {
+    "id": "P025",
+    "name": "Laptop Stand",
+    "price": 880,
+    "category": "Accessories",
+    "image": "https://via.placeholder.com/60",
+    "description": "Portable, sleek, and easy to use."
+  },
+  {
+    "id": "P026",
+    "name": "Microphone",
+    "price": 2325,
+    "category": "Books",
+    "image": "https://via.placeholder.com/60",
+    "description": "Wireless connectivity with long range."
+  },
+  {
+    "id": "P027",
+    "name": "USB-C Hub",
+    "price": 3146,
+    "category": "Home",
+    "image": "https://via.placeholder.com/60",
+    "description": "Crystal-clear sound and dynamic range."
+  },
+  {
+    "id": "P028",
+    "name": "E-book Reader",
+    "price": 514,
+    "category": "Books",
+    "image": "https://via.placeholder.com/60",
+    "description": "Portable, sleek, and easy to use."
+  },
+  {
+    "id": "P029",
+    "name": "VR Headset",
+    "price": 4001,
+    "category": "Audio",
+    "image": "https://via.placeholder.com/60",
+    "description": "Durable build with stylish design."
+  },
+  {
+    "id": "P030",
+    "name": "Laptop Stand",
+    "price": 1177,
+    "category": "Audio",
+    "image": "https://via.placeholder.com/60",
+    "description": "Durable build with stylish design."
+  },
+  {
+    "id": "P031",
+    "name": "Gaming Keyboard",
+    "price": 1596,
+    "category": "Books",
+    "image": "https://via.placeholder.com/60",
+    "description": "Portable, sleek, and easy to use."
+  },
+  {
+    "id": "P032",
+    "name": "Portable SSD",
+    "price": 662,
+    "category": "Accessories",
+    "image": "https://via.placeholder.com/60",
+    "description": "Perfect for gamers and professionals."
+  },
+  {
+    "id": "P033",
+    "name": "Webcam",
+    "price": 2755,
+    "category": "Electronics",
+    "image": "https://via.placeholder.com/60",
+    "description": "High-quality performance for daily use."
+  },
+  {
+    "id": "P034",
+    "name": "Desk Lamp",
+    "price": 3848,
+    "category": "Home",
+    "image": "https://via.placeholder.com/60",
+    "description": "Durable build with stylish design."
+  },
+  {
+    "id": "P035",
+    "name": "E-book Reader",
+    "price": 693,
+    "category": "Accessories",
+    "image": "https://via.placeholder.com/60",
+    "description": "Adjustable settings and RGB backlight."
+  },
+  {
+    "id": "P036",
+    "name": "Portable SSD",
+    "price": 2272,
+    "category": "Electronics",
+    "image": "https://via.placeholder.com/60",
+    "description": "Adjustable settings and RGB backlight."
+  },
+  {
+    "id": "P037",
+    "name": "E-book Reader",
+    "price": 1002,
+    "category": "Audio",
+    "image": "https://via.placeholder.com/60",
+    "description": "Perfect for gamers and professionals."
+  },
+  {
+    "id": "P038",
+    "name": "Desk Lamp",
+    "price": 1137,
+    "category": "Books",
+    "image": "https://via.placeholder.com/60",
+    "description": "Portable, sleek, and easy to use."
+  },
+  {
+    "id": "P039",
+    "name": "Tripod Stand",
+    "price": 2635,
+    "category": "Accessories",
+    "image": "https://via.placeholder.com/60",
+    "description": "Crystal-clear sound and dynamic range."
+  },
+  {
+    "id": "P040",
+    "name": "Bluetooth Headphones",
+    "price": 3313,
+    "category": "Home",
+    "image": "https://via.placeholder.com/60",
+    "description": "Portable, sleek, and easy to use."
+  },
+  {
+    "id": "P041",
+    "name": "Portable SSD",
+    "price": 3904,
+    "category": "Home",
+    "image": "https://via.placeholder.com/60",
+    "description": "Ergonomic design with customizable settings."
+  },
+  {
+    "id": "P042",
+    "name": "Microphone",
+    "price": 3480,
+    "category": "Audio",
+    "image": "https://via.placeholder.com/60",
+    "description": "High-quality performance for daily use."
+  },
+  {
+    "id": "P043",
+    "name": "Laptop Stand",
+    "price": 2526,
+    "category": "Gaming",
+    "image": "https://via.placeholder.com/60",
+    "description": "Durable build with stylish design."
+  },
+  {
+    "id": "P044",
+    "name": "Microphone",
+    "price": 2976,
+    "category": "Gaming",
+    "image": "https://via.placeholder.com/60",
+    "description": "High-quality performance for daily use."
+  },
+  {
+    "id": "P045",
+    "name": "HDMI Cable",
+    "price": 4390,
+    "category": "Home",
+    "image": "https://via.placeholder.com/60",
+    "description": "Ergonomic design with customizable settings."
+  },
+  {
+    "id": "P046",
+    "name": "Wireless Mouse",
+    "price": 2048,
+    "category": "Electronics",
+    "image": "https://via.placeholder.com/60",
+    "description": "Perfect for gamers and professionals."
+  },
+  {
+    "id": "P047",
+    "name": "Gaming Keyboard",
+    "price": 4504,
+    "category": "Electronics",
+    "image": "https://via.placeholder.com/60",
+    "description": "Enhanced battery life and fast charging."
+  },
+  {
+    "id": "P048",
+    "name": "Power Bank",
+    "price": 1800,
+    "category": "Books",
+    "image": "https://via.placeholder.com/60",
+    "description": "Enhanced battery life and fast charging."
+  },
+  {
+    "id": "P049",
+    "name": "Noise Cancelling Earbuds",
+    "price": 3986,
+    "category": "Gaming",
+    "image": "https://via.placeholder.com/60",
+    "description": "Portable, sleek, and easy to use."
+  },
+  {
+    "id": "P050",
+    "name": "E-book Reader",
+    "price": 4020,
+    "category": "Electronics",
+    "image": "https://via.placeholder.com/60",
+    "description": "Perfect for gamers and professionals."
   }
 ]

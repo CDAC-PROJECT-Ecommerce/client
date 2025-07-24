@@ -74,8 +74,6 @@ const AddProduct = () => {
       category,
       image,
       description,
-      review: 0,
-      quantity: 1,
     };
 
     dispatch(addProduct(newProduct));

@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addCategory } from "../../redux/slices/categoriesSlice";
+import { addCategory } from "../../redux/slices/productsSlice"; // changed slice import
 import "./AddCategoryModal.css";
 
 const AddCategoryModal = ({ onClose }) => {
   const [newCategory, setNewCategory] = useState("");
   const dispatch = useDispatch();
   const inputRef = useRef(null);
-  const categories = useSelector((state) => state.categories.items);
+  const categories = useSelector((state) => state.products.categories); // updated path
 
   useEffect(() => {
     inputRef.current?.focus();
