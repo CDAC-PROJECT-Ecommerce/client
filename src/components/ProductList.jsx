@@ -2,13 +2,26 @@ import Products from "./Products";
 import "../scss/productlist.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { fetchProducts, sortBy } from "../store/slice/ProductSlice";
+import { filterByCategory, sortBy } from "../store/slice/ProductSlice";
 
 const ProductList = () => {
   const dispatch = useDispatch();
   const [sortValue, setSortValue] = useState("");
+  const [filterList, setFilterList] = useState([]);
 
   const productList = useSelector((state) => state.products);
+
+  const handleFilterList = (category) => {
+    setFilterList((prevItems) =>
+      prevItems.includes(category)
+        ? prevItems.filter((item) => item !== category)
+        : [...prevItems, category]
+    );
+  };
+
+  useEffect(() => {
+    dispatch(filterByCategory(filterList));
+  }, [filterList]);
 
   useEffect(() => {
     dispatch(sortBy(sortValue));
@@ -17,38 +30,17 @@ const ProductList = () => {
     <div className="product-list-container">
       <div className="filter-box-container">
         <p>Filter</p>
-        {/* <div className="price-comparison">
-          <div>
-            <input type="number" placeholder="min" />
-            <input type="number" placeholder="max" value={maxValue} />
-          </div>
-          <button>Filter</button>
-        </div> */}
-
-        <div className="filter-box">
-          <input type="checkbox" />
-          <label>Filter no 1</label>
-        </div>
-        <div className="filter-box">
-          <input type="checkbox" />
-          <label>Filter no 1</label>
-        </div>
-        <div className="filter-box">
-          <input type="checkbox" />
-          <label>Filter no 1</label>
-        </div>
-        <div className="filter-box">
-          <input type="checkbox" />
-          <label>Filter no 1</label>
-        </div>
-        <div className="filter-box">
-          <input type="checkbox" />
-          <label>Filter no 1</label>
-        </div>
-        <div className="filter-box">
-          <input type="checkbox" />
-          <label>Filter no 1</label>
-        </div>
+        {productList?.ProductCategories?.map((category) => {
+          return (
+            <div className="filter-box" key={category}>
+              <input
+                type="checkbox"
+                onClick={() => handleFilterList(category)}
+              />
+              <label>{category}</label>
+            </div>
+          );
+        })}
 
         <div className="sort-by-container">
           <p style={{ marginTop: "1rem" }}>Sort by</p>
