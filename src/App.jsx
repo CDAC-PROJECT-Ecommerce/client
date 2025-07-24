@@ -3,7 +3,6 @@ import Navbar from "./Navbar";
 import { Routes, Route } from "react-router-dom";
 import ProductList from "./components/ProductList";
 import ProductDisplay from "./components/ProductDisplay";
-// import "./assets/basic.css";
 import SignIn from "./screens/SignIn";
 import SignUp from "./screens/SignUp";
 import ForgotPassword from "./components/ForgotPassword";

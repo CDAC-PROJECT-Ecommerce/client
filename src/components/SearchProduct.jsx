@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchFullProduct, searchProducts } from "../store/slice/ProductSlice";
 import { useNavigate } from "react-router-dom";
 
-const SearchProduct = () => {
+const SearchProduct = ({ setOpenMenu }) => {
   const [searchVal, setSearchVal] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -14,6 +14,7 @@ const SearchProduct = () => {
   };
 
   const openSearchProduct = async (id) => {
+    setOpenMenu(false);
     dispatch(fetchFullProduct(id));
     setSearchVal("");
     navigate(`/fullPageProduct`);
