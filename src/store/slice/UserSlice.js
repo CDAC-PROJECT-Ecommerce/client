@@ -26,7 +26,17 @@ const UserSlice = createSlice({
     isError: false,
     toastMessage: "",
   },
-  reducers: {},
+  reducers: {
+    updateProfile(state, action) {
+      const { name, email, mobile } = action.payload;
+      state.name = name;
+      state.email = email;
+      state.mobile = mobile;
+    },
+    changePassword(state, action) {
+      state.password = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     // builder.addCase(registerUser.fulfilled, (state, action) => {
     //   state.isLoading = false;
@@ -45,4 +55,5 @@ const UserSlice = createSlice({
   },
 });
 
+export const { updateProfile, changePassword } = UserSlice.actions;
 export default UserSlice.reducer;
