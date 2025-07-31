@@ -8,15 +8,15 @@ import { registerUser } from "../store/slice/UserSlice";
 const SignUp = () => {
   const dispatch = useDispatch();
 
-  // Form values
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Validation errors
   const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
+
+  const { isLoading } = useSelector((state) => state.user);
 
   // Validation logic
   const validate = () => {
@@ -48,8 +48,6 @@ const SignUp = () => {
       const { meta } = await dispatch(registerUser(userData));
       if (meta.requestStatus === "fulfilled") {
         navigate("/");
-      } else {
-        toast.error("Something went wrong");
       }
     } else {
       toast.error("Please enter valid data");
@@ -114,7 +112,9 @@ const SignUp = () => {
         </div>
         <div className="btn-container">
           {" "}
-          <button onClick={handleSignUp}>SIGN UP</button>
+          <button onClick={handleSignUp} disabled={isLoading}>
+            SIGN UP
+          </button>
         </div>
       </div>
     </div>

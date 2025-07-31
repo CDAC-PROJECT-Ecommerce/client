@@ -74,9 +74,10 @@ nav {
       color: white;
       text-decoration: none;
       font-weight: 500;
+      cursor: pointer;
 
-      &:hover {
-        text-decoration: underline;
+      &:active {
+        transform: scale(0.95);
       }
     }
   }
