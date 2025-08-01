@@ -11,6 +11,7 @@ import AddAddressPage from "./components/Address/AddAddressPage";
 import Footer from "./screens/Footer";
 import MyCart from "./components/Cart/MyCart";
 import AdminRoutes from "./admin/routes/AdminRoutes";
+import ViewProfile from "./components/Profile/ViewProfile";
 import ProfilePage from "./components/Profile/ProfilePage";
 
 const App = () => {
@@ -28,7 +29,8 @@ const App = () => {
         <Route path="/addAdress" element={<AddAddressPage />} />
         <Route path="/cart" element={<MyCart />} />
         <Route path="/admin/*" element={<AdminRoutes />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile" element={<ViewProfile />} />
+        <Route path="/edit_profile" element={<ProfilePage />} />
       </Routes>
       <Footer />
     </>
