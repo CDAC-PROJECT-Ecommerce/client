@@ -66,13 +66,22 @@ const ProfileForm = () => {
 
             <label>Mobile Number</label>
             <input
-              type="text"
+              type="Number"
               name="mobile"
               placeholder={profile?.mobile}
               value={profile?.mobile}
               onChange={handleChange}
             />
 
+            <label>Current Password</label>
+            <input
+              type="password"
+              name="currentPassword"
+              placeholder="New Password"
+              value={profile?.password}
+              onChange={handleChange}
+            />
+            
             <label>Change Password</label>
             <input
               type="password"
@@ -82,9 +91,7 @@ const ProfileForm = () => {
               onChange={handleChange}
             />
 
-            <button className="save-btn" onClick={handleUpdate}>
-              Update Profile
-            </button>
+            <button className="save-btn" onClick={handleUpdate}>Update Profile</button>
           </div>
         </div>
       </div>
