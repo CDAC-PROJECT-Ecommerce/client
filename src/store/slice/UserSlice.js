@@ -52,6 +52,30 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const fetchProfileById = createAsyncThunk(
+  'users/fetchProfileById',
+  async (userId, { rejectWithValue }) => {
+    try {
+      const res = await axios.get(`/api/users/${userId}`);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const updateProfile = createAsyncThunk(
+  'users/updateProfile',
+  async (formData, { rejectWithValue }) => {
+    try {
+      const res = await axios.put(`/api/users/${formData.id}`, formData);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 const UserSlice = createSlice({
   name: "users",
   initialState: {
@@ -64,12 +88,12 @@ const UserSlice = createSlice({
     toastMessage: "",
   },
   reducers: {
-    updateProfile(state, action) {
-      const { name, email, mobile } = action.payload;
-      state.name = name;
-      state.email = email;
-      state.mobile = mobile;
-    },
+    // updateProfile(state, action) {
+    //   const { name, email, mobile } = action.payload;
+    //   state.name = name;
+    //   state.email = email;
+    //   state.mobile = mobile;
+    // },
     changePassword(state, action) {
       state.password = action.payload;
     },
@@ -151,9 +175,27 @@ const UserSlice = createSlice({
       state.username = action.payload.username;
       state.role = action.payload.role;
     });
+
+    
+    builder
+    .addCase(fetchProfileById.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchProfileById.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.profile = action.payload;
+      })
+      .addCase(fetchProfileById.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        state.profile = action.payload;
+      });
+
   },
 });
 
-export const { fetchToken, logout, updateProfile, changePassword } =
+export const { fetchToken, logout, changePassword } =
   UserSlice.actions;
 export default UserSlice.reducer;

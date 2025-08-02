@@ -7,7 +7,8 @@ import {
 import "./ProfileForm.css";
 
 const ProfileForm = () => {
-  const profile = useSelector((state) => state.users);
+  const profile = useSelector((state) => state.profile);
+  console.log(profile)
   const dispatch = useDispatch();
 
   // const [formData, setFormData] = useState({

@@ -3,10 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./ProfileForm.css";
 
+
 const ViewProfile = () => {
-    const profile = useSelector((state) => state.users);
+    const profile = useSelector((state) => state.profile);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    
+    useEffect(() => {
+  const userId = 1; // Replace with actual logged-in user ID (from auth or context)
+  dispatch(fetchProfileById(userId));
+}, []);
 
   return (
     <div className="div-of-page">
