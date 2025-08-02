@@ -1,5 +1,5 @@
 import "../scss/productdisplay.scss";
-import Review from "../components/Review";
+import Review from "./Review";
 import { useDispatch, useSelector } from "react-redux";
 import { FaRegStar } from "react-icons/fa6";
 import { addToCart } from "../store/slice/CartSlice";
@@ -19,11 +19,8 @@ const ProductDisplay = () => {
         </div>
         <div className="full-product-details">
           <p className="product-title">{product?.name}</p>
-          <p className="product-description">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut deserunt
-            id ea odio? Mollitia earum debitis dolorum deleniti est quos alias,
-            suscipit, magni quo ut delectus incidunt. Verita
-          </p>
+          <p className="product-category">{product?.categoryName}</p>
+          <p className="product-description">{product?.description}</p>
           <p className="product-price">₹ {product?.price}</p>
 
           <p className="product-review">
