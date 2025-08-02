@@ -1,13 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
-// import { products_list } from "./ProductSlice";
+import { api } from "../../services/api";
 
 export const addToCart = createAsyncThunk("cart/add", async (id) => {
-  // Write logic here to add cart in database
-  toast.dismiss();
-  toast.success("Added to cart");
-  // let val = products_list.filter((x) => x.id == id);
-  return val[0];
+  try {
+    const respone = await api.post("/api/addToCart" + id);
+    return respone.data;
+  } catch (error) {
+    const status = error?.response?.status;
+    const message = error?.response?.message;
+    return { status, message };
+  }
 });
 
 // Sample cart data for demonstration
