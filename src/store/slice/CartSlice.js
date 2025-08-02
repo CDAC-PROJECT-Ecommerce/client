@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
-import { products_list } from "./ProductSlice";
+// import { products_list } from "./ProductSlice";
 
 export const addToCart = createAsyncThunk("cart/add", async (id) => {
   // Write logic here to add cart in database
   toast.dismiss();
   toast.success("Added to cart");
-  let val = products_list.filter((x) => x.id == id);
+  // let val = products_list.filter((x) => x.id == id);
   return val[0];
 });
 
