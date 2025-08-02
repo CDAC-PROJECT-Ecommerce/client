@@ -10,6 +10,7 @@ const ProductList = () => {
   const [filterList, setFilterList] = useState([]);
 
   const productList = useSelector((state) => state.products);
+  console.log("product list", productList);
 
   const handleFilterList = (category) => {
     setFilterList((prevItems) =>

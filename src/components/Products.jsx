@@ -7,6 +7,7 @@ import { FaRegStar } from "react-icons/fa6";
 
 const Products = (props) => {
   const { name, price, id, review, category } = props.value;
+  console.log(props.value);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
