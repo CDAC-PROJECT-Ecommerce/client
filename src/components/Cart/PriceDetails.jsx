@@ -3,6 +3,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import "./PriceDetails.css";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const PriceDetails = () => {
   const cartItems = useSelector((state) => state.cart.Cart);
@@ -12,6 +13,15 @@ const PriceDetails = () => {
     (acc, item) => acc + item.price * item.quantity,
     0
   );
+
+  const handleCheckout = () => {
+    if (cartItems.length > 0) {
+      navigate("/checkout");
+    } else {
+      toast.dismiss();
+      toast.error("Cart is empty");
+    }
+  };
 
   return (
     <div className="price-details-order">
@@ -33,7 +43,7 @@ const PriceDetails = () => {
         </div>
       </div>
       <div>
-        <button onClick={() => navigate("/checkout")} className="place-order">
+        <button onClick={handleCheckout} className="place-order">
           Place Order
         </button>
       </div>

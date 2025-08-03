@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchProducts } from "../store/slice/ProductSlice";
+import { fetchCart } from "../store/slice/CartSlice";
 
 const Homepage = () => {
   const navigate = useNavigate();

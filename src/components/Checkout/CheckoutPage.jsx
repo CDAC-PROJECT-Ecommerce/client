@@ -5,6 +5,10 @@ import { useSelector, useDispatch } from "react-redux";
 import "./CheckoutPage.css";
 import { useNavigate } from "react-router-dom";
 import { fetchCart } from "../../store/slice/CartSlice";
+import {
+  fetchAddress,
+  setDefaultAddress,
+} from "../../store/slice/addressSlice";
 
 const CheckoutPage = () => {
   const dispatch = useDispatch();
@@ -16,7 +20,7 @@ const CheckoutPage = () => {
 
   // Get the selected address (either from saved addresses or default)
   const selectedAddress =
-    selectedAddressId === defaultAddress.id
+    selectedAddressId === defaultAddress?.id
       ? defaultAddress
       : addresses.find((addr) => addr.id === selectedAddressId) ||
         defaultAddress;
@@ -40,6 +44,7 @@ const CheckoutPage = () => {
 
   useEffect(() => {
     dispatch(fetchCart());
+    dispatch(fetchAddress());
   }, []);
 
   return (
@@ -55,23 +60,33 @@ const CheckoutPage = () => {
           {/* Delivery Address */}
           <div className="checkout-card">
             <h2 className="checkout-card-title">Delivery Address</h2>
-            <div className="address-display">
-              <div className="address-info">
-                <h4>{selectedAddress.name}</h4>
-                <p>{selectedAddress.address}</p>
-                <p>
-                  {selectedAddress.city}, {selectedAddress.state} -{" "}
-                  {selectedAddress.pincode}
-                </p>
-                <p>Phone: {selectedAddress.phone}</p>
+            {addresses.length > 0 ? (
+              <div className="address-display">
+                <div className="address-info">
+                  <h4>{selectedAddress?.name}</h4>
+                  <p>{selectedAddress?.address}</p>
+                  <p>
+                    {selectedAddress?.city}, {selectedAddress?.state} -{" "}
+                    {selectedAddress?.pincode}
+                  </p>
+                  <p>Phone: {selectedAddress?.phone}</p>
+                </div>
+                <button
+                  className="checkout-btn checkout-change-adress proceed-btn-secondary"
+                  onClick={handleChangeAddress}
+                >
+                  Change Address
+                </button>
               </div>
+            ) : (
               <button
-                className="checkout-btn checkout-change-adress proceed-btn-secondary"
-                onClick={handleChangeAddress}
+                style={{ margin: "1rem" }}
+                className="proceed-btn proceed-btn-secondary add-address-btn"
+                onClick={() => navigate("/addAdress")}
               >
-                Change Address
+                + Add New Address
               </button>
-            </div>
+            )}
           </div>
           <div className="checkout-card">
             <h2 className="checkout-card-title">
@@ -91,7 +106,7 @@ const CheckoutPage = () => {
             ) : (
               <div className="products-list">
                 {Cart.map((item) => (
-                  <div key={item.id} className="product-item">
+                  <div key={item.productId} className="product-item">
                     <div className="product-image">
                       <img src={item.image} alt={item.name} />
                     </div>
@@ -102,7 +117,7 @@ const CheckoutPage = () => {
                     </div>
 
                     <div className="item-total">
-                      ₹{item.price * item.quantity.toLocaleString()}
+                      ₹{(item.price * item.quantity).toFixed(2)}
                     </div>
                   </div>
                 ))}
@@ -135,7 +150,7 @@ const CheckoutPage = () => {
 
             <div className="summary-row total-row">
               <span>Total Amount</span>
-              <span>₹{grandTotal.toLocaleString()}</span>
+              <span>₹{grandTotal.toFixed(2)}</span>
             </div>
 
             <div className="checkout-actions">
@@ -158,19 +173,6 @@ const CheckoutPage = () => {
               </div>
             </div>
           </div>
-
-          {/* Offers Section
-          <div className="card offers-card">
-            <h3>Available Offers</h3>
-            <div className="offer-item">
-              <span className="offer-badge">SAVE10</span>
-              <span>Get 10% off on orders above ₹2000</span>
-            </div>
-            <div className="offer-item">
-              <span className="offer-badge">FREEDEL</span>
-              <span>Free delivery on orders above ₹500</span>
-            </div>
-          </div> */}
         </div>
       </div>
     </div>
