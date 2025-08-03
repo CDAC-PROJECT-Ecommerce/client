@@ -7,6 +7,7 @@ import { MdMenu } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { fetchToken, fetchUsernameAndRole } from "./store/slice/UserSlice";
+import { fetchCart } from "./store/slice/CartSlice";
 
 const Navbar = () => {
   const [openMenu, setOpenMenu] = useState(false);
@@ -17,6 +18,7 @@ const Navbar = () => {
   const { userToken, username, role } = useSelector((state) => state.user);
   useEffect(() => {
     dispatch(fetchToken());
+    dispatch(fetchCart());
   }, []);
   useEffect(() => {
     if (userToken !== null) {
