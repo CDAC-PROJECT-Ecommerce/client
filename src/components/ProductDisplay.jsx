@@ -7,9 +7,17 @@ import { addToCart } from "../store/slice/CartSlice";
 const ProductDisplay = () => {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.products.FullProduct);
+  const { userToken } = useSelector((state) => state.user);
 
   const addProduct = (e) => {
-    dispatch(addToCart(product?.id));
+    if (userToken === null) {
+      toast.error("Please login");
+      navigate("/signin");
+    } else {
+      const data = { productId: product?.productId, value: 1 };
+      console.log(product);
+      dispatch(addToCart({ productId: product?.id, value: 1 }));
+    }
   };
   return (
     <div className="full-page-display">

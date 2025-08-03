@@ -1,12 +1,17 @@
 // src/pages/MyCart.js
-import React from 'react';
-import { useSelector } from 'react-redux';
-import CartItem from './CartItem';
-import PriceDetails from './PriceDetails';
-import './MyCart.css';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import CartItem from "./CartItem";
+import PriceDetails from "./PriceDetails";
+import "./MyCart.css";
+import { fetchCart } from "../../store/slice/CartSlice";
 
 const MyCart = () => {
-  const cartItems = useSelector(state => state.cart.Cart);
+  const cartItems = useSelector((state) => state.cart.Cart);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchCart());
+  }, []);
   return (
     <div className="mycart-page">
       <div className="cart-header">
@@ -19,12 +24,10 @@ const MyCart = () => {
           {cartItems.length === 0 ? (
             <p>Your cart is empty.</p>
           ) : (
-            cartItems.map(item => <CartItem key={item.id} item={item} />)
+            cartItems.map((item) => <CartItem key={item.id} item={item} />)
           )}
-          
         </div>
         <PriceDetails />
-
       </div>
     </div>
   );
