@@ -2,7 +2,11 @@ import Products from "./Products";
 import "../scss/productlist.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { filterByCategory, sortBy } from "../store/slice/ProductSlice";
+import {
+  fetchProducts,
+  filterByCategory,
+  sortBy,
+} from "../store/slice/ProductSlice";
 
 const ProductList = () => {
   const dispatch = useDispatch();
@@ -26,6 +30,10 @@ const ProductList = () => {
   useEffect(() => {
     dispatch(sortBy(sortValue));
   }, [sortValue]);
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, []);
   return (
     <div className="product-list-container">
       <div className="filter-box-container">

@@ -1,9 +1,10 @@
 // src/components/Checkout/CheckoutPage.js
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // import { updateQuantity, removeItem } from "../../store/slice/CartSlice";
 import "./CheckoutPage.css";
 import { useNavigate } from "react-router-dom";
+import { fetchCart } from "../../store/slice/CartSlice";
 
 const CheckoutPage = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,10 @@ const CheckoutPage = () => {
         defaultAddress;
 
   // Calculate totals
-  const subtotal = Cart.reduce((total, item) => total + item.price, 0);
+  const subtotal = Cart.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
   const taxAmount = subtotal * taxRate;
   const grandTotal = subtotal + taxAmount + deliveryCharge;
 
@@ -33,6 +37,10 @@ const CheckoutPage = () => {
   const handleChangeAddress = () => {
     navigate("/addAdress");
   };
+
+  useEffect(() => {
+    dispatch(fetchCart());
+  }, []);
 
   return (
     <div className="checkout-container">
@@ -89,12 +97,12 @@ const CheckoutPage = () => {
                     </div>
 
                     <div className="product-details">
-                      <h3>{item.name}</h3>
-                      <p>{item.description}</p>
+                      <h3>{item.productName}</h3>
+                      <p> x {item.quantity}</p>
                     </div>
 
                     <div className="item-total">
-                      ₹{item.price.toLocaleString()}
+                      ₹{item.price * item.quantity.toLocaleString()}
                     </div>
                   </div>
                 ))}

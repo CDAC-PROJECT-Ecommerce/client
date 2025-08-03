@@ -146,7 +146,6 @@ const UserSlice = createSlice({
     // });
 
     builder.addCase(fetchUsernameAndRole.fulfilled, (state, action) => {
-      console.log("first");
       state.username = action.payload.username;
       state.role = action.payload.role;
     });
