@@ -9,6 +9,7 @@ import {
   fetchAddress,
   setDefaultAddress,
 } from "../../store/slice/addressSlice";
+import { placeOrder } from "../../store/slice/UserOrderSlice";
 
 const CheckoutPage = () => {
   const dispatch = useDispatch();
@@ -34,8 +35,19 @@ const CheckoutPage = () => {
   const grandTotal = subtotal + taxAmount + deliveryCharge;
 
   const handleCheckout = async () => {
-    const orderId = "AWUYXJJ2";
-    navigate(`/admin/ordersummary/${orderId}`);
+    const items = Cart?.map(({ productId, quantity }) => ({
+      productId,
+      quantity,
+    }));
+    const data = {
+      addressId: selectedAddressId,
+      totalAmount: grandTotal?.toFixed(2),
+      items,
+    };
+    const response = await dispatch(placeOrder(data));
+    if (response.meta.requestStatus === "fulfilled") {
+      navigate("/orderplaced");
+    }
   };
 
   const handleChangeAddress = () => {
