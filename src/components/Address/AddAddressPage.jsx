@@ -1,31 +1,33 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   addAddress,
   selectAddress,
   deleteAddress,
   setDefaultAddress,
+  fetchAddress,
 } from "../../store/slice/addressSlice";
 import AddressForm from "./AddressForm";
 import "./AddAddressPage.css";
 import { useNavigate } from "react-router-dom";
 
 const AddAddressPage = ({ onNavigateToCheckout }) => {
+  const [showAddForm, setShowAddForm] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { defaultAddress, addresses, selectedAddressId, status, error } =
-    useSelector((state) => state.address);
-  const [showAddForm, setShowAddForm] = useState(false);
-  console.log(defaultAddress);
-  const handleAddAddress = async (addressData) => {
-    const newAddressId = Date.now();
-    const newAddress = { ...addressData, id: newAddressId };
-    await dispatch(addAddress(newAddress));
-    dispatch(selectAddress(newAddressId)); // Auto-select the new address
-    setShowAddForm(false);
 
-    if (onNavigateToCheckout) {
-      onNavigateToCheckout();
+  const { defaultAddress, addresses, selectedAddressId } = useSelector(
+    (state) => state.address
+  );
+
+  const handleAddAddress = async (addressData) => {
+    try {
+      dispatch(addAddress(addressData));
+      setShowAddForm(false);
+      navigate("/checkout");
+    } catch (error) {
+      console.error("Error adding address:", error);
     }
   };
 
@@ -44,14 +46,13 @@ const AddAddressPage = ({ onNavigateToCheckout }) => {
     navigate("/checkout");
   };
 
-  const handleSubmit = () => {
-    if (onNavigateToCheckout) {
-      onNavigateToCheckout();
-    }
-    navigate("/cart");
-  };
+  const nonDefaultAddresses = addresses.filter(
+    (addr) => addr.id !== defaultAddress?.id
+  );
 
-  const allAddresses = [defaultAddress, ...addresses];
+  useEffect(() => {
+    dispatch(fetchAddress());
+  }, []);
 
   return (
     <div className="address-container">
@@ -61,56 +62,46 @@ const AddAddressPage = ({ onNavigateToCheckout }) => {
       </div>
 
       <div className="address-content">
-        <div className="checkout-card address-section">
-          <h2 className="checkout-card-title">Default Address</h2>
+        {defaultAddress && (
+          <div className="checkout-card address-section">
+            <h2 className="checkout-card-title">Default Address</h2>
 
-          <div className="address-item default-address">
-            <div className="address-radio">
-              <input
-                type="radio"
-                id="default-address"
-                name="selectedAddress"
-                value={defaultAddress?.id}
-                checked={selectedAddressId === defaultAddress?.id}
-                onChange={() => handleSelectAddress(defaultAddress?.id)}
-              />
-              <label htmlFor="default-address"></label>
-            </div>
-
-            <div className="address-details">
-              <div className="address-header-info">
-                <h3>{defaultAddress?.name}</h3>
-                <span className="default-badge">Default</span>
+            <div className="address-item default-address">
+              <div className="address-radio">
+                <input
+                  type="radio"
+                  id="default-address"
+                  name="selectedAddress"
+                  value={defaultAddress?.id}
+                  checked={selectedAddressId === defaultAddress?.id}
+                  onChange={() => handleSelectAddress(defaultAddress?.id)}
+                />
+                <label htmlFor="default-address"></label>
               </div>
-              <p className="address-text">
-                {defaultAddress?.address}
-                <br />
-                {defaultAddress?.city}, {defaultAddress?.state} -{" "}
-                {defaultAddress?.pincode}
-                <br />
-                Phone: {defaultAddress?.phone}
-              </p>
+
+              <div className="address-details">
+                <div className="address-header-info">
+                  <h3>{defaultAddress?.name}</h3>
+                  <span className="default-badge">Default</span>
+                </div>
+                <p className="address-text">
+                  {defaultAddress?.address}
+                  <br />
+                  {defaultAddress?.city}, {defaultAddress?.state} -{" "}
+                  {defaultAddress?.pincode}
+                  <br />
+                  Phone: {defaultAddress?.phone}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
-        {addresses?.length > 0 && (
+        {nonDefaultAddresses?.length > 0 && (
           <div className="checkout-card address-section">
             <h2 className="checkout-card-title">Saved Addresses</h2>
-            {addresses.map((address) => (
+            {nonDefaultAddresses.map((address) => (
               <div key={address.id} className="address-item">
-                <div className="address-radio">
-                  <input
-                    type="radio"
-                    id={`address-${address.id}`}
-                    name="selectedAddress"
-                    value={address.id}
-                    checked={selectedAddressId === address.id}
-                    onChange={() => handleSelectAddress(address.id)}
-                  />
-                  <label htmlFor={`address-${address.id}`}></label>
-                </div>
-
                 <div className="address-details">
                   <div className="address-header-info">
                     <h3>{address.name}</h3>
@@ -129,7 +120,7 @@ const AddAddressPage = ({ onNavigateToCheckout }) => {
                     className="checkout-btn address-proceed proceed-btn-primary"
                     onClick={() => handleSetDefault(address.id)}
                   >
-                    Set as Default
+                    Deliver here
                   </button>
                   <button
                     className="checkout-btn proceed-btn-danger delete-btn"
@@ -168,10 +159,10 @@ const AddAddressPage = ({ onNavigateToCheckout }) => {
         <div className="address-submit">
           <button
             className="checkout-btn proceed-btn-primary proceed-submit-btn"
-            onClick={handleSubmit}
+            onClick={() => navigate("/checkout")}
             disabled={!selectedAddressId}
           >
-            Deliver to This Address
+            Continue to Checkout
           </button>
         </div>
       </div>

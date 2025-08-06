@@ -4,11 +4,11 @@ import toast from "react-hot-toast";
 import jsonProductsData from "../../admin/data/products.json";
 
 export const fetchProducts = createAsyncThunk("products/fetch", async () => {
+  console.log("fetched product");
   try {
     const response = await api.get("/api/products");
     return response.data;
   } catch (error) {
-    console.log(error.response.data);
     const status = error.response?.status;
     const message = error.response?.data?.message;
     return { status, message };
@@ -109,7 +109,6 @@ const productSlice = createSlice({
     },
     filterByCategory: (state, action) => {
       const filterCategoryVal = action.payload;
-      console.log(filterCategoryVal);
       if (filterCategoryVal.length > 0) {
         state.products = state.masterProductList.filter((x) =>
           filterCategoryVal.includes(x.categoryName)
@@ -144,7 +143,6 @@ const productSlice = createSlice({
     builder.addCase(fetchProducts.rejected, (state, action) => {
       state.isLoading = false;
       const { status, message } = action.payload || {};
-      console.log(action.payload?.status);
       if (status !== 200) {
         toast.error("Failed to fetch product");
       } else {

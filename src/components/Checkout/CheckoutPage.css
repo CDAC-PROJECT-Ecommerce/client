@@ -30,6 +30,10 @@
     align-items: start;
 }
 
+.checkout-card-title{
+    margin: 0;
+}
+
 /* Left Side - Products */
 .checkout-left {
     display: flex;
@@ -96,10 +100,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
     background: #f9f9f9;
     border-radius: 8px;
-    /* border-left: 4px solid #009688; */
 }
 
 .address-info h4 {

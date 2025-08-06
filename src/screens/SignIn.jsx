@@ -15,7 +15,7 @@ const SignIn = () => {
     const data = { username, password };
     const val = await dispatch(loginUser(data));
     if (val?.payload?.token) {
-      navigate("/");
+      navigate(-1);
     }
   };
 

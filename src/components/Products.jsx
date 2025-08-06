@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { fetchFullProduct } from "../store/slice/ProductSlice";
+import { fetchFullProduct, fetchProducts } from "../store/slice/ProductSlice";
 import { addToCart } from "../store/slice/CartSlice";
 import { FaRegStar } from "react-icons/fa6";
+import toast from "react-hot-toast";
 
 const Products = (props) => {
   const { name, price, id, review, category } = props.value;
-  console.log(props.value);
+  const { userToken } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -18,7 +19,12 @@ const Products = (props) => {
 
   const addProduct = (e) => {
     e.stopPropagation();
-    dispatch(addToCart(id));
+    if (userToken === null) {
+      toast.error("Please login");
+      navigate("/signin");
+    } else {
+      dispatch(addToCart({ productId: id, value: 1 }));
+    }
   };
 
   return (
