@@ -1,14 +1,31 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import ordersData from "../../admin/data/orders.json"; // ✅ static import
+import { api } from "../../services/api";
 
-export const fetchOrders = createAsyncThunk("orders/fetchOrders", async () => {
-  return ordersData;
-});
+export const fetchOrders = createAsyncThunk(
+  "orders/fetchOrders",
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const state = getState();
+      const token = JSON.parse(state.user.userToken);
+      const response = await api.get("/admin/orders", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      const status = error?.response?.status;
+      const message =
+        error?.response?.data?.message || error?.message || "Unknown error";
+      return rejectWithValue({ status, message });
+    }
+  }
+);
 
 const ordersSlice = createSlice({
   name: "orders",
   initialState: {
-    orders: ordersData,
+    orders: [],
     loading: false,
     error: null,
   },
@@ -33,7 +50,7 @@ const ordersSlice = createSlice({
       })
       .addCase(fetchOrders.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload?.message || "Failed to fetch orders";
       });
   },
 });

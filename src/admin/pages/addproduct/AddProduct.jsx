@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addProduct } from "../../../store/slice/ProductSlice";
+import { loadJsonProducts } from "../../../store/slice/ProductSlice";
 import AddCategoryModal from "../addcategory/AddCategoryModal";
+import { api } from "../../../services/api";
 import "./AddProduct.css";
 
 const AddProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const categories = useSelector((state) => state.products.categories);
-  const allProducts = useSelector((state) => state.products.items);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -57,7 +57,7 @@ const AddProduct = () => {
     setShowSuggestions(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!name || !price || !category || !image || !description) {
@@ -66,19 +66,24 @@ const AddProduct = () => {
     }
 
     const newProduct = {
-      id: allProducts.length
-        ? Math.max(...allProducts.map((p) => p.id)) + 1
-        : 1,
       name,
       price: parseFloat(price),
-      category,
-      image,
+      categoryName: category,
+      imageUrl: image,
       description,
+      stockQuantity: 0,
+      status: "active",
+      sellerId: 1,
     };
 
-    dispatch(addProduct(newProduct));
-    alert("✅ Product added successfully!");
-    navigate("/admin/viewproduct");
+    try {
+      await api.post("/api/products/add", newProduct);
+      dispatch(loadJsonProducts());
+      alert("✅ Product added successfully!");
+      navigate("/admin/viewproduct");
+    } catch (error) {
+      alert("❌ Failed to add product");
+    }
   };
 
   return (
