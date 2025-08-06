@@ -1,6 +1,42 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api } from "../../services/api";
 
+export const initiatePayment = createAsyncThunk(
+  "order/initiatePayment",
+  async (data, { getState, rejectWithValue }) => {
+    try {
+      const state = getState();
+      const token = JSON.parse(state.user.userToken);
+
+      const orderResponse = await api.post("/api/userorder/placeOrder", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const orderId = orderResponse.data.orderId;
+
+      const razorpayResponse = await api.post(
+        "/api/payment/createPayment",
+        { amount: data.totalAmount, orderId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return {
+        order: orderResponse.data,
+        razorpay: razorpayResponse.data,
+      };
+    } catch (error) {
+      const status = error?.response?.status;
+      return rejectWithValue({ status });
+    }
+  }
+);
+
 export const placeOrder = createAsyncThunk(
   "order/placeOrder",
   async (data, { getState, rejectWithValue }) => {
@@ -39,6 +75,7 @@ const UserOrderSlice = createSlice({
   initialState: {
     isLoading: false,
     OrderPlaced: [],
+    RazorpayOrder: [],
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -52,6 +89,19 @@ const UserOrderSlice = createSlice({
     });
 
     builder.addCase(placeOrder.rejected, (state, action) => {
+      state.isLoading = false;
+    });
+
+    // Changes
+    builder.addCase(initiatePayment.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(initiatePayment.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.OrderPlaced = action.payload.order;
+      state.RazorpayOrder = action.payload.razorpay;
+    });
+    builder.addCase(initiatePayment.rejected, (state, action) => {
       state.isLoading = false;
     });
   },

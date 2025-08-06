@@ -9,7 +9,9 @@ import {
   fetchAddress,
   setDefaultAddress,
 } from "../../store/slice/addressSlice";
-import { placeOrder } from "../../store/slice/UserOrderSlice";
+import { initiatePayment, placeOrder } from "../../store/slice/UserOrderSlice";
+import toast from "react-hot-toast";
+import { api } from "../../services/api";
 
 const CheckoutPage = () => {
   const dispatch = useDispatch();
@@ -18,7 +20,7 @@ const CheckoutPage = () => {
   const { defaultAddress, addresses, selectedAddressId } = useSelector(
     (state) => state.address
   );
-
+  const token = useSelector((state) => state.user.userToken);
   // Get the selected address (either from saved addresses or default)
   const selectedAddress =
     selectedAddressId === defaultAddress?.id
@@ -44,9 +46,67 @@ const CheckoutPage = () => {
       totalAmount: grandTotal?.toFixed(2),
       items,
     };
-    const response = await dispatch(placeOrder(data));
-    if (response.meta.requestStatus === "fulfilled") {
-      navigate("/orderplaced");
+    const response = await dispatch(initiatePayment(data));
+    // if (response.meta.requestStatus === "fulfilled") {
+    //   navigate("/orderplaced");
+    // }
+
+    if (response.type === "order/initiatePayment/fulfilled") {
+      const { razorpay, order } = response.payload;
+
+      const options = {
+        key: "rzp_test_l7Q7HVqRLk6SQW",
+        amount: order.totalAmount * 100,
+        currency: "INR",
+        name: "Shopee",
+        order_id: razorpay.orderId,
+        handler: async function (response) {
+          await api.post(
+            "/api/payment/verify",
+            {
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpayOrderId: response.razorpay_order_id,
+              razorpaySignature: response.razorpay_signature,
+              orderId: order.orderId,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${JSON.parse(token)}`,
+              },
+            }
+          );
+          toast.success("Payment successfull");
+          navigate("/orderplaced?status=success");
+        },
+        prefill: {
+          name: "Demo",
+          email: "Demoemail",
+        },
+        theme: {
+          color: "#3399cc",
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+
+      rzp.on("payment.failed", async function (response) {
+        toast.error("Payment failed");
+
+        await api.post(
+          "/api/payment/failure",
+          {
+            orderId: order.orderId,
+            reason: response.error.description,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${JSON.parse(token)}`,
+            },
+          }
+        );
+        navigate("/orderplaced?status=failure");
+      });
     }
   };
 
