@@ -17,7 +17,6 @@ export const fetchUserProfile = createAsyncThunk(
       }
     );
 
-    console.log(response.data);
     return response.data;
   }
 );

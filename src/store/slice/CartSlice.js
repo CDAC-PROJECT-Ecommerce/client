@@ -85,7 +85,11 @@ const initialState = {
 const cartSlice = createSlice({
   name: "cart",
   initialState,
-  reducers: {},
+  reducers: {
+    emptyCart(state) {
+      state.Cart = [];
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(addToCart.fulfilled, (state, action) => {
       toast.dismiss();
@@ -147,6 +151,6 @@ const cartSlice = createSlice({
     });
   },
 });
-export const { increment, decrement, removeFromCart } = cartSlice.actions;
+export const { emptyCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

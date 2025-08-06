@@ -1,17 +1,13 @@
-// src/components/Checkout/CheckoutPage.js
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import { updateQuantity, removeItem } from "../../store/slice/CartSlice";
 import "./CheckoutPage.css";
 import { useNavigate } from "react-router-dom";
 import { fetchCart } from "../../store/slice/CartSlice";
-import {
-  fetchAddress,
-  setDefaultAddress,
-} from "../../store/slice/addressSlice";
-import { initiatePayment, placeOrder } from "../../store/slice/UserOrderSlice";
+import { fetchAddress } from "../../store/slice/addressSlice";
+import { initiatePayment } from "../../store/slice/UserOrderSlice";
 import toast from "react-hot-toast";
 import { api } from "../../services/api";
+import { BounceLoader } from "react-spinners";
 
 const CheckoutPage = () => {
   const dispatch = useDispatch();
@@ -20,8 +16,9 @@ const CheckoutPage = () => {
   const { defaultAddress, addresses, selectedAddressId } = useSelector(
     (state) => state.address
   );
+  const { isLoading } = useSelector((state) => state.userOrder);
   const token = useSelector((state) => state.user.userToken);
-  // Get the selected address (either from saved addresses or default)
+
   const selectedAddress =
     selectedAddressId === defaultAddress?.id
       ? defaultAddress
@@ -37,6 +34,13 @@ const CheckoutPage = () => {
   const grandTotal = subtotal + taxAmount + deliveryCharge;
 
   const handleCheckout = async () => {
+    if (Cart.length === 0) {
+      toast.error("No item to proceed");
+      return;
+    } else if (selectedAddressId === null) {
+      toast.error("Please choose address");
+      return;
+    }
     const items = Cart?.map(({ productId, quantity }) => ({
       productId,
       quantity,
@@ -47,16 +51,13 @@ const CheckoutPage = () => {
       items,
     };
     const response = await dispatch(initiatePayment(data));
-    // if (response.meta.requestStatus === "fulfilled") {
-    //   navigate("/orderplaced");
-    // }
 
     if (response.type === "order/initiatePayment/fulfilled") {
       const { razorpay, order } = response.payload;
-
+      console.log(order.totalAmount);
       const options = {
         key: "rzp_test_l7Q7HVqRLk6SQW",
-        amount: order.totalAmount * 100,
+        amount: order.totalAmount,
         currency: "INR",
         name: "Shopee",
         order_id: razorpay.orderId,
@@ -121,6 +122,14 @@ const CheckoutPage = () => {
 
   return (
     <div className="checkout-container">
+      {isLoading && (
+        <div className="page-loader-wrapper">
+          <div className="page-loader-background"></div>
+          <BounceLoader color="#009688" />
+          <p className="page-loader-text">Redirecting to payment...</p>
+        </div>
+      )}
+
       <div className="checkout-header">
         <h1>Checkout</h1>
         <p>Review your order and complete your purchase</p>

@@ -52,7 +52,7 @@ export const loginUser = createAsyncThunk(
 );
 
 export const fetchProfileById = createAsyncThunk(
-  'users/fetchProfileById',
+  "users/fetchProfileById",
   async (userId, { rejectWithValue }) => {
     try {
       const res = await axios.get(`/api/users/${userId}`);
@@ -64,7 +64,7 @@ export const fetchProfileById = createAsyncThunk(
 );
 
 export const updateProfile = createAsyncThunk(
-  'users/updateProfile',
+  "users/updateProfile",
   async (formData, { rejectWithValue }) => {
     try {
       const res = await axios.put(`/api/users/${formData.id}`, formData);
@@ -174,26 +174,23 @@ const UserSlice = createSlice({
       state.role = action.payload.role;
     });
 
-    
     builder
-    .addCase(fetchProfileById.pending, (state) => {
-        state.status = 'loading';
+      .addCase(fetchProfileById.pending, (state) => {
+        state.status = "loading";
       })
       .addCase(fetchProfileById.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.profile = action.payload;
       })
       .addCase(fetchProfileById.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.payload;
       })
       .addCase(updateProfile.fulfilled, (state, action) => {
         state.profile = action.payload;
       });
-
   },
 });
 
-export const { fetchToken, logout, changePassword } =
-  UserSlice.actions;
+export const { fetchToken, logout, changePassword } = UserSlice.actions;
 export default UserSlice.reducer;
