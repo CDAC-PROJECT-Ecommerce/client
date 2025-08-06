@@ -1,33 +1,28 @@
-
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./ProfileForm.css";
 
-
 const ViewProfile = () => {
-    const profile = useSelector((state) => state.profile);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    
-    useEffect(() => {
-  const userId = 1; // Replace with actual logged-in user ID (from auth or context)
-  dispatch(fetchProfileById(userId));
-}, []);
+  const profile = useSelector((state) => state.users);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return (
     <div className="div-of-page">
-      <div className="nav-links">
+      {/* <div className="nav-links">
         <div className="profile-top">
           <img src="menclothing.jpg" alt="profile" />
           <h2>{profile?.name}</h2>
         </div>
-        <button className="edit-btn" onClick={() => navigate("/edit_profile")}>Edit Profile</button>
+        <button className="edit-btn" onClick={() => navigate("/edit_profile")}>
+          Edit Profile
+        </button>
         <button>My Cart</button>
         <button>My Orders</button>
         <button className="logout-btn" onClick={() => dispatch(logout())}>
           Logout
         </button>
-      </div>
+      </div> */}
 
       <div className="profile-form">
         <div className="form-section">
