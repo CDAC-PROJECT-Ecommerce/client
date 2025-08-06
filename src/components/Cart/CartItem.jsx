@@ -5,7 +5,6 @@ import { changeQuantity } from "../../store/slice/CartSlice";
 
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();
-
   const handleQuantityChange = async (type) => {
     if (type === "increment") {
       dispatch(changeQuantity({ productId: item.productId, value: 1 }));

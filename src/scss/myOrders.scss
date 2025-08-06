@@ -1,0 +1,68 @@
+@import url("https://fonts.googleapis.com/css2?family=Mozilla+Headline:wght@200..700&display=swap");
+.my-orders {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  font-family: "Mozilla Headline", sans-serif;
+
+  h1 {
+    text-align: center;
+    color: #1c33a5;
+  }
+
+  p {
+    margin: 0.3rem;
+    font-weight: bold;
+
+    span {
+      font-weight: 400;
+    }
+  }
+
+  .my-orders-container {
+    // display: flex;
+    // flex-direction: column;
+    width: 80%;
+    margin: auto;
+
+    .my-order-list {
+      //   border: 1px solid black;
+      padding: 1rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      margin: 2rem;
+      transition: all 0.3s ease;
+      &:hover {
+        border: 1px solid #009688;
+        box-shadow: 0 12px 12px rgba(0, 150, 136, 0.1);
+      }
+      > div {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+
+      .my-orders-product {
+        display: flex;
+        flex-direction: column;
+        margin: 0.5rem 0;
+
+        .my-order-product-list {
+          display: flex;
+          justify-content: space-between;
+          flex-wrap: wrap;
+        }
+
+        p {
+          margin: 0.2rem;
+        }
+      }
+      .shipped-address {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+    }
+  }
+}

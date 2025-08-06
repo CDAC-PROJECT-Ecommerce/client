@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 import jsonProductsData from "../../admin/data/products.json";
 
 export const fetchProducts = createAsyncThunk("products/fetch", async () => {
-  console.log("fetched product");
   try {
     const response = await api.get("/api/products");
     return response.data;

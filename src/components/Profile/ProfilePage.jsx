@@ -11,6 +11,12 @@ const ProfilePage = () => {
   const profile = useSelector((state) => state.userProfile);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
+
   useEffect(() => {
     dispatch(fetchUserProfile());
   }, []);
@@ -28,7 +34,7 @@ const ProfilePage = () => {
           </button>
           <button onClick={() => navigate("/cart")}>My Cart</button>
           <button onClick={() => navigate("/myOrders")}>My Orders</button>
-          <button className="logout-btn" onClick={() => dispatch(logout())}>
+          <button className="logout-btn" onClick={handleLogout}>
             Logout
           </button>
         </div>

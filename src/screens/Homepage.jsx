@@ -38,13 +38,9 @@ const Homepage = () => {
       <h3 style={{ textAlign: "center", fontSize: "2rem" }}>TRENDY PRODUCTS</h3>
 
       <div className="product-container">
-        {productList?.map((product) =>
-          product.category === "Electronics" ? (
-            <Products value={product} key={product.id} />
-          ) : (
-            ""
-          )
-        )}
+        {productList?.map((product) => (
+          <Products value={product} key={product.id} />
+        ))}
       </div>
     </main>
   );
