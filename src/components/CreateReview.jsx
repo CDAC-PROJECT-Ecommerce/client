@@ -8,24 +8,20 @@ import '../css/CreateReview.css';
 const CreateReview = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
-
-    // Get user info from Redux store
     const { username, userToken } = useSelector(state => state.users);
 
-    // Get parameters from URL
     const productId = parseInt(searchParams.get('productId')) || 1;
     const orderId = parseInt(searchParams.get('orderId')) || 1;
 
-    // Decode JWT to get user ID (customerId)
     const getUserIdFromToken = () => {
         try {
-            if (!userToken) return 1; // fallback for testing
+            if (!userToken) return 1;
             const token = JSON.parse(userToken);
             const payload = JSON.parse(atob(token.split('.')[1]));
-            return payload.sub || payload.userId || payload.id || 1; // different JWT structures
+            return payload.sub || payload.userId || payload.id || 1;
         } catch (error) {
             console.error('Error decoding token:', error);
-            return 1; // fallback for testing
+            return 1;
         }
     };
 
@@ -62,7 +58,6 @@ const CreateReview = () => {
 
     const fetchProductDetails = async () => {
         try {
-            // Try to fetch product details - adjust endpoint as needed
             const response = await api.get(`/api/products/${productId}`);
             setProductInfo({
                 id: response.data.id,
@@ -72,7 +67,6 @@ const CreateReview = () => {
             });
         } catch (error) {
             console.error('Error fetching product details:', error);
-            // Keep mock data if API fails
             setProductInfo(prev => ({
                 ...prev,
                 name: `Product #${productId}`,
@@ -94,7 +88,6 @@ const CreateReview = () => {
             setHasReviewed(response.data);
         } catch (error) {
             console.error('Error checking review status:', error);
-            // Don't show error toast here, might be normal if no reviews exist
             setHasReviewed(false);
         } finally {
             setCheckingReview(false);
@@ -123,7 +116,6 @@ const CreateReview = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Basic validation
         if (formData.rating === 0) {
             toast.error('Please select a rating');
             return;
@@ -140,23 +132,18 @@ const CreateReview = () => {
             const reviewData = {
                 ...formData,
                 isVerifiedPurchase: true,
-                status: 'pending'
+                status: 'PENDING'
             };
 
-            const response = await api.post('/api/reviews', reviewData);
-            console.log('Review created:', response.data);
+            await api.post('/api/reviews', reviewData);
+            toast.success('Review submitted successfully!');
 
-            toast.success('Review submitted successfully! It will be visible after approval.');
-
-            // Redirect back to orders page after 2 seconds
             setTimeout(() => {
                 goBackToOrders();
             }, 2000);
-
         } catch (error) {
             console.error('Error creating review:', error);
 
-            // Handle different error scenarios
             if (error.response?.status === 409) {
                 toast.error('You have already reviewed this product');
                 setHasReviewed(true);
@@ -173,7 +160,6 @@ const CreateReview = () => {
         }
     };
 
-    // Show loading while checking review status
     if (checkingReview) {
         return (
             <div className="review-container">
@@ -185,7 +171,6 @@ const CreateReview = () => {
         );
     }
 
-    // Show message if already reviewed
     if (hasReviewed) {
         return (
             <div className="review-container">
@@ -227,7 +212,6 @@ const CreateReview = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="review-form">
-                {/* Rating Section */}
                 <div className="form-group">
                     <label className="form-label">Overall Rating *</label>
                     <div className="rating-container">
@@ -263,7 +247,6 @@ const CreateReview = () => {
                     </div>
                 </div>
 
-                {/* Review Title */}
                 <div className="form-group">
                     <label htmlFor="reviewTitle" className="form-label">
                         Review Title (Optional)
@@ -274,7 +257,7 @@ const CreateReview = () => {
                         name="reviewTitle"
                         value={formData.reviewTitle}
                         onChange={handleInputChange}
-                        placeholder="Give your review a catchy title"
+                        placeholder="Give your review a title"
                         maxLength="200"
                         className="form-input"
                     />
@@ -283,7 +266,6 @@ const CreateReview = () => {
                     </small>
                 </div>
 
-                {/* Review Text */}
                 <div className="form-group">
                     <label htmlFor="reviewText" className="form-label">
                         Your Review *
@@ -293,7 +275,7 @@ const CreateReview = () => {
                         name="reviewText"
                         value={formData.reviewText}
                         onChange={handleInputChange}
-                        placeholder="Tell others about your experience with this product. What did you like or dislike? How did it meet your expectations?"
+                        placeholder="Describe your experience with this product."
                         required
                         minLength="10"
                         maxLength="1000"
@@ -308,7 +290,6 @@ const CreateReview = () => {
                     </small>
                 </div>
 
-                {/* Image URLs (Optional) */}
                 <div className="form-group">
                     <label htmlFor="imageUrls" className="form-label">
                         Image URLs (Optional)
@@ -319,15 +300,14 @@ const CreateReview = () => {
                         name="imageUrls"
                         value={formData.imageUrls}
                         onChange={handleInputChange}
-                        placeholder="Add image URLs separated by commas (e.g., http://example.com/image1.jpg, http://example.com/image2.jpg)"
+                        placeholder="Add image URLs separated by commas"
                         className="form-input"
                     />
                     <small className="help-text">
-                        📷 Add URLs of images to showcase the product with your review
+                        Add image URLs separated by commas
                     </small>
                 </div>
 
-                {/* Form Actions */}
                 <div className="form-actions">
                     <button
                         type="submit"
@@ -351,14 +331,6 @@ const CreateReview = () => {
                     >
                         Back to Orders
                     </button>
-                </div>
-
-                {/* Form Info */}
-                <div className="form-info">
-                    <p>
-                        ℹ️ Your review will be published after approval by our team.
-                        This helps maintain the quality and authenticity of reviews.
-                    </p>
                 </div>
             </form>
         </div>
