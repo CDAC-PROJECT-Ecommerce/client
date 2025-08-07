@@ -31,10 +31,10 @@ const Products = (props) => {
       <img src={imageUrl} alt="product-image" className="product-image" />
       <p className="product-name">{name}</p>
       <div className="product-price-review-box">
-        <p className="product-review">
+        {/* <p className="product-review">
           <FaRegStar className="review-star" />
           {review}
-        </p>
+        </p> */}
         <p className="product-price">₹ {price}</p>
       </div>
 

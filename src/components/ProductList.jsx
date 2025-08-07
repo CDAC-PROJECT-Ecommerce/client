@@ -60,7 +60,7 @@ const ProductList = () => {
             <option value="">Select option</option>
             <option value="price">Price</option>
             <option value="name">Name</option>
-            <option value="review">Review</option>
+            {/* <option value="review">Review</option> */}
           </select>
         </div>
       </div>

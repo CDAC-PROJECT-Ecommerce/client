@@ -15,9 +15,7 @@ const UpdateProduct = () => {
   const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState("");
 
-  const { fullProduct, isProductLoading } = useSelector(
-    (state) => state.adminProducts
-  );
+  const { fullProduct, loading } = useSelector((state) => state.adminProducts);
 
   const [formData, setFormData] = useState({
     id: "",
@@ -65,7 +63,6 @@ const UpdateProduct = () => {
     const updatedProduct = {
       ...formData,
       price: parseFloat(formData.price),
-      image: imagePreview,
     };
 
     await dispatch(updateProduct(updatedProduct));
@@ -75,11 +72,11 @@ const UpdateProduct = () => {
 
   return (
     <>
-      {isProductLoading && (
+      {loading && (
         <div className="page-loader-wrapper">
           <div className="page-loader-background"></div>
           <BounceLoader color="#009688" />
-          <p className="page-loader-text">Loading product data...</p>
+          <p className="page-loader-text">Updating product data...</p>
         </div>
       )}
       <div className="update-product-form">
