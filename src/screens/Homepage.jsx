@@ -25,7 +25,7 @@ const Homepage = () => {
         <div className="product-details">
           <p style={{ fontSize: "3rem" }}>Explore </p>
           <p style={{ fontSize: "1.5rem" }}>variety of products</p>
-          <p className="desc">Or scroll to find Trendy products </p>
+          <p className="desc">Scroll to find Trendy products </p>
           <button onClick={() => navigate("/product_list")}>Explore</button>
         </div>
         <img

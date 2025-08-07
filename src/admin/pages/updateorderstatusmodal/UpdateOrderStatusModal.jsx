@@ -4,31 +4,29 @@ import { useDispatch } from "react-redux";
 import { updateOrderLocally } from "../../../store/slice/OrdersSlice";
 import { ORDER_STATUS_STEPS } from "../../constants/orderStatus";
 import { useNavigate } from "react-router-dom";
+import {
+  fetchAllOrders,
+  updateOrderStatus,
+} from "../../../store/slice/AdminOrderSlice";
 
-const UpdateOrderStatusModal = ({ order, onClose }) => {
+const UpdateOrderStatusModal = ({ selectedOrder, onClose }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // ✅ Guard clause to prevent errors
-  if (!order) return null;
+  const [newStatus, setNewStatus] = useState(selectedOrder.status);
 
-  const [newStatus, setNewStatus] = useState(order.status);
-
-  const handleSubmit = () => {
-    const updatedOrder = {
-      ...order,
-      status: newStatus,
-    };
-
-    dispatch(updateOrderLocally(updatedOrder));
-    onClose(); // Close modal
-    navigate(""); // ✅ Ensure correct route
+  const handleSubmit = async () => {
+    const updatedOrder = { orderId: selectedOrder.id, status: newStatus };
+    await dispatch(updateOrderStatus(updatedOrder));
+    dispatch(fetchAllOrders());
+    onClose();
+    navigate("");
   };
 
   return (
     <div className="update-modal-overlay">
       <div className="update-modal-content">
-        <h3>Update Status - {order.id}</h3>
+        <h3>Update Status - {selectedOrder.id}</h3>
 
         <select
           value={newStatus}
