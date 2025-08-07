@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import AddCategoryModal from "../addcategory/AddCategoryModal";
+import { api } from "../../../services/api";
 import "./AddProduct.css";
 import toast from "react-hot-toast";
 import {
@@ -43,7 +44,7 @@ const AddProduct = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!name || !price || !image || !category || !description) {
@@ -54,9 +55,12 @@ const AddProduct = () => {
     const newProduct = {
       name,
       price: parseFloat(price),
-      category,
-      image,
+      categoryName: category,
+      imageUrl: image,
       description,
+      stockQuantity: 0,
+      status: "active",
+      sellerId: 1,
     };
 
     dispatch(addProduct(newProduct));
