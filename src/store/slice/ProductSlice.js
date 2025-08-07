@@ -12,7 +12,7 @@ export const fetchProducts = createAsyncThunk("products/fetch", async () => {
     return { status, message };
     // return rejectWithValue({ status, message });
   }
-);
+});
 
 // Fetch full product details (authorized)
 export const fetchFullProduct = createAsyncThunk(
