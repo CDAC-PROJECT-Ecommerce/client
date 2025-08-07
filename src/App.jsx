@@ -14,8 +14,7 @@ import AdminRoutes from "./admin/routes/AdminRoutes";
 import ViewProfile from "./components/Profile/ViewProfile";
 import ProfilePage from "./components/Profile/ProfilePage";
 import OrderPlaced from "./components/OrderPlaced";
-import CreateReview from "./components/CreateReview";
-import MyOrders from "./components/Orders/MyOrders";
+import MyOrders from "./components/Orders/MyOrders"
 
 const App = () => {
   return (
@@ -35,7 +34,6 @@ const App = () => {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/edit_profile" element={<ProfilePage />} />
         <Route path="/orderplaced" element={<OrderPlaced />} />
-        <Route path="/create-review" element={<CreateReview />} />
         <Route path="/myOrders" element={<MyOrders />} />
       </Routes>
       <Footer />
