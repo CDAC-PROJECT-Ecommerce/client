@@ -62,7 +62,10 @@ const CreateReview = () => {
 
     const fetchProductDetails = async () => {
         try {
+<<<<<<< HEAD
             // Try to fetch product details - adjust endpoint as needed
+=======
+>>>>>>> 385b3c4472125df8a6b4030ee55dfbd314855eb1
             const response = await api.get(`/api/products/${productId}`);
             setProductInfo({
                 id: response.data.id,
@@ -72,7 +75,10 @@ const CreateReview = () => {
             });
         } catch (error) {
             console.error('Error fetching product details:', error);
+<<<<<<< HEAD
             // Keep mock data if API fails
+=======
+>>>>>>> 385b3c4472125df8a6b4030ee55dfbd314855eb1
             setProductInfo(prev => ({
                 ...prev,
                 name: `Product #${productId}`,
@@ -94,7 +100,10 @@ const CreateReview = () => {
             setHasReviewed(response.data);
         } catch (error) {
             console.error('Error checking review status:', error);
+<<<<<<< HEAD
             // Don't show error toast here, might be normal if no reviews exist
+=======
+>>>>>>> 385b3c4472125df8a6b4030ee55dfbd314855eb1
             setHasReviewed(false);
         } finally {
             setCheckingReview(false);
@@ -123,7 +132,10 @@ const CreateReview = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+<<<<<<< HEAD
         // Basic validation
+=======
+>>>>>>> 385b3c4472125df8a6b4030ee55dfbd314855eb1
         if (formData.rating === 0) {
             toast.error('Please select a rating');
             return;
@@ -140,6 +152,7 @@ const CreateReview = () => {
             const reviewData = {
                 ...formData,
                 isVerifiedPurchase: true,
+<<<<<<< HEAD
                 status: 'pending'
             };
 
@@ -157,6 +170,20 @@ const CreateReview = () => {
             console.error('Error creating review:', error);
 
             // Handle different error scenarios
+=======
+                status: 'PENDING'
+            };
+
+            await api.post('/api/reviews', reviewData);
+            toast.success('Review submitted successfully!');
+
+            setTimeout(() => {
+                goBackToOrders();
+            }, 2000);
+        } catch (error) {
+            console.error('Error creating review:', error);
+
+>>>>>>> 385b3c4472125df8a6b4030ee55dfbd314855eb1
             if (error.response?.status === 409) {
                 toast.error('You have already reviewed this product');
                 setHasReviewed(true);
@@ -173,7 +200,10 @@ const CreateReview = () => {
         }
     };
 
+<<<<<<< HEAD
     // Show loading while checking review status
+=======
+>>>>>>> 385b3c4472125df8a6b4030ee55dfbd314855eb1
     if (checkingReview) {
         return (
             <div className="review-container">
@@ -185,7 +215,10 @@ const CreateReview = () => {
         );
     }
 
+<<<<<<< HEAD
     // Show message if already reviewed
+=======
+>>>>>>> 385b3c4472125df8a6b4030ee55dfbd314855eb1
     if (hasReviewed) {
         return (
             <div className="review-container">
@@ -227,7 +260,10 @@ const CreateReview = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="review-form">
+<<<<<<< HEAD
                 {/* Rating Section */}
+=======
+>>>>>>> 385b3c4472125df8a6b4030ee55dfbd314855eb1
                 <div className="form-group">
                     <label className="form-label">Overall Rating *</label>
                     <div className="rating-container">
@@ -263,7 +299,10 @@ const CreateReview = () => {
                     </div>
                 </div>
 
+<<<<<<< HEAD
                 {/* Review Title */}
+=======
+>>>>>>> 385b3c4472125df8a6b4030ee55dfbd314855eb1
                 <div className="form-group">
                     <label htmlFor="reviewTitle" className="form-label">
                         Review Title (Optional)
@@ -274,7 +313,11 @@ const CreateReview = () => {
                         name="reviewTitle"
                         value={formData.reviewTitle}
                         onChange={handleInputChange}
+<<<<<<< HEAD
                         placeholder="Give your review a catchy title"
+=======
+                        placeholder="Give your review a title"
+>>>>>>> 385b3c4472125df8a6b4030ee55dfbd314855eb1
                         maxLength="200"
                         className="form-input"
                     />
@@ -283,7 +326,10 @@ const CreateReview = () => {
                     </small>
                 </div>
 
+<<<<<<< HEAD
                 {/* Review Text */}
+=======
+>>>>>>> 385b3c4472125df8a6b4030ee55dfbd314855eb1
                 <div className="form-group">
                     <label htmlFor="reviewText" className="form-label">
                         Your Review *
@@ -293,7 +339,11 @@ const CreateReview = () => {
                         name="reviewText"
                         value={formData.reviewText}
                         onChange={handleInputChange}
+<<<<<<< HEAD
                         placeholder="Tell others about your experience with this product. What did you like or dislike? How did it meet your expectations?"
+=======
+                        placeholder="Describe your experience with this product."
+>>>>>>> 385b3c4472125df8a6b4030ee55dfbd314855eb1
                         required
                         minLength="10"
                         maxLength="1000"
@@ -308,7 +358,10 @@ const CreateReview = () => {
                     </small>
                 </div>
 
+<<<<<<< HEAD
                 {/* Image URLs (Optional) */}
+=======
+>>>>>>> 385b3c4472125df8a6b4030ee55dfbd314855eb1
                 <div className="form-group">
                     <label htmlFor="imageUrls" className="form-label">
                         Image URLs (Optional)
@@ -319,6 +372,7 @@ const CreateReview = () => {
                         name="imageUrls"
                         value={formData.imageUrls}
                         onChange={handleInputChange}
+<<<<<<< HEAD
                         placeholder="Add image URLs separated by commas (e.g., http://example.com/image1.jpg, http://example.com/image2.jpg)"
                         className="form-input"
                     />
@@ -328,6 +382,16 @@ const CreateReview = () => {
                 </div>
 
                 {/* Form Actions */}
+=======
+                        placeholder="Add image URLs separated by commas"
+                        className="form-input"
+                    />
+                    <small className="help-text">
+                        Add image URLs separated by commas
+                    </small>
+                </div>
+
+>>>>>>> 385b3c4472125df8a6b4030ee55dfbd314855eb1
                 <div className="form-actions">
                     <button
                         type="submit"
@@ -352,6 +416,7 @@ const CreateReview = () => {
                         Back to Orders
                     </button>
                 </div>
+<<<<<<< HEAD
 
                 {/* Form Info */}
                 <div className="form-info">
@@ -360,9 +425,15 @@ const CreateReview = () => {
                         This helps maintain the quality and authenticity of reviews.
                     </p>
                 </div>
+=======
+>>>>>>> 385b3c4472125df8a6b4030ee55dfbd314855eb1
             </form>
         </div>
     );
 };
 
+<<<<<<< HEAD
 export default CreateReview;
+=======
+export default CreateReview;
+>>>>>>> 385b3c4472125df8a6b4030ee55dfbd314855eb1

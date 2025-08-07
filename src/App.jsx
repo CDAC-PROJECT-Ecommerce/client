@@ -13,12 +13,9 @@ import MyCart from "./components/Cart/MyCart";
 import AdminRoutes from "./admin/routes/AdminRoutes";
 import ViewProfile from "./components/Profile/ViewProfile";
 import ProfilePage from "./components/Profile/ProfilePage";
-<<<<<<< HEAD
 import CreateReview from "./components/CreateReview";
-
-=======
 import OrderPlaced from "./components/OrderPlaced";
->>>>>>> a3c639fa0a491356849bc098a80201e433523f3e
+import CreateReview from './components/CreateReview';
 
 const App = () => {
   return (
@@ -39,6 +36,7 @@ const App = () => {
         <Route path="/edit_profile" element={<ProfilePage />} />
         <Route path="/create-review" element={<CreateReview />} />
         <Route path="/orderplaced" element={<OrderPlaced />} />
+        <Route path="/create-review" element={<CreateReview />} />
       </Routes>
       <Footer />
     </>
