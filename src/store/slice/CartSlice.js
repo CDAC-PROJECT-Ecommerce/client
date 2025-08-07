@@ -83,7 +83,6 @@ export const removeFromCart = createAsyncThunk(
         toast.error("Please login");
         return;
       }
-      console.log(data);
       const response = await api.put(
         "/api/cart/remove/" + data,
         {},
@@ -124,7 +123,6 @@ const cartSlice = createSlice({
       toast.dismiss();
       toast.success("Item added in cart");
       state.isLoading = false;
-      console.log(action.payload);
       state.Cart = [...action.payload.items];
     });
     builder.addCase(addToCart.pending, (state, action) => {
@@ -183,7 +181,6 @@ const cartSlice = createSlice({
       toast.dismiss();
       toast.success("Removed from cart");
       state.isLoading = false;
-      console.log(action.payload);
       state.Cart = [...action.payload.items];
     });
     builder.addCase(removeFromCart.pending, (state, action) => {

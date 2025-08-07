@@ -14,19 +14,21 @@ import AdminRoutes from "./admin/routes/AdminRoutes";
 import ViewProfile from "./components/Profile/ViewProfile";
 import ProfilePage from "./components/Profile/ProfilePage";
 import OrderPlaced from "./components/OrderPlaced";
-import MyOrders from "./components/Orders/MyOrders"
+import MyOrders from "./components/Orders/MyOrders";
 import CreateReview from "./components/CreateReview";
+import ScrollToTop from "./services/ScrollToTop";
 
 const App = () => {
   return (
     <>
       <Navbar />
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/product_list" element={<ProductList />} />
-        <Route path="/fullPageProduct" element={<ProductDisplay />} />
+        <Route path="/fullPageProduct/:id" element={<ProductDisplay />} />
         <Route path="/forgot_password" element={<ForgotPassword />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/addAdress" element={<AddAddressPage />} />
@@ -37,7 +39,6 @@ const App = () => {
         <Route path="/orderplaced" element={<OrderPlaced />} />
         <Route path="/myOrders" element={<MyOrders />} />
         <Route path="/create-review" element={<CreateReview />} />
-
       </Routes>
       <Footer />
     </>

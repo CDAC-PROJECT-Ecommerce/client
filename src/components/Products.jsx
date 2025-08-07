@@ -13,8 +13,7 @@ const Products = (props) => {
   const dispatch = useDispatch();
 
   const openFullPageProduct = (e) => {
-    dispatch(fetchFullProduct(id));
-    navigate(`/fullPageProduct`);
+    navigate(`/fullPageProduct/${id}`);
   };
 
   const addProduct = (e) => {
