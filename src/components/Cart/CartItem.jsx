@@ -1,11 +1,10 @@
 import { useDispatch } from "react-redux";
 import "./CartItem.css";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { changeQuantity } from "../../store/slice/CartSlice";
+import { changeQuantity, removeFromCart } from "../../store/slice/CartSlice";
 
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();
-
   const handleQuantityChange = async (type) => {
     if (type === "increment") {
       dispatch(changeQuantity({ productId: item.productId, value: 1 }));
@@ -29,7 +28,10 @@ const CartItem = ({ item }) => {
       </div>
       <span className="price">₹{(item.price * item.quantity).toFixed(2)}</span>
 
-      <button className="remove" onClick={() => dispatch()}>
+      <button
+        className="remove"
+        onClick={() => dispatch(removeFromCart(item.productId))}
+      >
         <RiDeleteBin6Line />
       </button>
 

@@ -73,6 +73,35 @@ export const changeQuantity = createAsyncThunk(
   }
 );
 
+export const removeFromCart = createAsyncThunk(
+  "cart/remove",
+  async (data, { getState, rejectWithValue }) => {
+    try {
+      const state = getState();
+      const token = state.user.userToken;
+      if (token === null) {
+        toast.error("Please login");
+        return;
+      }
+      console.log(data);
+      const response = await api.put(
+        "/api/cart/remove/" + data,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${JSON.parse(token)}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      const status = error?.response?.status;
+      const message = error?.response?.message;
+      return { status, message };
+    }
+  }
+);
+
 // Sample cart data for demonstration
 const initialState = {
   Cart: [],
@@ -85,7 +114,11 @@ const initialState = {
 const cartSlice = createSlice({
   name: "cart",
   initialState,
-  reducers: {},
+  reducers: {
+    emptyCart(state) {
+      state.Cart = [];
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(addToCart.fulfilled, (state, action) => {
       toast.dismiss();
@@ -145,8 +178,29 @@ const cartSlice = createSlice({
         toast.error(message);
       }
     });
+
+    builder.addCase(removeFromCart.fulfilled, (state, action) => {
+      toast.dismiss();
+      toast.success("Removed from cart");
+      state.isLoading = false;
+      console.log(action.payload);
+      state.Cart = [...action.payload.items];
+    });
+    builder.addCase(removeFromCart.pending, (state, action) => {
+      toast.loading("Adding to cart");
+      state.isLoading = true;
+    });
+    builder.addCase(removeFromCart.rejected, (state, action) => {
+      state.isLoading = false;
+      const { status, message } = action.payload || {};
+      if (status === 401) {
+        toast.error("Failed to add in cart");
+      } else {
+        toast.error(message);
+      }
+    });
   },
 });
-export const { increment, decrement, removeFromCart } = cartSlice.actions;
+export const { emptyCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -8,10 +8,13 @@ import { fetchCart } from "../../store/slice/CartSlice";
 
 const MyCart = () => {
   const cartItems = useSelector((state) => state.cart.Cart);
+  const { userToken } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchCart());
-  }, []);
+    if (userToken !== null) {
+      dispatch(fetchCart());
+    }
+  }, [userToken]);
   return (
     <div className="mycart-page">
       <div className="cart-header">
@@ -24,7 +27,9 @@ const MyCart = () => {
           {cartItems.length === 0 ? (
             <p>Your cart is empty.</p>
           ) : (
-            cartItems.map((item) => <CartItem key={item.id} item={item} />)
+            cartItems.map((item) => (
+              <CartItem key={item.productId} item={item} />
+            ))
           )}
         </div>
         <PriceDetails />

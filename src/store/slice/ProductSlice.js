@@ -2,24 +2,15 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api } from "../../services/api";
 import toast from "react-hot-toast";
 
-// Fetch all products (authorized)
-export const fetchProducts = createAsyncThunk(
-  "products/fetch",
-  async (_, { rejectWithValue, getState }) => {
-    try {
-      const state = getState();
-      const token = JSON.parse(state.user.userToken);
-      const response = await api.get("/api/products", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return response.data;
-    } catch (error) {
-      const status = error.response?.status;
-      const message = error.response?.data?.message;
-      return rejectWithValue({ status, message });
-    }
+export const fetchProducts = createAsyncThunk("products/fetch", async () => {
+  try {
+    const response = await api.get("/api/products");
+    return response.data;
+  } catch (error) {
+    const status = error.response?.status;
+    const message = error.response?.data?.message;
+    return { status, message };
+    // return rejectWithValue({ status, message });
   }
 );
 

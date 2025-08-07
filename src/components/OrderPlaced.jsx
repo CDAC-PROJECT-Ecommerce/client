@@ -1,10 +1,15 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "../scss/OrderPlaced.scss";
 import { useEffect, useState } from "react";
 
 const OrderPlaced = () => {
+  const [searchParams] = useSearchParams();
   const { OrderPlaced } = useSelector((state) => state.userOrder);
+
+  const status = searchParams.get("status");
+
+  console.log(OrderPlaced);
 
   const [currentCount, setCurrentCount] = useState(3);
   const navigate = useNavigate();
@@ -39,7 +44,11 @@ const OrderPlaced = () => {
   return (
     <div className="order-placed-container">
       <div className="order-placed-box">
-        <h2>Order Summary</h2>
+        {status === "success" ? (
+          <h2>Order placed successfully</h2>
+        ) : (
+          <h2 style={{ color: "red" }}>Failed to place order</h2>
+        )}
 
         <div className="order-placed-details">
           <div>
@@ -62,30 +71,34 @@ const OrderPlaced = () => {
           <div className="order-price">
             <p>Order price:</p> ₹{OrderPlaced?.totalAmount}
           </div>
-          <div className="shipping-address">
-            <p>Shipping Address:</p>
-            <p>
-              {OrderPlaced?.address.name}, {OrderPlaced?.address.address},
-              {OrderPlaced?.address.city},{OrderPlaced?.address.state},
-              {OrderPlaced?.address.pincode},{OrderPlaced?.address.phone}
-            </p>
-          </div>
-          <div className="order-track-box">
-            <div>
-              <p>Order Status:</p>
-              <p>{OrderPlaced.status}</p>
-            </div>
-            <div>
-              <p>Order Date: </p>
-              <p>
-                {OrderPlaced.orderDate
-                  .split("T")[0]
-                  .split("-")
-                  .reverse()
-                  .join("-")}
-              </p>
-            </div>
-          </div>
+          {status === "success" && (
+            <>
+              <div className="shipping-address">
+                <p>Shipping Address:</p>
+                <p>
+                  {OrderPlaced?.address.name}, {OrderPlaced?.address.address},
+                  {OrderPlaced?.address.city},{OrderPlaced?.address.state},
+                  {OrderPlaced?.address.pincode},{OrderPlaced?.address.phone}
+                </p>
+              </div>
+              <div className="order-track-box">
+                <div>
+                  <p>Order Status:</p>
+                  <p>{OrderPlaced.status}</p>
+                </div>
+                <div>
+                  <p>Order Date: </p>
+                  <p>
+                    {OrderPlaced.orderDate
+                      .split("T")[0]
+                      .split("-")
+                      .reverse()
+                      .join("-")}
+                  </p>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
       <button onClick={() => navigate("/")}>Continue Shopping</button>

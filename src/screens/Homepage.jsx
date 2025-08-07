@@ -25,7 +25,7 @@ const Homepage = () => {
         <div className="product-details">
           <p style={{ fontSize: "3rem" }}>Explore </p>
           <p style={{ fontSize: "1.5rem" }}>variety of products</p>
-          <p className="desc">Or scroll to find Trendy products </p>
+          <p className="desc">Scroll to find Trendy products </p>
           <button onClick={() => navigate("/product_list")}>Explore</button>
         </div>
         <img
@@ -38,13 +38,9 @@ const Homepage = () => {
       <h3 style={{ textAlign: "center", fontSize: "2rem" }}>TRENDY PRODUCTS</h3>
 
       <div className="product-container">
-        {productList?.map((product) =>
-          product.category === "Electronics" ? (
-            <Products value={product} key={product.id} />
-          ) : (
-            ""
-          )
-        )}
+        {productList?.map((product) => (
+          <Products value={product} key={product.id} />
+        ))}
       </div>
     </main>
   );

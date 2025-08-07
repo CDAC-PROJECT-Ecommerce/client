@@ -29,7 +29,7 @@ const PriceDetails = () => {
         <h2>Price Details</h2>
         <hr />
         {cartItems.map((item) => (
-          <div key={item.id} className="price-row">
+          <div key={item.productId} className="price-row">
             <span>
               {item.productName} × {item.quantity}
             </span>

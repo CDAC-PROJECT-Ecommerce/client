@@ -16,6 +16,8 @@ import ProfilePage from "./components/Profile/ProfilePage";
 import OrderPlaced from "./components/OrderPlaced";
 import AboutUs from "./screens/AboutUs";
 import Contact from "./screens/Contact";
+import MyOrders from "./components/Orders/MyOrders";
+import CreateReview from "./components/CreateReview";
 
 const App = () => {
   return (
@@ -32,11 +34,13 @@ const App = () => {
         <Route path="/addAdress" element={<AddAddressPage />} />
         <Route path="/cart" element={<MyCart />} />
         <Route path="/admin/*" element={<AdminRoutes />} />
-        <Route path="/profile" element={<ViewProfile />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/edit_profile" element={<ProfilePage />} />
         <Route path="/orderplaced" element={<OrderPlaced />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/myOrders" element={<MyOrders />} />
+        <Route path="/create-review" element={<CreateReview />} />
       </Routes>
       <Footer />
     </>
