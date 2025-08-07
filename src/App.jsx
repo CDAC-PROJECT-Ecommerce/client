@@ -14,6 +14,8 @@ import AdminRoutes from "./admin/routes/AdminRoutes";
 import ViewProfile from "./components/Profile/ViewProfile";
 import ProfilePage from "./components/Profile/ProfilePage";
 import OrderPlaced from "./components/OrderPlaced";
+import AboutUs from "./screens/AboutUs";
+import Contact from "./screens/Contact";
 import MyOrders from "./components/Orders/MyOrders";
 import CreateReview from "./components/CreateReview";
 import ScrollToTop from "./services/ScrollToTop";
@@ -37,6 +39,8 @@ const App = () => {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/edit_profile" element={<ProfilePage />} />
         <Route path="/orderplaced" element={<OrderPlaced />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/myOrders" element={<MyOrders />} />
         <Route path="/create-review" element={<CreateReview />} />
       </Routes>

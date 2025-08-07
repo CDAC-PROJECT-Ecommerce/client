@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api } from "../../services/api";
 import toast from "react-hot-toast";
-import jsonProductsData from "../../admin/data/products.json";
 
 export const fetchProducts = createAsyncThunk("products/fetch", async () => {
   try {
@@ -13,40 +12,72 @@ export const fetchProducts = createAsyncThunk("products/fetch", async () => {
     return { status, message };
     // return rejectWithValue({ status, message });
   }
-});
+);
 
+// Fetch full product details (authorized)
 export const fetchFullProduct = createAsyncThunk(
   "products/fullPage",
-  async (id) => {
+  async (id, { rejectWithValue, getState }) => {
     try {
-      const respone = await api.get(`/api/products/${id}`);
-      return respone.data;
+      const state = getState();
+      const token = JSON.parse(state.user.userToken);
+      const response = await api.get(`/api/products/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
     } catch (error) {
       const status = error?.response?.status;
-      const message = error?.respone?.message;
-      return { status, message };
+      const message = error?.response?.data?.message;
+      return rejectWithValue({ status, message });
     }
-    return data;
   }
 );
 
+// Load all products (admin only)
 export const loadJsonProducts = createAsyncThunk(
   "products/loadJsonProducts",
-  async () => {
-    const products = jsonProductsData;
-    const categories = [
-      ...new Set(products.map((p) => p.category).filter(Boolean)),
-    ];
-    return { products, categories };
+  async (_, { rejectWithValue, getState }) => {
+    try {
+      const state = getState();
+      const token = JSON.parse(state.user.userToken);
+      const response = await api.get("/api/admin/viewproduct", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const products = response.data;
+      const categories = [
+        ...new Set(products.map((p) => p.categoryName).filter(Boolean)),
+      ];
+      return { products, categories };
+    } catch (error) {
+      const status = error.response?.status;
+      const message = error.response?.data?.message;
+      return rejectWithValue({ status, message });
+    }
   }
 );
 
+// Load product by ID (admin only)
 export const loadJsonProductsById = createAsyncThunk(
   "products/loadJsonProductsById",
-  async (id) => {
-    const product = jsonProductsData.find((p) => p.id === id);
-    if (!product) throw new Error("Product not found");
-    return product;
+  async (id, { rejectWithValue, getState }) => {
+    try {
+      const state = getState();
+      const token = JSON.parse(state.user.userToken);
+      const response = await api.get(`/api/admin/viewproduct/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      const status = error.response?.status;
+      const message = error.response?.data?.message;
+      return rejectWithValue({ status, message });
+    }
   }
 );
 
@@ -59,7 +90,6 @@ const productSlice = createSlice({
     searchedProductList: [],
     jsonProducts: [],
     categories: [],
-    //Productpage category
     ProductCategories: [],
     jsonProductsById: null,
     isLoading: false,
@@ -72,17 +102,19 @@ const productSlice = createSlice({
     },
     addProduct: (state, action) => {
       state.products.push(action.payload);
+      toast.success("✅ Product added successfully");
     },
     deleteProduct: (state, action) => {
       state.products = state.products.filter((p) => p.id !== action.payload);
+      toast.success("🗑️ Product deleted");
     },
     updateProduct: (state, action) => {
       const updated = action.payload;
       const index = state.products.findIndex((p) => p.id === updated.id);
       if (index !== -1) {
         state.products[index] = updated;
+        toast.success("✏️ Product updated");
       }
-      toast.success("Product updated successfully!");
     },
     addCategory: (state, action) => {
       const newCategory = action.payload;
@@ -96,13 +128,13 @@ const productSlice = createSlice({
           state.products = [...state.products].sort(
             (a, b) => a.price - b.price
           );
-          toast.success("Product sorted by price");
+          toast.success("Sorted by price");
           break;
         case "name":
           state.products = [...state.products].sort((a, b) =>
             a.name.toUpperCase().localeCompare(b.name.toUpperCase())
           );
-          toast.success("Product sorted by name");
+          toast.success("Sorted by name");
           break;
       }
     },
@@ -126,14 +158,12 @@ const productSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // Load dummy list
     builder.addCase(fetchProducts.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(fetchProducts.fulfilled, (state, action) => {
       const temp = action.payload.map((p) => p.categoryName);
       const cat = [...new Set(temp)];
-
       state.ProductCategories = cat;
       state.isLoading = false;
       state.products = [...action.payload];
@@ -142,18 +172,13 @@ const productSlice = createSlice({
     builder.addCase(fetchProducts.rejected, (state, action) => {
       state.isLoading = false;
       const { status, message } = action.payload || {};
-      if (status !== 200) {
-        toast.error("Failed to fetch product");
-      } else {
-        toast.error(message);
-      }
+      toast.error(message || "❌ Failed to fetch products");
     });
 
     builder.addCase(fetchFullProduct.fulfilled, (state, action) => {
       state.FullProduct = action.payload;
     });
 
-    // Load from JSON
     builder.addCase(loadJsonProducts.pending, (state) => {
       state.isLoading = true;
     });
@@ -166,10 +191,9 @@ const productSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
       state.toastMessage =
-        action.error.message || "Failed to load JSON products";
+        action.payload?.message || "Failed to load JSON products";
     });
 
-    // Load JSON product by ID
     builder.addCase(loadJsonProductsById.pending, (state) => {
       state.isLoading = true;
     });
@@ -181,7 +205,7 @@ const productSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
       state.toastMessage =
-        action.error.message || "Failed to load product by ID";
+        action.payload?.message || "Failed to load product by ID";
     });
   },
 });
