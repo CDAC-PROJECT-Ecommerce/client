@@ -15,6 +15,7 @@ import ViewProfile from "./components/Profile/ViewProfile";
 import ProfilePage from "./components/Profile/ProfilePage";
 import OrderPlaced from "./components/OrderPlaced";
 import MyOrders from "./components/Orders/MyOrders"
+import CreateReview from "./components/CreateReview";
 
 const App = () => {
   return (
@@ -35,6 +36,8 @@ const App = () => {
         <Route path="/edit_profile" element={<ProfilePage />} />
         <Route path="/orderplaced" element={<OrderPlaced />} />
         <Route path="/myOrders" element={<MyOrders />} />
+        <Route path="/create-review" element={<CreateReview />} />
+
       </Routes>
       <Footer />
     </>
