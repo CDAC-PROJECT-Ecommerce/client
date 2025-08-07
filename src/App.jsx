@@ -14,6 +14,8 @@ import AdminRoutes from "./admin/routes/AdminRoutes";
 import ViewProfile from "./components/Profile/ViewProfile";
 import ProfilePage from "./components/Profile/ProfilePage";
 import OrderPlaced from "./components/OrderPlaced";
+import AboutUs from "./screens/AboutUs";
+import Contact from "./screens/Contact";
 
 const App = () => {
   return (
@@ -33,6 +35,8 @@ const App = () => {
         <Route path="/profile" element={<ViewProfile />} />
         <Route path="/edit_profile" element={<ProfilePage />} />
         <Route path="/orderplaced" element={<OrderPlaced />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
       <Footer />
     </>
