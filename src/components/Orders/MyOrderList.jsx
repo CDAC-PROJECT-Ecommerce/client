@@ -1,5 +1,15 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
 const MyOrderList = (props) => {
-  const { totalAmount, orderDate, status, items, address } = props.value;
+  const { totalAmount, orderDate, status, items, address, orderId } = props.value;
+  const navigate = useNavigate();
+
+  // Navigation function for review button
+  const handleCreateReview = (productId, orderId) => {
+    navigate(`/create-review?productId=${productId}&orderId=${orderId}`);
+  };
+
   console.log(items);
   return (
     <div className="my-order-list">
@@ -18,9 +28,21 @@ const MyOrderList = (props) => {
         <p>Order items: </p>
         {items?.map((item) => {
           return (
-            <div className="my-order-product-list">
-              <p>{item.productName}</p>
-              <span>x{item.quantity}</span>
+            <div key={item.id} className="my-order-product-list">
+              <div className="product-info">
+                <p>{item.productName}</p>
+                <span>x{item.quantity}</span>
+              </div>
+              {/* ADD REVIEW BUTTON HERE */}
+              <div className="product-actions">
+                <button
+                  onClick={() => handleCreateReview(item.productId, orderId)}
+                  disabled={status !== 'DELIVERED'}
+                  className={`create-review-btn ${status !== 'DELIVERED' ? 'disabled' : ''}`}
+                >
+                  {status === 'DELIVERED' ? 'Create Review' : 'Review Unavailable'}
+                </button>
+              </div>
             </div>
           );
         })}
