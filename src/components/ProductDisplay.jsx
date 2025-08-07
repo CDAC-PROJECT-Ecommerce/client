@@ -23,7 +23,7 @@ const ProductDisplay = () => {
     <div className="full-page-display">
       <div className="product-display-container">
         <div className="full-product-image">
-          <img src="/wirelessmouse.jpg" alt="product-image" />
+          <img src={product?.imageUrl} alt="product-image" />
         </div>
         <div className="full-product-details">
           <p className="product-title">{product?.name}</p>

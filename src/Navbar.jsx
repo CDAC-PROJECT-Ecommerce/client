@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { fetchToken, fetchUsernameAndRole } from "./store/slice/UserSlice";
 import { emptyCart, fetchCart } from "./store/slice/CartSlice";
+import { toggleProfile } from "./store/slice/UserProfile";
+import ProfilePage from "./components/Profile/ProfilePage";
 
 const Navbar = () => {
   const [openMenu, setOpenMenu] = useState(false);
@@ -16,9 +18,16 @@ const Navbar = () => {
   const dispatch = useDispatch();
 
   const { userToken, username, role } = useSelector((state) => state.user);
+  const { isSidebarOpen } = useSelector((state) => state.userProfile);
+
+  const handleProfile = () => {
+    dispatch(toggleProfile());
+  };
+
   useEffect(() => {
     dispatch(fetchToken());
   }, []);
+
   useEffect(() => {
     if (userToken !== null) {
       dispatch(fetchUsernameAndRole(userToken));
@@ -29,63 +38,67 @@ const Navbar = () => {
   }, [userToken]);
 
   return (
-    <nav>
-      <div className="navbar-logo">
-        <Link to="/">Shopee</Link>
-      </div>
-      {openMenu && (
-        <div className="menu-box">
-          <div>
-            <Link to="/cart">
-              <div>
-                <FaShoppingCart className="cart-icon" />
-                <span className="cart-badge">{Cart.length}</span>
-              </div>
-              My cart
-            </Link>
-          </div>
-          {userToken !== null ? (
-            <p onClick={() => navigate("/profile")}>
-              Hello {username?.split(" ")[0]}
-            </p>
-          ) : (
+    <>
+      <nav>
+        <div className="navbar-logo">
+          <Link to="/">Shopee</Link>
+        </div>
+        {openMenu && (
+          <div className="menu-box">
             <div>
-              <Link to="/signin">SignIn</Link>
-              <Link to="/signup">Sign Up</Link>
+              <Link to="/cart">
+                <div>
+                  <FaShoppingCart className="cart-icon" />
+                  <span className="cart-badge">{Cart.length}</span>
+                </div>
+                My cart
+              </Link>
             </div>
+            {userToken !== null ? (
+              <p onClick={handleProfile}>Hello {username?.split(" ")[0]}</p>
+            ) : (
+              <div>
+                <Link to="/signin">SignIn</Link>
+                <Link to="/signup">Sign Up</Link>
+              </div>
+            )}
+          </div>
+        )}
+        <SearchProduct setOpenMenu={setOpenMenu} />
+        <div className="small-navbar-link-container">
+          {!openMenu && (
+            <MdMenu onClick={() => setOpenMenu(true)} className="menu-bar" />
+          )}
+          {openMenu && (
+            <RxCross2 onClick={() => setOpenMenu(false)} className="menu-bar" />
           )}
         </div>
-      )}
-      <SearchProduct setOpenMenu={setOpenMenu} />
-      <div className="small-navbar-link-container">
-        {!openMenu && (
-          <MdMenu onClick={() => setOpenMenu(true)} className="menu-bar" />
-        )}
-        {openMenu && (
-          <RxCross2 onClick={() => setOpenMenu(false)} className="menu-bar" />
-        )}
-      </div>
-      <div className="navbar-links">
-        <div>
-          <Link to="/cart">
-            <FaShoppingCart className="cart-icon" />
-          </Link>
+        <div className="navbar-links">
+          <div>
+            <Link to="/cart">
+              <FaShoppingCart className="cart-icon" />
+            </Link>
 
-          <span className="cart-badge">{Cart.length}</span>
+            <span className="cart-badge">{Cart.length}</span>
+          </div>
+          {role === "ADMIN" ? <Link to="/admin">Admin</Link> : ""}
+          {userToken !== null ? (
+            <p onClick={handleProfile}>Hello {username?.split(" ")[0]}</p>
+          ) : (
+            <>
+              <Link to="/signin">SignIn</Link>
+              <Link to="/signup">Sign Up</Link>
+            </>
+          )}
         </div>
-        {role === "ADMIN" ? <Link to="/admin">Admin</Link> : ""}
-        {userToken !== null ? (
-          <p onClick={() => navigate("/profile")}>
-            Hello {username?.split(" ")[0]}
-          </p>
-        ) : (
-          <>
-            <Link to="/signin">SignIn</Link>
-            <Link to="/signup">Sign Up</Link>
-          </>
-        )}
-      </div>
-    </nav>
+      </nav>
+      {isSidebarOpen && (
+        <ProfilePage
+          isSidebarOpen={isSidebarOpen}
+          handleProfile={handleProfile}
+        />
+      )}
+    </>
   );
 };
 

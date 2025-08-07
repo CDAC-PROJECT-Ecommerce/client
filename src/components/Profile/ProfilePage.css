@@ -1,26 +1,43 @@
+/* Sidebar toggle button */
+.sidebar-toggle-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  padding: 10px 16px;
+  background-color: #009688;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Sidebar styling */
 .profile-page {
+  position: fixed;
+  right: -100%;
+  top: 0;
   background-color: #f2f2f2;
-  min-height: 100vh;
-  padding: 30px;
+  height: 100vh;
+  width: 250px;
   font-family: Arial, sans-serif;
   color: #333;
   display: flex;
-  width: 80%;
-  margin: auto;
   flex-direction: column;
+  transition: right 0.3s ease-in-out;
+  z-index: 988;
 }
 
-.profile-page h1{
-  text-align: center;
+.profile-page.open {
+  right: 0;
+  width: 20%;
+  top: 4rem;
 }
 
-.profile-contianer{
+.profile-container {
   display: grid;
-  grid-template-columns: 0.5fr 1.4fr;
-
   gap: 1rem;
 }
-
 
 .nav-links {
   display: flex;
@@ -28,8 +45,8 @@
   background-color: #fff;
   padding: 24px;
   border-radius: 12px;
+  height: 100vh;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  
 }
 
 .nav-links button {
@@ -39,16 +56,9 @@
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  margin-bottom: 10px;
 }
 
 .logout-btn {
   background-color: red;
 }
-/* 
-.readonly {
-  padding: 10px;
-  background-color: #f3f3f3;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-  margin-bottom: 10px;
-}  */

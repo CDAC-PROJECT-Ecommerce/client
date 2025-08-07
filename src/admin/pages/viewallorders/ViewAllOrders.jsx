@@ -4,10 +4,10 @@ import { fetchOrders } from "../../../store/slice/OrdersSlice";
 import { Link, useLocation } from "react-router-dom";
 import UpdateOrderStatusModal from "../updateorderstatusmodal/UpdateOrderStatusModal";
 import "./ViewAllOrders.css";
+import { fetchAllOrders } from "../../../store/slice/AdminOrderSlice";
 
 const ViewAllOrders = () => {
   const dispatch = useDispatch();
-  const { orders = [], loading, error } = useSelector((state) => state.orders);
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const statusFilter = params.get("status");
@@ -15,16 +15,14 @@ const ViewAllOrders = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
+  const { items, loading, error } = useSelector((state) => state.adminOrders);
+
   useEffect(() => {
-    dispatch(fetchOrders());
+    dispatch(fetchAllOrders());
   }, [dispatch]);
 
-  const filteredOrders = statusFilter
-    ? orders.filter((o) => o.status === statusFilter)
-    : orders;
-
-  const handleUpdateClick = (order) => {
-    setSelectedOrder(order);
+  const handleUpdateClick = (id, status) => {
+    setSelectedOrder({ id, status });
     setShowModal(true);
   };
 
@@ -41,30 +39,32 @@ const ViewAllOrders = () => {
           <div>User</div>
           <div>Product</div>
           <div>Price</div>
-          <div>Shipping</div>
+          <div>OrderDate</div>
           <div>Status</div>
           <div>Actions</div>
         </div>
 
-        {filteredOrders.length > 0 ? (
-          filteredOrders.map((order) => (
-            <div className="order-row" key={order.id}>
-              <div data-label="Order ID">{order.id}</div>
-              <div data-label="User">{order.user}</div>
-              <div data-label="Product">{order.product}</div>
-              <div data-label="Price">₹{order.price.toFixed(2)}</div>
-              <div data-label="Shipping">₹{order.shipping.toFixed(2)}</div>
+        {items?.length > 0 ? (
+          items?.map((order) => (
+            <div className="order-row" key={order.orderId}>
+              <div data-label="Order ID">{order.orderId}</div>
+              <div data-label="User">{order.address.name}</div>
+              <div data-label="Product">{order.items[0].productName}</div>
+              <div data-label="Price">₹{order.totalAmount}</div>
+              <div data-label="OrderDate">
+                {order.orderDate.split("T")[0].split("-").reverse().join("-")}
+              </div>
               <div data-label="Status">{order.status}</div>
               <div data-label="Actions">
                 <Link
-                  to={`/admin/ordersummary/${order.id}`}
+                  to={`/admin/ordersummary/${order.orderId}`}
                   className="summary-btn"
                 >
                   View
                 </Link>
                 <button
                   className="summary-btn"
-                  onClick={() => handleUpdateClick(order)}
+                  onClick={() => handleUpdateClick(order.orderId, order.status)}
                 >
                   Update
                 </button>
@@ -78,7 +78,7 @@ const ViewAllOrders = () => {
 
       {showModal && selectedOrder && (
         <UpdateOrderStatusModal
-          order={selectedOrder}
+          selectedOrder={selectedOrder}
           onClose={() => setShowModal(false)}
         />
       )}

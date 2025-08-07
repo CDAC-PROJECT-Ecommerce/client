@@ -5,10 +5,10 @@ import { ORDER_STATUS_STEPS } from "../../constants/orderStatus";
 import "./OrderSummary.css";
 
 const OrderSummary = () => {
-  const { orders = [] } = useSelector((state) => state.orders);
+  const { items: orders } = useSelector((state) => state.adminOrders);
   const { orderId } = useParams();
-  const order = orders.find((o) => o.id === orderId);
-
+  const order = orders.find((o) => o.orderId == orderId);
+  console.log(order);
   const getStepStatus = (step) => {
     const stepIndex = ORDER_STATUS_STEPS.indexOf(step);
     const orderIndex = ORDER_STATUS_STEPS.indexOf(order?.status);
@@ -37,22 +37,36 @@ const OrderSummary = () => {
 
         <div className="summary-details">
           <div>
-            <span>Order ID:</span> {order.id}
+            <span>Order ID:</span> {order?.orderId}
           </div>
           <div>
-            <span>Customer:</span> {order.user}
+            <span>Customer:</span> {order?.address.name}
+          </div>
+          <div className="split-box">
+            <span>Product:</span>{" "}
+            {order?.items.map((item) => (
+              <div className="divider">
+                {" "}
+                <p>{item.productName}</p>
+                <p>x{item.quantity}</p>
+              </div>
+            ))}
           </div>
           <div>
-            <span>Product:</span> {order.product}
+            <span>Total:</span> ₹{order?.totalAmount}
           </div>
           <div>
-            <span>Price:</span> ₹{order.price.toFixed(2)}
+            <span>OrderDate:</span> ₹
+            {order.orderDate.split("T")[0].split("-").reverse().join("-")}
           </div>
-          <div>
-            <span>Shipping:</span> ₹{order.shipping.toFixed(2)}
-          </div>
-          <div className="total">
-            <span>Total:</span> ₹{total.toFixed(2)}
+          <div className="split-box">
+            <span>Address:</span>
+            <p style={{ textAlign: "left" }}>
+              {" "}
+              {order?.address.name}, {order?.address.address},
+              {order?.address.city},{order?.address.state},
+              {order?.address.pincode},{order?.address.phone}
+            </p>
           </div>
         </div>
 

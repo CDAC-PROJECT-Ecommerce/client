@@ -1,21 +1,23 @@
-// src/components/admin/updateproduct/UpdateProduct.jsx
-
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "./UpdateProduct.css";
 import {
-  loadJsonProductsById,
+  getAllProducts,
+  getProductById,
   updateProduct,
-} from "../../../store/slice/ProductSlice";
+} from "../../../store/slice/AdminProductSlice";
+import { BounceLoader } from "react-spinners";
 
 const UpdateProduct = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [imagePreview, setImagePreview] = useState("");
 
-  const fullProduct = useSelector((state) => state.products.jsonProductsById);
-  const categories = useSelector((state) => state.products.categories);
+  const { fullProduct, isProductLoading } = useSelector(
+    (state) => state.adminProducts
+  );
 
   const [formData, setFormData] = useState({
     id: "",
@@ -23,14 +25,8 @@ const UpdateProduct = () => {
     price: "",
     category: "",
     description: "",
-    image: "", // store image file or URL
+    image: "",
   });
-
-  const [imagePreview, setImagePreview] = useState("");
-
-  useEffect(() => {
-    dispatch(loadJsonProductsById(id));
-  }, [dispatch, id]);
 
   useEffect(() => {
     if (fullProduct) {
@@ -46,6 +42,10 @@ const UpdateProduct = () => {
     }
   }, [fullProduct]);
 
+  useEffect(() => {
+    dispatch(getProductById(id));
+  }, [dispatch, id]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -59,48 +59,57 @@ const UpdateProduct = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const updatedProduct = {
       ...formData,
       price: parseFloat(formData.price),
-      image: imagePreview, // Using preview URL or existing image
+      image: imagePreview,
     };
 
-    dispatch(updateProduct(updatedProduct));
+    await dispatch(updateProduct(updatedProduct));
+    await dispatch(getAllProducts());
     navigate("/admin/viewproduct");
   };
 
   return (
-    <div className="update-product-form">
-      <h2>Update Product</h2>
-      <form onSubmit={handleSubmit}>
-        <label>ID</label>
-        <input name="id" value={formData.id} readOnly />
+    <>
+      {isProductLoading && (
+        <div className="page-loader-wrapper">
+          <div className="page-loader-background"></div>
+          <BounceLoader color="#009688" />
+          <p className="page-loader-text">Loading product data...</p>
+        </div>
+      )}
+      <div className="update-product-form">
+        <h2>Update Product</h2>
+        <form onSubmit={handleSubmit}>
+          <label>ID</label>
+          <input name="id" value={formData?.id} readOnly />
 
-        <label>Name</label>
-        <input
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
+          <label>Name</label>
+          <input
+            name="name"
+            value={formData?.name}
+            onChange={handleChange}
+            required
+          />
 
-        <label>Price (₹)</label>
-        <input
-          type="number"
-          name="price"
-          value={formData.price}
-          onChange={handleChange}
-          step="0.01"
-          required
-        />
+          <label>Price (₹)</label>
+          <input
+            type="number"
+            name="price"
+            value={formData?.price}
+            onChange={handleChange}
+            step="0.01"
+            required
+          />
 
-        <label>Category</label>
+          {/* <label>Category</label>
         <select
           name="category"
-          value={formData.category}
+          value={formData?.category}
           onChange={handleChange}
           required
         >
@@ -111,31 +120,32 @@ const UpdateProduct = () => {
                 {cat}
               </option>
             ))}
-        </select>
+        </select> */}
 
-        <label>Upload Image</label>
-        <input type="file" accept="image/*" onChange={handleImageChange} />
-        {imagePreview && (
-          <img
-            src={imagePreview}
-            alt="Preview"
-            style={{ width: "150px", marginTop: "10px", borderRadius: "8px" }}
+          <label>Upload Image</label>
+          <input type="file" accept="image/*" onChange={handleImageChange} />
+          {imagePreview && (
+            <img
+              src={imagePreview}
+              alt="Preview"
+              style={{ width: "150px", marginTop: "10px", borderRadius: "8px" }}
+            />
+          )}
+
+          <label>Description</label>
+          <textarea
+            name="description"
+            value={formData?.description}
+            onChange={handleChange}
+            rows={4}
           />
-        )}
 
-        <label>Description</label>
-        <textarea
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          rows={4}
-        />
-
-        <button type="submit" className="btn-save">
-          Save
-        </button>
-      </form>
-    </div>
+          <button type="submit" className="btn-save">
+            Save
+          </button>
+        </form>
+      </div>
+    </>
   );
 };
 
