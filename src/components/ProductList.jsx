@@ -36,6 +36,7 @@ const ProductList = () => {
   }, []);
   return (
     <div className="product-list-container">
+      {productList?.length === 0 && <p>No products to display</p>}
       <div className="filter-box-container">
         <p>Filter</p>
         {productList?.ProductCategories?.map((category) => {

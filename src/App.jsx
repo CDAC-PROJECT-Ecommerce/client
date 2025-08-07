@@ -18,17 +18,19 @@ import AboutUs from "./screens/AboutUs";
 import Contact from "./screens/Contact";
 import MyOrders from "./components/Orders/MyOrders";
 import CreateReview from "./components/CreateReview";
+import ScrollToTop from "./services/ScrollToTop";
 
 const App = () => {
   return (
     <>
       <Navbar />
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/product_list" element={<ProductList />} />
-        <Route path="/fullPageProduct" element={<ProductDisplay />} />
+        <Route path="/fullPageProduct/:id" element={<ProductDisplay />} />
         <Route path="/forgot_password" element={<ForgotPassword />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/addAdress" element={<AddAddressPage />} />
