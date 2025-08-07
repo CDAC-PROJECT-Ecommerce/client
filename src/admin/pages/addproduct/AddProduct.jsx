@@ -55,8 +55,8 @@ const AddProduct = () => {
     const newProduct = {
       name,
       price: parseFloat(price),
-      categoryName: category,
-      imageUrl: image,
+      category: category,
+      image: image,
       description,
       stockQuantity: 0,
       status: "active",

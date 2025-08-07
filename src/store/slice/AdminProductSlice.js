@@ -39,7 +39,7 @@ export const addCategories = createAsyncThunk(
           withCredentials: true,
         }
       );
-      dispatch(fetchCategories()); // refresh
+      dispatch(fetchCategories());
       toast.success("Category added!");
       return response.data;
     } catch (err) {
@@ -62,7 +62,7 @@ export const addProduct = createAsyncThunk(
       formData.append("description", productData.description);
       formData.append("category", productData.category);
       formData.append("stockQuantity", 100);
-      formData.append("image", productData.image); // File object
+      formData.append("image", productData.image);
 
       const response = await api.post("/api/admin/products", formData, {
         headers: {
@@ -138,12 +138,12 @@ export const updateProduct = createAsyncThunk(
   "products/updateProduct",
   async (updatedData, { getState, rejectWithValue }) => {
     try {
-      console.log("Updated data: ", updatedData);
       const formData = new FormData();
       formData.append("name", updatedData.name);
       formData.append("price", updatedData.price);
       formData.append("description", updatedData.description);
       formData.append("stockQuantity", 100);
+      formData.append("image", updatedData.image);
       const token = JSON.parse(getState().user.userToken);
       const response = await api.put(
         `/api/admin/products/${updatedData.id}`,
@@ -207,6 +207,13 @@ const adminProductSlice = createSlice({
       .addCase(updateProduct.fulfilled, (state, action) => {
         state.loading = false;
         toast.success("Product updated");
+      })
+      .addCase(updateProduct.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(updateProduct.rejected, (state, action) => {
+        state.loading = false;
+        toast.error("Product not updated");
       })
       .addCase(getProductById.pending, (state) => {
         state.isProductLoading = true;

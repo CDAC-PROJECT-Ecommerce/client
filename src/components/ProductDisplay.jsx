@@ -37,16 +37,16 @@ const ProductDisplay = () => {
           <p className="product-description">{product?.description}</p>
           <p className="product-price">₹ {product?.price}</p>
 
-          <p className="product-review">
+          {/* <p className="product-review">
             <FaRegStar className="review-star" /> {product?.review}
-          </p>
+          </p> */}
 
           <div className="product-display-btn">
             <button onClick={addProduct}>Add to Cart</button>
           </div>
         </div>
       </div>
-      <Review />
+      <Review id={id} />
     </div>
   );
 };

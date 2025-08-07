@@ -8,7 +8,6 @@ const OrderSummary = () => {
   const { items: orders } = useSelector((state) => state.adminOrders);
   const { orderId } = useParams();
   const order = orders.find((o) => o.orderId == orderId);
-  console.log(order);
   const getStepStatus = (step) => {
     const stepIndex = ORDER_STATUS_STEPS.indexOf(step);
     const orderIndex = ORDER_STATUS_STEPS.indexOf(order?.status);
