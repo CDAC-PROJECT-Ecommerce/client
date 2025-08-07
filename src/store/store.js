@@ -1,12 +1,12 @@
-// app/store.js
 import { configureStore } from "@reduxjs/toolkit";
 import ProductSlice from "./slice/ProductSlice";
 import UserSlice from "./slice/UserSlice";
 import CartSlice from "./slice/CartSlice";
 import AddressSlice from "./slice/addressSlice";
-import OrdersSlice from "./slice/OrdersSlice"
+import OrdersSlice from "./slice/OrdersSlice";
 import UserOrderSlice from "./slice/UserOrderSlice";
 import UserProfile from "./slice/UserProfile";
+import reviewReducer from './slice/ReviewSlice';
 
 export const store = configureStore({
   reducer: {
@@ -16,7 +16,8 @@ export const store = configureStore({
     orders: OrdersSlice,
     address: AddressSlice,
     userOrder: UserOrderSlice,
-    userProfile:UserProfile
+    userProfile: UserProfile,
+    review: reviewReducer
   },
 });
 
