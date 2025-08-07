@@ -19,7 +19,7 @@ export const store = configureStore({
     address: AddressSlice,
     userOrder: UserOrderSlice,
     userProfile: UserProfile,
-    review: reviewReducer
+    review: reviewReducer,
     adminProducts: AdminProductSlice,
     adminOrders: AdminOrderSlice,
   },
