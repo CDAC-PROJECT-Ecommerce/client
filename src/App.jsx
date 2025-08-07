@@ -32,11 +32,12 @@ const App = () => {
         <Route path="/addAdress" element={<AddAddressPage />} />
         <Route path="/cart" element={<MyCart />} />
         <Route path="/admin/*" element={<AdminRoutes />} />
-        <Route path="/profile" element={<ViewProfile />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/edit_profile" element={<ProfilePage />} />
         <Route path="/create-review" element={<CreateReview />} />
         <Route path="/orderplaced" element={<OrderPlaced />} />
         <Route path="/create-review" element={<CreateReview />} />
+        <Route path="/myOrders" element={<MyOrders />} />
       </Routes>
       <Footer />
     </>

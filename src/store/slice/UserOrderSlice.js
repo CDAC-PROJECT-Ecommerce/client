@@ -67,6 +67,7 @@ export const fetchOrdersByUsername = createAsyncThunk(
         Authorization: `Bearer ${token}`,
       },
     });
+    return response.data;
   }
 );
 
@@ -76,6 +77,7 @@ const UserOrderSlice = createSlice({
     isLoading: false,
     OrderPlaced: [],
     RazorpayOrder: [],
+    MyOrders: [],
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -92,7 +94,7 @@ const UserOrderSlice = createSlice({
       state.isLoading = false;
     });
 
-    // Changes
+    // Razorpay payment builder casse
     builder.addCase(initiatePayment.pending, (state) => {
       state.isLoading = true;
     });
@@ -102,6 +104,18 @@ const UserOrderSlice = createSlice({
       state.RazorpayOrder = action.payload.razorpay;
     });
     builder.addCase(initiatePayment.rejected, (state, action) => {
+      state.isLoading = false;
+    });
+
+    // MyORDERS
+    builder.addCase(fetchOrdersByUsername.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(fetchOrdersByUsername.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.MyOrders = action.payload;
+    });
+    builder.addCase(fetchOrdersByUsername.rejected, (state, action) => {
       state.isLoading = false;
     });
   },
