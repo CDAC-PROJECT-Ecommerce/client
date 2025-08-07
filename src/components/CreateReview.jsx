@@ -1,336 +1,197 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import toast from 'react-hot-toast';
-import { api } from '../services/api';
-import '../css/CreateReview.css';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { createReview, resetReviewStatus } from '../store/slice/ReviewSlice';
+import '../scss/createReview.scss';
 
 const CreateReview = () => {
     const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
-    const { username, userToken } = useSelector(state => state.users);
+    const location = useLocation();
+    const dispatch = useDispatch();
 
-    const productId = parseInt(searchParams.get('productId')) || 1;
-    const orderId = parseInt(searchParams.get('orderId')) || 1;
+    const { status } = useSelector(state => state.review);
+    const { loading: createReviewLoading, error: createReviewError, success: createReviewSuccess } = status.create;
 
-    const getUserIdFromToken = () => {
-        try {
-            if (!userToken) return 1;
-            const token = JSON.parse(userToken);
-            const payload = JSON.parse(atob(token.split('.')[1]));
-            return payload.sub || payload.userId || payload.id || 1;
-        } catch (error) {
-            console.error('Error decoding token:', error);
-            return 1;
-        }
-    };
+    const searchParams = new URLSearchParams(location.search);
+    const productId = searchParams.get('productId');
+    const orderId = searchParams.get('orderId');
 
-    const [formData, setFormData] = useState({
-        productId: productId,
-        customerId: getUserIdFromToken(),
-        orderId: orderId,
+    const user = localStorage.getItem('user');
+    const userInfo = user ? JSON.parse(user) : null;
+
+    const [reviewData, setReviewData] = useState({
         rating: 0,
         reviewTitle: '',
         reviewText: '',
         imageUrls: ''
     });
 
-    const [loading, setLoading] = useState(false);
-    const [hasReviewed, setHasReviewed] = useState(false);
-    const [checkingReview, setCheckingReview] = useState(true);
-    const [productInfo, setProductInfo] = useState({
-        id: productId,
-        name: "Loading Product...",
-        image: "https://via.placeholder.com/200x200",
-        price: 0
-    });
+    const [errors, setErrors] = useState({});
+    const [customErrorMessage, setCustomErrorMessage] = useState('');
 
     useEffect(() => {
-        if (!userToken) {
-            toast.error('Please login to write a review');
-            navigate('/signin');
-            return;
-        }
+        dispatch(resetReviewStatus());
+    }, [dispatch]);
 
-        checkIfAlreadyReviewed();
-        fetchProductDetails();
-    }, [productId, userToken]);
 
-    const fetchProductDetails = async () => {
-        try {
-            const response = await api.get(`/api/products/${productId}`);
-            setProductInfo({
-                id: response.data.id,
-                name: response.data.name || response.data.title,
-                image: response.data.image || response.data.imageUrl || "https://via.placeholder.com/200x200",
-                price: response.data.price || 0
-            });
-        } catch (error) {
-            console.error('Error fetching product details:', error);
-            setProductInfo(prev => ({
-                ...prev,
-                name: `Product #${productId}`,
-                price: 299.99
-            }));
-        }
-    };
-
-    const checkIfAlreadyReviewed = async () => {
-        try {
-            setCheckingReview(true);
-            const response = await api.get('/api/reviews/has-reviewed', {
-                params: {
-                    customerId: formData.customerId,
-                    productId: formData.productId,
-                    orderId: formData.orderId
-                }
-            });
-            setHasReviewed(response.data);
-        } catch (error) {
-            console.error('Error checking review status:', error);
-            setHasReviewed(false);
-        } finally {
-            setCheckingReview(false);
-        }
-    };
-
-    const goBackToOrders = () => {
-        navigate('/myOrders');
+    const validateForm = () => {
+        const newErrors = {};
+        if (!reviewData.rating) newErrors.rating = 'Please select a rating';
+        if (!reviewData.reviewTitle.trim()) newErrors.reviewTitle = 'Title is required';
+        if (!reviewData.reviewText.trim()) newErrors.reviewText = 'Review text is required';
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
+        setReviewData(prev => ({ ...prev, [name]: value }));
+        if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
     };
 
     const handleRatingClick = (rating) => {
-        setFormData(prev => ({
-            ...prev,
-            rating
-        }));
+        setReviewData(prev => ({ ...prev, rating }));
+        if (errors.rating) setErrors(prev => ({ ...prev, rating: '' }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!validateForm()) return;
 
-        if (formData.rating === 0) {
-            toast.error('Please select a rating');
-            return;
-        }
-
-        if (formData.reviewText.trim().length < 10) {
-            toast.error('Review text must be at least 10 characters long');
+        if (!productId || !orderId || !userInfo?.id) {
+            alert('Missing required information');
             return;
         }
 
         try {
-            setLoading(true);
-
-            const reviewData = {
-                ...formData,
-                isVerifiedPurchase: true,
-                status: 'PENDING'
-            };
-
-            const response = await api.post('/api/reviews', reviewData);
-            toast.success('Review submitted successfully!');
-
-            setTimeout(() => {
-                navigate('/myOrders');
-            }, 2000);
-
+            await dispatch(
+                createReview({
+                    productId: parseInt(productId),
+                    customerId: userInfo.id,
+                    orderId: parseInt(orderId),
+                    rating: reviewData.rating,
+                    reviewTitle: reviewData.reviewTitle.trim(),
+                    reviewText: reviewData.reviewText.trim(),
+                    imageUrls: reviewData.imageUrls.trim() || null
+                })
+            ).unwrap();
+            navigate('/myOrders');
         } catch (error) {
-            console.error('Error creating review:', error);
-
-            if (error.response?.status === 409) {
-                toast.error('You have already reviewed this product');
-                setHasReviewed(true);
-            } else if (error.response?.status === 400) {
-                toast.error('Invalid review data. Please check your input.');
-            } else if (error.response?.status === 401) {
-                toast.error('Please login to submit a review');
-                navigate('/signin');
-            } else {
-                toast.error('Failed to submit review. Please try again.');
-            }
-        } finally {
-            setLoading(false);
+            const message =
+                error?.response?.data?.message ||
+                error?.response?.data ||
+                error?.message ||
+                "Something went wrong";
+            setCustomErrorMessage(message);
+            console.error('Review submission failed:', message);
         }
     };
 
-    if (checkingReview) {
+    if (!productId || !orderId) {
         return (
-            <div className="review-container">
-                <div className="loading">
-                    <div className="spinner"></div>
-                    <p>Checking review status...</p>
-                </div>
+            <div className="create-review-error">
+                <h2>Invalid Request</h2>
+                <p>Missing product or order information.</p>
+                <button onClick={() => navigate('/myOrders')} className="btn-primary">
+                    Back to Orders
+                </button>
             </div>
         );
     }
 
-    if (hasReviewed) {
+    if (!userInfo || !userInfo.id) {
         return (
-            <div className="review-container">
-                <div className="already-reviewed">
-                    <div className="already-reviewed-icon">✓</div>
-                    <h2>Review Already Submitted</h2>
-                    <p>You have already reviewed this product. You can only submit one review per product.</p>
-                    <button className="back-btn" onClick={goBackToOrders}>
-                        Go Back to Orders
-                    </button>
-                </div>
+            <div className="create-review-error">
+                <h2>Not Logged In</h2>
+                <p>Please log in to submit a review.</p>
+                <button onClick={() => navigate('/login')} className="btn-primary">
+                    Go to Login
+                </button>
             </div>
         );
     }
 
     return (
-        <div className="review-container">
-            <div className="review-header">
+        <div className="create-review-container">
+            <div className="create-review-header">
                 <h1>Write a Review</h1>
-                <p>Share your experience with this product</p>
+                <p>Share your experience with this product.</p>
             </div>
 
-            <div className="product-info">
-                <img
-                    src={productInfo.image}
-                    alt={productInfo.name}
-                    className="product-image"
-                    onError={(e) => {
-                        e.target.src = "https://via.placeholder.com/200x200?text=Product";
-                    }}
-                />
-                <div className="product-details">
-                    <h3>{productInfo.name}</h3>
-                    {productInfo.price > 0 && (
-                        <p className="product-price">₹{productInfo.price.toFixed(2)}</p>
-                    )}
-                    <p className="customer-info">Reviewing as: {username}</p>
+            {createReviewSuccess && (
+                <div className="success-message">
+                    <p>Review submitted successfully.</p>
                 </div>
-            </div>
+            )}
 
-            <form onSubmit={handleSubmit} className="review-form">
+            {customErrorMessage && (
+                <div className="error-message-banner">
+                    <p>Error: {customErrorMessage}</p>
+                </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="create-review-form">
                 <div className="form-group">
-                    <label className="form-label">Overall Rating *</label>
+                    <label className="form-label">Rating *</label>
                     <div className="rating-container">
-                        <div className="stars-wrapper">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                                <button
-                                    key={star}
-                                    type="button"
-                                    className={`star ${formData.rating >= star ? 'filled' : ''}`}
-                                    onClick={() => handleRatingClick(star)}
-                                    aria-label={`Rate ${star} stars`}
-                                >
-                                    ★
-                                </button>
-                            ))}
-                        </div>
-                        <span className="rating-text">
-                            {formData.rating > 0 ? (
-                                <>
-                                    <strong>{formData.rating} out of 5 stars</strong>
-                                    <span className="rating-label">
-                                        {formData.rating === 1 && " - Poor"}
-                                        {formData.rating === 2 && " - Fair"}
-                                        {formData.rating === 3 && " - Good"}
-                                        {formData.rating === 4 && " - Very Good"}
-                                        {formData.rating === 5 && " - Excellent"}
-                                    </span>
-                                </>
-                            ) : (
-                                "Click stars to rate"
-                            )}
-                        </span>
+                        {[1, 2, 3, 4, 5].map((star) => (
+                            <button
+                                key={star}
+                                type="button"
+                                className={`star ${reviewData.rating >= star ? 'active' : ''}`}
+                                onClick={() => handleRatingClick(star)}
+                            >
+                                ★
+                            </button>
+                        ))}
                     </div>
+                    {errors.rating && <span className="error-message">{errors.rating}</span>}
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="reviewTitle" className="form-label">
-                        Review Title (Optional)
-                    </label>
+                    <label htmlFor="reviewTitle" className="form-label">Review Title *</label>
                     <input
                         type="text"
                         id="reviewTitle"
                         name="reviewTitle"
-                        value={formData.reviewTitle}
+                        value={reviewData.reviewTitle}
                         onChange={handleInputChange}
-                        placeholder="Give your review a catchy title"
-                        maxLength="200"
-                        className="form-input"
+                        placeholder="Summarize your review"
+                        maxLength={200}
+                        className={`form-input ${errors.reviewTitle ? 'error' : ''}`}
                     />
-                    <small className="help-text">
-                        {200 - formData.reviewTitle.length} characters remaining
-                    </small>
+                    {errors.reviewTitle && <span className="error-message">{errors.reviewTitle}</span>}
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="reviewText" className="form-label">
-                        Your Review *
-                    </label>
+                    <label htmlFor="reviewText" className="form-label">Review *</label>
                     <textarea
                         id="reviewText"
                         name="reviewText"
-                        value={formData.reviewText}
+                        value={reviewData.reviewText}
                         onChange={handleInputChange}
-                        placeholder="Tell others about your experience with this product. What did you like or dislike? How did it meet your expectations?"
-                        required
-                        minLength="10"
-                        maxLength="1000"
-                        rows="6"
-                        className="form-textarea"
+                        placeholder="Share details about your experience"
+                        rows={6}
+                        className={`form-textarea ${errors.reviewText ? 'error' : ''}`}
                     />
-                    <small className="char-count">
-                        {formData.reviewText.length}/1000 characters
-                        {formData.reviewText.length < 10 && formData.reviewText.length > 0 && (
-                            <span className="min-chars"> (Minimum 10 characters required)</span>
-                        )}
-                    </small>
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="imageUrls" className="form-label">
-                        Image URLs (Optional)
-                    </label>
-                    <input
-                        type="text"
-                        id="imageUrls"
-                        name="imageUrls"
-                        value={formData.imageUrls}
-                        onChange={handleInputChange}
-                        placeholder="Add image URLs separated by commas (e.g., http://example.com/image1.jpg, http://example.com/image2.jpg)"
-                        className="form-input"
-                    />
-                    <small className="help-text">
-                        📷 Add URLs of images to showcase the product with your review
-                    </small>
+                    {errors.reviewText && <span className="error-message">{errors.reviewText}</span>}
                 </div>
 
                 <div className="form-actions">
                     <button
-                        type="submit"
-                        disabled={loading || formData.rating === 0}
-                        className="submit-btn"
+                        type="button"
+                        onClick={() => navigate('/myOrders')}
+                        className="btn-secondary"
+                        disabled={createReviewLoading}
                     >
-                        {loading ? (
-                            <>
-                                <span className="btn-spinner"></span>
-                                Submitting Review...
-                            </>
-                        ) : (
-                            'Submit Review'
-                        )}
+                        Cancel
                     </button>
                     <button
-                        type="button"
-                        onClick={goBackToOrders}
-                        className="cancel-btn"
-                        disabled={loading}
+                        type="submit"
+                        className="btn-primary"
+                        disabled={createReviewLoading}
                     >
-                        Back to Orders
+                        {createReviewLoading ? 'Submitting...' : 'Submit Review'}
                     </button>
                 </div>
             </form>
@@ -339,4 +200,3 @@ const CreateReview = () => {
 };
 
 export default CreateReview;
-

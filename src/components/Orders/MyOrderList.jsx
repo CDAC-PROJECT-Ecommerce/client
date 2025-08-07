@@ -5,12 +5,40 @@ const MyOrderList = (props) => {
   const { totalAmount, orderDate, status, items, address, orderId } = props.value;
   const navigate = useNavigate();
 
-  // Navigation function for review button
   const handleCreateReview = (productId, orderId) => {
+    console.log('Creating review for:', { productId, orderId });
+
+    if (!productId || !orderId) {
+      console.error('Missing productId or orderId:', { productId, orderId });
+      alert('Unable to create review: Missing product or order information');
+      return;
+    }
+
     navigate(`/create-review?productId=${productId}&orderId=${orderId}`);
   };
 
-  console.log(items);
+  const canReviewStatuses = ['PLACED', 'SHIPPED', 'DELIVERED'];
+
+  const canCreateReview = (orderStatus) => {
+    return canReviewStatuses.includes(orderStatus);
+  };
+
+  const getReviewButtonProps = (orderStatus) => {
+    if (canCreateReview(orderStatus)) {
+      return {
+        text: 'Create Review',
+        disabled: false,
+        className: 'create-review-btn',
+      };
+    } else {
+      return {
+        text: 'Review Unavailable',
+        disabled: true,
+        className: 'create-review-btn disabled',
+      };
+    }
+  };
+
   return (
     <div className="my-order-list">
       <div>
@@ -24,37 +52,45 @@ const MyOrderList = (props) => {
           </p>
         </div>
       </div>
+
       <div className="my-orders-product">
-        <p>Order items: </p>
-        {items?.map((item) => {
+        <p>Order items:</p>
+        {items?.map((item, index) => {
+          const buttonProps = getReviewButtonProps(status);
+
           return (
-            <div key={item.id} className="my-order-product-list">
+            <div key={`${item.productId}-${orderId}-${index}`} className="my-order-product-list">
               <div className="product-info">
                 <p>{item.productName}</p>
                 <span>x{item.quantity}</span>
               </div>
-              {/* ADD REVIEW BUTTON HERE */}
               <div className="product-actions">
                 <button
                   onClick={() => handleCreateReview(item.productId, orderId)}
-                  disabled={status !== 'DELIVERED'}
-                  className={`create-review-btn ${status !== 'DELIVERED' ? 'disabled' : ''}`}
+                  disabled={buttonProps.disabled}
+                  className={buttonProps.className}
+                  title={
+                    buttonProps.disabled
+                      ? `Reviews are only available for ${canReviewStatuses.join(', ')} orders`
+                      : 'Click to create a review'
+                  }
                 >
-                  {status === 'DELIVERED' ? 'Create Review' : 'Review Unavailable'}
+                  {buttonProps.text}
                 </button>
               </div>
             </div>
           );
         })}
       </div>
+
       <p>
         Total price: <span>{totalAmount}</span>
       </p>
+
       <div className="shipped-address">
         <p>Shipped address:</p>
         <span>
-          {address.name}, {address.address},{address.city},{address.state},
-          {address.pincode},{address.phone}
+          {address.name}, {address.address}, {address.city}, {address.state}, {address.pincode}, {address.phone}
         </span>
       </div>
     </div>
