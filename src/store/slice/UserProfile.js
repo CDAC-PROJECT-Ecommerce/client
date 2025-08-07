@@ -26,8 +26,13 @@ const UserProfile = createSlice({
   initialState: {
     UserData: null,
     isLoading: false,
+    isSidebarOpen: false,
   },
-  reducers: {},
+  reducers: {
+    toggleProfile: (state) => {
+      state.isSidebarOpen = !state.isSidebarOpen;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchUserProfile.pending, (state) => {
       state.isLoading = true;
@@ -42,5 +47,7 @@ const UserProfile = createSlice({
     });
   },
 });
+
+export const { toggleProfile } = UserProfile.actions;
 
 export default UserProfile.reducer;

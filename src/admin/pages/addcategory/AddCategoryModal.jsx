@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addCategory } from "../../redux/slices/productsSlice"; // changed slice import
 import "./AddCategoryModal.css";
+import toast from "react-hot-toast"; // use toast instead of alert
+import { addCategories } from "../../redux/slices/productsSlice";
 
 const AddCategoryModal = ({ onClose }) => {
   const [newCategory, setNewCategory] = useState("");
   const dispatch = useDispatch();
   const inputRef = useRef(null);
-  const categories = useSelector((state) => state.products.categories); // updated path
 
+  const categories = useSelector((state) => state.products.categories);
+  console.log(categories);
   useEffect(() => {
     inputRef.current?.focus();
 
@@ -20,23 +22,33 @@ const AddCategoryModal = ({ onClose }) => {
     return () => document.removeEventListener("keydown", handleEsc);
   }, [onClose]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const trimmed = newCategory.trim();
 
     if (!trimmed) {
-      alert("Please enter a category name.");
+      toast.error("Please enter a category name.");
       return;
     }
 
-    if (categories.includes(trimmed)) {
-      alert("This category already exists.");
+    const isDuplicate = categories.some(
+      (cat) => cat.toLowerCase() === trimmed.toLowerCase()
+    );
+
+    if (isDuplicate) {
+      toast.error("This category already exists.");
       return;
     }
 
-    dispatch(addCategory(trimmed));
-    alert(`Category "${trimmed}" added successfully.`);
-    onClose();
+    try {
+      const name = trimmed;
+      await dispatch(addCategories(name));
+      setNewCategory("");
+      onClose();
+    } catch (err) {
+      console.error("Category add failed:", err);
+      // no need to toast again here; already handled in the slice
+    }
   };
 
   return (

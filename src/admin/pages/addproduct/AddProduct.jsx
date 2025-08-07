@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addProduct } from "../../../store/slice/ProductSlice";
 import AddCategoryModal from "../addcategory/AddCategoryModal";
 import "./AddProduct.css";
+import toast from "react-hot-toast";
+import {
+  addProduct,
+  fetchCategories,
+} from "../../../store/slice/AdminProductSlice";
+import { BounceLoader } from "react-spinners";
 
 const AddProduct = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const categories = useSelector((state) => state.products.categories);
-  const allProducts = useSelector((state) => state.products.items);
-
+  const { categories, loading } = useSelector((state) => state.adminProducts);
+  const [preview, setPreview] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     price: "",
@@ -19,22 +22,9 @@ const AddProduct = () => {
     description: "",
   });
 
-  const [suggestions, setSuggestions] = useState([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { name, price, category, image, description } = formData;
-
-  useEffect(() => {
-    if (category.trim()) {
-      const filtered = categories.filter((cat) =>
-        cat.toLowerCase().includes(category.toLowerCase())
-      );
-      setSuggestions(filtered);
-    } else {
-      setSuggestions([]);
-    }
-  }, [category, categories]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,32 +33,25 @@ const AddProduct = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData((prev) => ({ ...prev, image: reader.result }));
-      };
-      reader.readAsDataURL(file);
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Please upload image below 5 mb");
+      return;
     }
-  };
-
-  const handleSuggestionSelect = (value) => {
-    setFormData((prev) => ({ ...prev, category: value }));
-    setShowSuggestions(false);
+    if (file) {
+      setFormData((prev) => ({ ...prev, image: file }));
+      setPreview(URL.createObjectURL(file));
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!name || !price || !category || !image || !description) {
-      alert("⚠️ Please fill in all fields.");
+    if (!name || !price || !image || !category || !description) {
+      toast.error("Please fill in all fields.");
       return;
     }
 
     const newProduct = {
-      id: allProducts.length
-        ? Math.max(...allProducts.map((p) => p.id)) + 1
-        : 1,
       name,
       price: parseFloat(price),
       category,
@@ -77,117 +60,127 @@ const AddProduct = () => {
     };
 
     dispatch(addProduct(newProduct));
-    alert("✅ Product added successfully!");
-    navigate("/admin/viewproduct");
+    setFormData({
+      name: "",
+      price: "",
+      category: "",
+      image: "",
+      description: "",
+    });
   };
 
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, []);
+
   return (
-    <div className="add-order-container">
-      <h2>Add New Product</h2>
-      <form className="add-order-form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="name">Product Name</label>
-          <input
-            id="name"
-            name="name"
-            value={name}
-            onChange={handleChange}
-            placeholder="Enter product name"
-            required
-          />
+    <>
+      {loading && (
+        <div className="page-loader-wrapper">
+          <div className="page-loader-background"></div>
+          <BounceLoader color="#009688" />
+          <p className="page-loader-text">Adding product...</p>
         </div>
-
-        <div className="form-group">
-          <label htmlFor="price">Price (₹)</label>
-          <input
-            id="price"
-            name="price"
-            type="number"
-            step="0.01"
-            value={price}
-            onChange={handleChange}
-            placeholder="Enter price"
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="category">Category</label>
-          <div className="category-input-wrapper">
+      )}
+      <div className="add-order-container">
+        <h2>Add New Product</h2>
+        <form className="add-order-form" onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="name">Product Name</label>
             <input
-              id="category"
-              name="category"
-              type="text"
-              value={category}
+              id="name"
+              name="name"
+              value={name}
               onChange={handleChange}
-              placeholder="Search or enter category"
-              onFocus={() => setShowSuggestions(true)}
-              onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-              autoComplete="off"
+              placeholder="Enter product name"
               required
             />
-            <button
-              type="button"
-              className="update-btn small-category-btn"
-              onClick={() => setIsModalOpen(true)}
-              title="Add Category"
-            >
-              Add Category
-            </button>
-            {showSuggestions && suggestions.length > 0 && (
-              <ul className="category-suggestions">
-                {suggestions.map((cat, idx) => (
-                  <li key={idx} onClick={() => handleSuggestionSelect(cat)}>
-                    {cat}
-                  </li>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="price">Price (₹)</label>
+            <input
+              id="price"
+              name="price"
+              type="number"
+              step="0.01"
+              value={price}
+              onChange={handleChange}
+              placeholder="Enter price"
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="category">Category</label>
+            <div className="category-input-wrapper">
+              <select
+                id="category"
+                name="category"
+                value={category}
+                onChange={handleChange}
+                required
+              >
+                <option value="">-- Select Category --</option>
+                {categories.map((cat) => (
+                  <option key={cat.id} value={cat.name}>
+                    {cat.name}
+                  </option>
                 ))}
-              </ul>
+              </select>
+
+              <button
+                type="button"
+                className="update-btn small-category-btn"
+                onClick={() => setIsModalOpen(true)}
+              >
+                Add Category
+              </button>
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="image">Upload Image</label>
+            <input
+              id="image"
+              name="image"
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+            {image && (
+              <img
+                src={preview}
+                alt="Preview"
+                className="image-preview"
+                loading="eager"
+              />
             )}
           </div>
-        </div>
 
-        <div className="form-group">
-          <label htmlFor="image">Upload Image</label>
-          <input
-            id="image"
-            name="image"
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            required
-          />
-          {image && (
-            <img
-              src={image}
-              alt="Preview"
-              className="image-preview"
-              loading="lazy"
+          <div className="form-group">
+            <label htmlFor="description">Description</label>
+            <textarea
+              id="description"
+              name="description"
+              rows="4"
+              value={description}
+              onChange={handleChange}
+              placeholder="Enter product description"
+              required
             />
-          )}
-        </div>
+          </div>
 
-        <div className="form-group">
-          <label htmlFor="description">Description</label>
-          <textarea
-            id="description"
-            name="description"
-            rows="4"
-            value={description}
-            onChange={handleChange}
-            placeholder="Enter product description"
-            required
-          />
-        </div>
+          <button type="submit" className="submit-btn">
+            Add Product
+          </button>
+        </form>
 
-        <button type="submit" className="submit-btn">
-          Add Product
-        </button>
-      </form>
-
-      {isModalOpen && (
-        <AddCategoryModal onClose={() => setIsModalOpen(false)} />
-      )}
-    </div>
+        {isModalOpen && (
+          <AddCategoryModal onClose={() => setIsModalOpen(false)} />
+        )}
+      </div>
+    </>
   );
 };
 

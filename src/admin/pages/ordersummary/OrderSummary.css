@@ -31,7 +31,26 @@
   font-size: 15px;
 }
 
+.summary-details .split-box{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.summary-details .split-box .divider{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.summary-details .split-box p{
+  font-size: 1rem;
+}
+
 .summary-details span {
+    font-size: 1.2rem;
+
   font-weight: 500;
   color: #555;
 }
