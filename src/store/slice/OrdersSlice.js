@@ -7,7 +7,7 @@ export const fetchOrders = createAsyncThunk(
     try {
       const state = getState();
       const token = JSON.parse(state.user.userToken);
-      const response = await api.get("/admin/orders", {
+      const response = await api.get("/api/admin/orders", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

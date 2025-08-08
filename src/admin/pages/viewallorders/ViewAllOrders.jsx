@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchOrders } from "../../../store/slice/OrdersSlice";
 import { Link, useLocation } from "react-router-dom";
 import UpdateOrderStatusModal from "../updateorderstatusmodal/UpdateOrderStatusModal";
 import "./ViewAllOrders.css";
@@ -29,6 +28,10 @@ const ViewAllOrders = () => {
   if (loading) return <p className="loading">Loading orders...</p>;
   if (error) return <p className="error">Error: {error}</p>;
 
+  const filteredItems = statusFilter
+    ? items.filter((order) => order.status === statusFilter)
+    : items;
+
   return (
     <div className="order-wrapper">
       <h2>{statusFilter ? `Orders - ${statusFilter}` : "All User Orders"}</h2>
@@ -44,8 +47,8 @@ const ViewAllOrders = () => {
           <div>Actions</div>
         </div>
 
-        {items?.length > 0 ? (
-          items?.map((order) => (
+        {filteredItems?.length > 0 ? (
+          filteredItems.map((order) => (
             <div className="order-row" key={order.orderId}>
               <div data-label="Order ID">{order.orderId}</div>
               <div data-label="User">{order.address.name}</div>
