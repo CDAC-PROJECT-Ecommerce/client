@@ -17,7 +17,7 @@ const SearchProduct = ({ setOpenMenu }) => {
     setOpenMenu(false);
     dispatch(fetchFullProduct(id));
     setSearchVal("");
-    navigate(`/fullPageProduct`);
+    navigate(`/fullPageProduct/${id}`);
   };
 
   useEffect(() => {
