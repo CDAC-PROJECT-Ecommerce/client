@@ -6,6 +6,7 @@ export const addToCart = createAsyncThunk(
   "cart/add",
   async (data, { getState, rejectWithValue }) => {
     try {
+      console.log(data);
       const state = getState();
       const token = state.user.userToken;
       const response = await api.post("/api/cart/add", data, {

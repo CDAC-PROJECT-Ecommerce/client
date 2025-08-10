@@ -18,7 +18,13 @@ const ProductDisplay = () => {
       toast.error("Please login");
       navigate("/signin");
     } else {
-      dispatch(addToCart({ productId: product?.id, value: 1 }));
+      dispatch(
+        addToCart({
+          productId: product?.id,
+          value: 1,
+          imageUrl: product.imageUrl,
+        })
+      );
     }
   };
 
@@ -31,10 +37,22 @@ const ProductDisplay = () => {
         <div className="full-product-image">
           <img src={product?.imageUrl} alt="product-image" />
         </div>
+
         <div className="full-product-details">
           <p className="product-title">{product?.name}</p>
           <p className="product-category">{product?.categoryName}</p>
-          <p className="product-description">{product?.description}</p>
+          <p className="product-description">
+            <span
+              style={{
+                fontSize: "20px",
+                fontWeight: 600,
+              }}
+            >
+              Product details
+            </span>
+            <br />
+            {product?.description}
+          </p>
           <p className="product-price">₹ {product?.price}</p>
 
           {/* <p className="product-review">
