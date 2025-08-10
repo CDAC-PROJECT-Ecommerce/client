@@ -87,6 +87,7 @@ select.form-input option {
 /* Form Actions */
 .form-actions {
     display: flex;
+    align-items: center;
     gap: 20px;
     justify-content: flex-end;
     padding-top: 20px;
@@ -94,8 +95,9 @@ select.form-input option {
     margin-top: 30px;
 }
 
-.cancel-btn {
+.form-actions .cancel-btn {
     padding: 12px 30px;
+    height: 7vh;
     font-size: 16px;
 }
 

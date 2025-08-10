@@ -4,6 +4,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { changeQuantity, removeFromCart } from "../../store/slice/CartSlice";
 
 const CartItem = ({ item }) => {
+  console.log(item);
   const dispatch = useDispatch();
   const handleQuantityChange = async (type) => {
     if (type === "increment") {
@@ -15,7 +16,7 @@ const CartItem = ({ item }) => {
 
   return (
     <div className="cart-item">
-      <img src={item.image} alt={item.name} />
+      <img src={item.imageUrl} alt={item.name} />
 
       {/* <div className="details"> */}
       <h3>{item.productName}</h3>

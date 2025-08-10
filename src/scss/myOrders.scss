@@ -44,7 +44,7 @@
         border-color: #d0d0d0;
       }
 
-      >div:first-child {
+      > div:first-child {
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
@@ -181,9 +181,8 @@
           box-shadow: none;
         }
 
-        /* Optional: Add a subtle shine effect */
         &::after {
-          content: '';
+          content: "";
           position: absolute;
           top: -50%;
           left: -60%;

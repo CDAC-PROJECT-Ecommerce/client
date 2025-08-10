@@ -13,14 +13,12 @@ const Homepage = () => {
   const dispatch = useDispatch();
 
   const productList = useSelector((state) => state.products.products);
-
   useEffect(() => {
     dispatch(fetchProducts());
   }, []);
 
   return (
     <main>
-      {/* <Categories /> */}
       <div className="offer-slider">
         <div className="product-details">
           <p style={{ fontSize: "3rem" }}>Explore </p>
@@ -38,9 +36,11 @@ const Homepage = () => {
       <h3 style={{ textAlign: "center", fontSize: "2rem" }}>TRENDY PRODUCTS</h3>
 
       <div className="product-container">
-        {productList?.map((product) => (
-          <Products value={product} key={product.id} />
-        ))}
+        {productList
+          ?.filter((item) => item.categoryName === "Electronics")
+          ?.map?.((product) => (
+            <Products value={product} key={product.id} />
+          ))}
       </div>
     </main>
   );

@@ -22,7 +22,7 @@ const Products = (props) => {
       toast.error("Please login");
       navigate("/signin");
     } else {
-      dispatch(addToCart({ productId: id, value: 1 }));
+      dispatch(addToCart({ productId: id, value: 1, imageUrl }));
     }
   };
 
