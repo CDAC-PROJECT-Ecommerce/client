@@ -32,9 +32,7 @@ const Homepage = () => {
           alt="offer-imge"
         />
       </div>
-      <TrendyProducts />
       <h3 style={{ textAlign: "center", fontSize: "2rem" }}>TRENDY PRODUCTS</h3>
-
       <div className="product-container">
         {productList
           ?.filter((item) => item.categoryName === "Electronics")

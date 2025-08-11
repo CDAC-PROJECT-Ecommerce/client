@@ -19,13 +19,7 @@ export const fetchFullProduct = createAsyncThunk(
   "products/fullPage",
   async (id, { rejectWithValue, getState }) => {
     try {
-      const state = getState();
-      const token = JSON.parse(state.user.userToken);
-      const response = await api.get(`/api/products/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await api.get(`/api/products/${id}`);
       return response.data;
     } catch (error) {
       const status = error?.response?.status;
