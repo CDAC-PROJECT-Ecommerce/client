@@ -66,7 +66,12 @@ const adminOrdersSlice = createSlice({
       })
       .addCase(fetchAllOrders.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || "Something went wrong";
+        const { status, message } = action.payload || {};
+        if (status === 401) {
+          toast.error("Unauthorized user");
+        } else {
+          toast.error(message || "Failed to fetch orders");
+        }
       })
 
       .addCase(updateOrderStatus.pending, (state) => {
@@ -78,7 +83,12 @@ const adminOrdersSlice = createSlice({
       })
       .addCase(updateOrderStatus.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        const { status, message } = action.payload || {};
+        if (status === 401) {
+          toast.error("Unauthorized user");
+        } else {
+          toast.error(message || "Failed to update orders");
+        }
       });
   },
 });

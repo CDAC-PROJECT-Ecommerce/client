@@ -3,12 +3,15 @@ import Review from "./Review";
 import { useDispatch, useSelector } from "react-redux";
 import { FaRegStar } from "react-icons/fa6";
 import { addToCart } from "../store/slice/CartSlice";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { fetchFullProduct } from "../store/slice/ProductSlice";
+import toast from "react-hot-toast";
 
 const ProductDisplay = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const product = useSelector((state) => state.products.FullProduct);
   const { userToken } = useSelector((state) => state.user);
   const { id } = useParams();

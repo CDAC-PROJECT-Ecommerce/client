@@ -25,13 +25,7 @@ export const fetchReviewByProductId = createAsyncThunk(
   "review/findByProductId",
   async (id, { getState, rejectWithValue }) => {
     try {
-      const state = getState();
-      const token = JSON.parse(state?.user.userToken);
-      const response = await api.get(`/api/reviews/product/` + id, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await api.get(`/api/reviews/product/` + id);
       return response.data;
     } catch (error) {
       toast.error(error?.response?.data);
