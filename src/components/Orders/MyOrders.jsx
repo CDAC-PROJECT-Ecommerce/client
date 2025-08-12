@@ -6,7 +6,6 @@ import "../../scss/myOrders.scss";
 const MyOrders = () => {
   const dispatch = useDispatch();
   const { MyOrders } = useSelector((state) => state.userOrder);
-  console.log(MyOrders);
   useEffect(() => {
     dispatch(fetchOrdersByUsername());
   }, []);

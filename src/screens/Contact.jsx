@@ -1,6 +1,7 @@
 // src/pages/Contact.jsx
 import React, { useState } from "react";
 import "../scss/Contact.scss";
+import toast from "react-hot-toast";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -15,8 +16,7 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Contact form submitted:", formData);
-    alert("Thank you! Your message has been sent to the seller.");
+    toast.success("Thank you! Your message has been sent to the seller.");
     setFormData({ name: "", phone: "", description: "" });
   };
 

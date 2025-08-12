@@ -1,23 +1,25 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const MyOrderList = (props) => {
-  const { totalAmount, orderDate, status, items, address, orderId } = props.value;
+  const { totalAmount, orderDate, status, items, address, orderId } =
+    props.value;
   const navigate = useNavigate();
 
   const handleCreateReview = (productId, orderId) => {
-    console.log('Creating review for:', { productId, orderId });
-
     if (!productId || !orderId) {
-      console.error('Missing productId or orderId:', { productId, orderId });
-      alert('Unable to create review: Missing product or order information');
+      console.error("Missing productId or orderId:", { productId, orderId });
+      toast.error(
+        "Unable to create review: Missing product or order information"
+      );
       return;
     }
 
     navigate(`/create-review?productId=${productId}&orderId=${orderId}`);
   };
 
-  const canReviewStatuses = ['PLACED', 'SHIPPED', 'DELIVERED'];
+  const canReviewStatuses = ["PLACED", "SHIPPED", "DELIVERED"];
 
   const canCreateReview = (orderStatus) => {
     return canReviewStatuses.includes(orderStatus);
@@ -26,15 +28,15 @@ const MyOrderList = (props) => {
   const getReviewButtonProps = (orderStatus) => {
     if (canCreateReview(orderStatus)) {
       return {
-        text: 'Create Review',
+        text: "Create Review",
         disabled: false,
-        className: 'create-review-btn',
+        className: "create-review-btn",
       };
     } else {
       return {
-        text: 'Review Unavailable',
+        text: "Review Unavailable",
         disabled: true,
-        className: 'create-review-btn disabled',
+        className: "create-review-btn disabled",
       };
     }
   };
@@ -59,7 +61,10 @@ const MyOrderList = (props) => {
           const buttonProps = getReviewButtonProps(status);
 
           return (
-            <div key={`${item.productId}-${orderId}-${index}`} className="my-order-product-list">
+            <div
+              key={`${item.productId}-${orderId}-${index}`}
+              className="my-order-product-list"
+            >
               <div className="product-info">
                 <p>{item.productName}</p>
                 <span>x{item.quantity}</span>
@@ -71,8 +76,10 @@ const MyOrderList = (props) => {
                   className={buttonProps.className}
                   title={
                     buttonProps.disabled
-                      ? `Reviews are only available for ${canReviewStatuses.join(', ')} orders`
-                      : 'Click to create a review'
+                      ? `Reviews are only available for ${canReviewStatuses.join(
+                          ", "
+                        )} orders`
+                      : "Click to create a review"
                   }
                 >
                   {buttonProps.text}
@@ -90,7 +97,8 @@ const MyOrderList = (props) => {
       <div className="shipped-address">
         <p>Shipped address:</p>
         <span>
-          {address.name}, {address.address}, {address.city}, {address.state}, {address.pincode}, {address.phone}
+          {address.name}, {address.address}, {address.city}, {address.state},{" "}
+          {address.pincode}, {address.phone}
         </span>
       </div>
     </div>

@@ -9,8 +9,6 @@ const OrderPlaced = () => {
 
   const status = searchParams.get("status");
 
-  console.log(OrderPlaced);
-
   const [currentCount, setCurrentCount] = useState(3);
   const navigate = useNavigate();
 
