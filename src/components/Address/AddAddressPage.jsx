@@ -10,6 +10,7 @@ import {
 import AddressForm from "./AddressForm";
 import "./AddAddressPage.css";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const AddAddressPage = ({ onNavigateToCheckout }) => {
   const [showAddForm, setShowAddForm] = useState(false);
@@ -27,7 +28,7 @@ const AddAddressPage = ({ onNavigateToCheckout }) => {
       setShowAddForm(false);
       navigate("/checkout");
     } catch (error) {
-      console.error("Error adding address:", error);
+      toast.error("Error adding address:", error);
     }
   };
 

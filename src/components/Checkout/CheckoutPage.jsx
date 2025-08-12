@@ -54,7 +54,6 @@ const CheckoutPage = () => {
 
     if (response.type === "order/initiatePayment/fulfilled") {
       const { razorpay, order } = response.payload;
-      console.log(order.totalAmount);
       const options = {
         key: "rzp_test_l7Q7HVqRLk6SQW",
         amount: order.totalAmount,

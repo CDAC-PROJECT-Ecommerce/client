@@ -85,7 +85,6 @@ const CreateReview = () => {
         error?.message ||
         "Something went wrong";
       setCustomErrorMessage(message);
-      console.error("Review submission failed:", message);
     }
   };
 
